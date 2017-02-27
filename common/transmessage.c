@@ -388,7 +388,7 @@ const char *translated_err_msg[] = {
 	"FUNC/PROC定義",
 	
 	/* BS_M_FORMAL_ARGS_MISMATCH_NUM */
-	"この%sは %d個の引数を持つことになっていますが、ここの仮引数は多すぎます",
+	"この%sは %d個の引数を持つはずですが、仮引数が多すぎます",
 	
 	/* BS_M_FORMAL_ARG_MISMATCH_TYPE */
 	"この%sの %d番目の引数は%s型のはずですが、仮引数が%s型です",
@@ -424,19 +424,19 @@ const char *translated_err_msg[] = {
 	"コンパイル中にエラーが起きました.\n",
 	
 	/* BS_M_START_PROGRAM */
-	"'edit'でプログラミングを始めよう!\n",
+	"'EDIT'と打ってプログラミングを始めよう!\n",
 
 	/* BS_M_RUNNING */
 	"%s を実行しています...\n",
 	
 	/* BS_M_PROG_DELETED_YN */
-	"プログラムは消去されます。本当にnewしてもいい? (y/N) ",
+	"プログラムは消去されます。本当にnewしてもいいですか? (y/N) ",
 	
 	/* BS_M_EXIT_IN_DIRECT */
 	"EXITはダイレクトモードでは使えません. (QUITのつもり?)\n",
 	
 	/* BS_M_PROG_SAVE_YN */
-	"プログラムを保存していません。本当にQUITする? (y/N) ",
+	"プログラムを保存していません。本当にQUITしますか? (y/N) ",
 
 	/* BS_M_FINISHED */
 	"[[ Daruma BASICを終了します.またね! ]]\n",
