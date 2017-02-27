@@ -1,0 +1,14 @@
+//
+// Prefix header for all source files of the 'Daruma Basic' target in the 'Daruma Basic' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif
+
+#ifndef TARGET_OS_MAC
+#define TARGET_OS_MAC 1
+#endif
+
+#define __USE_FILES__ 1
+

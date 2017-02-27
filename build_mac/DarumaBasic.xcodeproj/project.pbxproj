@@ -1,0 +1,426 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
+		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
+		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		E40818731E4C9C970091B0BE /* GraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = E460F72B1CAA2677009AC6A6 /* GraphView.m */; };
+		E40818741E4C9C9A0091B0BE /* MyAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E460F72D1CAA2677009AC6A6 /* MyAppDelegate.m */; };
+		E40818751E4C9C9D0091B0BE /* cocoa_main.m in Sources */ = {isa = PBXBuildFile; fileRef = E460F7301CAA268B009AC6A6 /* cocoa_main.m */; };
+		E40819121E4CB63A0091B0BE /* basic in Resources */ = {isa = PBXBuildFile; fileRef = E408190F1E4CB63A0091B0BE /* basic */; };
+		E40819131E4CB6500091B0BE /* basic in CopyFiles */ = {isa = PBXBuildFile; fileRef = E408190F1E4CB63A0091B0BE /* basic */; };
+		E41B28641E64681A00AA596E /* edit.c in Sources */ = {isa = PBXBuildFile; fileRef = E41B28541E64681A00AA596E /* edit.c */; };
+		E41B28651E64681A00AA596E /* execcode.c in Sources */ = {isa = PBXBuildFile; fileRef = E41B28551E64681A00AA596E /* execcode.c */; };
+		E41B28661E64681A00AA596E /* gencode.c in Sources */ = {isa = PBXBuildFile; fileRef = E41B28561E64681A00AA596E /* gencode.c */; };
+		E41B28671E64681A00AA596E /* grammar.y in Sources */ = {isa = PBXBuildFile; fileRef = E41B28581E64681A00AA596E /* grammar.y */; };
+		E41B28681E64681A00AA596E /* graph.c in Sources */ = {isa = PBXBuildFile; fileRef = E41B28591E64681A00AA596E /* graph.c */; };
+		E41B28691E64681A00AA596E /* memory.c in Sources */ = {isa = PBXBuildFile; fileRef = E41B285B1E64681A00AA596E /* memory.c */; };
+		E41B286A1E64681A00AA596E /* screen.c in Sources */ = {isa = PBXBuildFile; fileRef = E41B285C1E64681A00AA596E /* screen.c */; };
+		E41B286B1E64681A00AA596E /* start.c in Sources */ = {isa = PBXBuildFile; fileRef = E41B285E1E64681A00AA596E /* start.c */; };
+		E41B286C1E64681A00AA596E /* string.c in Sources */ = {isa = PBXBuildFile; fileRef = E41B285F1E64681A00AA596E /* string.c */; };
+		E41B286D1E64681A00AA596E /* token.c in Sources */ = {isa = PBXBuildFile; fileRef = E41B28601E64681A00AA596E /* token.c */; };
+		E41B286E1E64681A00AA596E /* transmessage.c in Sources */ = {isa = PBXBuildFile; fileRef = E41B28611E64681A00AA596E /* transmessage.c */; };
+		E41B286F1E64681A00AA596E /* uim_interface.c in Sources */ = {isa = PBXBuildFile; fileRef = E41B28631E64681A00AA596E /* uim_interface.c */; };
+		E45FD8921E5D8C82006D35D9 /* UIM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45FD8911E5D8C82006D35D9 /* UIM.framework */; };
+		E4C003F51E585A6600F19D94 /* builtin.c in Sources */ = {isa = PBXBuildFile; fileRef = E4C003EB1E585A6600F19D94 /* builtin.c */; };
+		E4C6CBA71C82F91900456ECA /* fontdata.bin in CopyFiles */ = {isa = PBXBuildFile; fileRef = E4C6CBA61C82F91900456ECA /* fontdata.bin */; };
+		E4EAE5E51C5E29FE003F0D40 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4EAE5E41C5E29FE003F0D40 /* Carbon.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E4EAE26D1C5C6E2E003F0D40 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				E40819131E4CB6500091B0BE /* basic in CopyFiles */,
+				E4C6CBA71C82F91900456ECA /* fontdata.bin in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		089C165DFE840E0CC02AAC07 /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = InfoPlist.strings; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		1DDD58150DA1D0A300B32029 /* MainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MainMenu.xib; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		8D1107320486CEB800E47090 /* DarumaBasic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DarumaBasic.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E408190F1E4CB63A0091B0BE /* basic */ = {isa = PBXFileReference; lastKnownFileType = folder; name = basic; path = ../basic; sourceTree = SOURCE_ROOT; };
+		E41B28531E64681A00AA596E /* daruma.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = daruma.h; sourceTree = "<group>"; };
+		E41B28541E64681A00AA596E /* edit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = edit.c; sourceTree = "<group>"; };
+		E41B28551E64681A00AA596E /* execcode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = execcode.c; sourceTree = "<group>"; };
+		E41B28561E64681A00AA596E /* gencode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gencode.c; sourceTree = "<group>"; };
+		E41B28571E64681A00AA596E /* gencode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gencode.h; sourceTree = "<group>"; };
+		E41B28581E64681A00AA596E /* grammar.y */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; path = grammar.y; sourceTree = "<group>"; };
+		E41B28591E64681A00AA596E /* graph.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = graph.c; sourceTree = "<group>"; };
+		E41B285A1E64681A00AA596E /* graph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = graph.h; sourceTree = "<group>"; };
+		E41B285B1E64681A00AA596E /* memory.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = memory.c; sourceTree = "<group>"; };
+		E41B285C1E64681A00AA596E /* screen.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = screen.c; sourceTree = "<group>"; };
+		E41B285D1E64681A00AA596E /* screen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = screen.h; sourceTree = "<group>"; };
+		E41B285E1E64681A00AA596E /* start.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = start.c; sourceTree = "<group>"; };
+		E41B285F1E64681A00AA596E /* string.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = string.c; sourceTree = "<group>"; };
+		E41B28601E64681A00AA596E /* token.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = token.c; sourceTree = "<group>"; };
+		E41B28611E64681A00AA596E /* transmessage.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = transmessage.c; sourceTree = "<group>"; };
+		E41B28621E64681A00AA596E /* transmessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = transmessage.h; sourceTree = "<group>"; };
+		E41B28631E64681A00AA596E /* uim_interface.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = uim_interface.c; sourceTree = "<group>"; };
+		E45FD8911E5D8C82006D35D9 /* UIM.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIM.framework; path = /Library/Frameworks/UIM.framework; sourceTree = "<absolute>"; };
+		E460F7161CAA25D7009AC6A6 /* DarumaBasic-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "DarumaBasic-Info.plist"; sourceTree = "<group>"; };
+		E460F72A1CAA2677009AC6A6 /* GraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphView.h; sourceTree = "<group>"; };
+		E460F72B1CAA2677009AC6A6 /* GraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphView.m; sourceTree = "<group>"; };
+		E460F72C1CAA2677009AC6A6 /* MyAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAppDelegate.h; sourceTree = "<group>"; };
+		E460F72D1CAA2677009AC6A6 /* MyAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyAppDelegate.m; sourceTree = "<group>"; };
+		E460F7301CAA268B009AC6A6 /* cocoa_main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cocoa_main.m; sourceTree = "<group>"; };
+		E460F7311CAA268B009AC6A6 /* DarumaBasic_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DarumaBasic_Prefix.pch; sourceTree = "<group>"; };
+		E4C003EA1E585A6600F19D94 /* builtin_argtypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = builtin_argtypes.h; sourceTree = "<group>"; };
+		E4C003EB1E585A6600F19D94 /* builtin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = builtin.c; sourceTree = "<group>"; };
+		E4C0041E1E59268400F19D94 /* raspi_framebuffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = raspi_framebuffer.c; sourceTree = "<group>"; };
+		E4C0041F1E59268400F19D94 /* raspi_main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = raspi_main.c; sourceTree = "<group>"; };
+		E4C6CBA61C82F91900456ECA /* fontdata.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; name = fontdata.bin; path = ../common/fontdata.bin; sourceTree = "<group>"; };
+		E4EAE5E41C5E29FE003F0D40 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D11072E0486CEB800E47090 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+				E4EAE5E51C5E29FE003F0D40 /* Carbon.framework in Frameworks */,
+				E45FD8921E5D8C82006D35D9 /* UIM.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* build_mac */ = {
+			isa = PBXGroup;
+			children = (
+				E460F72A1CAA2677009AC6A6 /* GraphView.h */,
+				E460F72B1CAA2677009AC6A6 /* GraphView.m */,
+				E460F72C1CAA2677009AC6A6 /* MyAppDelegate.h */,
+				E460F72D1CAA2677009AC6A6 /* MyAppDelegate.m */,
+				E460F7301CAA268B009AC6A6 /* cocoa_main.m */,
+				E460F7311CAA268B009AC6A6 /* DarumaBasic_Prefix.pch */,
+			);
+			name = build_mac;
+			sourceTree = "<group>";
+		};
+		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E4EAE5E41C5E29FE003F0D40 /* Carbon.framework */,
+				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+				E45FD8911E5D8C82006D35D9 /* UIM.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
+				13E42FB307B3F0F600E4EEF1 /* CoreData.framework */,
+				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D1107320486CEB800E47090 /* DarumaBasic.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* PiBasicMac */ = {
+			isa = PBXGroup;
+			children = (
+				E4EAE19C1C5C5921003F0D40 /* common */,
+				080E96DDFE201D6D7F000001 /* build_mac */,
+				E4C0041B1E59265100F19D94 /* build_raspi */,
+				E408190F1E4CB63A0091B0BE /* basic */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				E460F7161CAA25D7009AC6A6 /* DarumaBasic-Info.plist */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = PiBasicMac;
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				E4C6CBA61C82F91900456ECA /* fontdata.bin */,
+				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
+				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E4C0041B1E59265100F19D94 /* build_raspi */ = {
+			isa = PBXGroup;
+			children = (
+				E4C0041E1E59268400F19D94 /* raspi_framebuffer.c */,
+				E4C0041F1E59268400F19D94 /* raspi_main.c */,
+			);
+			name = build_raspi;
+			path = ../build_raspi;
+			sourceTree = "<group>";
+		};
+		E4EAE19C1C5C5921003F0D40 /* common */ = {
+			isa = PBXGroup;
+			children = (
+				E4C003EA1E585A6600F19D94 /* builtin_argtypes.h */,
+				E4C003EB1E585A6600F19D94 /* builtin.c */,
+				E41B28531E64681A00AA596E /* daruma.h */,
+				E41B28541E64681A00AA596E /* edit.c */,
+				E41B28551E64681A00AA596E /* execcode.c */,
+				E41B28561E64681A00AA596E /* gencode.c */,
+				E41B28571E64681A00AA596E /* gencode.h */,
+				E41B28581E64681A00AA596E /* grammar.y */,
+				E41B28591E64681A00AA596E /* graph.c */,
+				E41B285A1E64681A00AA596E /* graph.h */,
+				E41B285B1E64681A00AA596E /* memory.c */,
+				E41B285C1E64681A00AA596E /* screen.c */,
+				E41B285D1E64681A00AA596E /* screen.h */,
+				E41B285E1E64681A00AA596E /* start.c */,
+				E41B285F1E64681A00AA596E /* string.c */,
+				E41B28601E64681A00AA596E /* token.c */,
+				E41B28611E64681A00AA596E /* transmessage.c */,
+				E41B28621E64681A00AA596E /* transmessage.h */,
+				E41B28631E64681A00AA596E /* uim_interface.c */,
+			);
+			name = common;
+			path = ../common;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D1107260486CEB800E47090 /* DarumaBasic */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "DarumaBasic" */;
+			buildPhases = (
+				8D1107290486CEB800E47090 /* Resources */,
+				8D11072C0486CEB800E47090 /* Sources */,
+				8D11072E0486CEB800E47090 /* Frameworks */,
+				E4EAE26D1C5C6E2E003F0D40 /* CopyFiles */,
+				E42D71701D0D016900B6BF64 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DarumaBasic;
+			productInstallPath = "$(HOME)/Applications";
+			productName = PiBasicMac;
+			productReference = 8D1107320486CEB800E47090 /* DarumaBasic.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "DarumaBasic" */;
+			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 29B97314FDCFA39411CA2CEA /* PiBasicMac */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D1107260486CEB800E47090 /* DarumaBasic */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D1107290486CEB800E47090 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
+				1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */,
+				E40819121E4CB63A0091B0BE /* basic in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		E42D71701D0D016900B6BF64 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd $PROJECT_DIR\nif [[ (build/y.tab.c -ot ../grammar.y) || (build/y.tab.h -ot ../grammar.y) ]]; then\n  cp -p -v $DERIVED_FILES_DIR/y.tab.* build\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D11072C0486CEB800E47090 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E40818731E4C9C970091B0BE /* GraphView.m in Sources */,
+				E40818741E4C9C9A0091B0BE /* MyAppDelegate.m in Sources */,
+				E40818751E4C9C9D0091B0BE /* cocoa_main.m in Sources */,
+				E4C003F51E585A6600F19D94 /* builtin.c in Sources */,
+				E41B28641E64681A00AA596E /* edit.c in Sources */,
+				E41B28651E64681A00AA596E /* execcode.c in Sources */,
+				E41B28661E64681A00AA596E /* gencode.c in Sources */,
+				E41B28671E64681A00AA596E /* grammar.y in Sources */,
+				E41B28681E64681A00AA596E /* graph.c in Sources */,
+				E41B28691E64681A00AA596E /* memory.c in Sources */,
+				E41B286A1E64681A00AA596E /* screen.c in Sources */,
+				E41B286B1E64681A00AA596E /* start.c in Sources */,
+				E41B286C1E64681A00AA596E /* string.c in Sources */,
+				E41B286D1E64681A00AA596E /* token.c in Sources */,
+				E41B286E1E64681A00AA596E /* transmessage.c in Sources */,
+				E41B286F1E64681A00AA596E /* uim_interface.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C165DFE840E0CC02AAC07 /* InfoPlist.strings */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		1DDD58140DA1D0A300B32029 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1DDD58150DA1D0A300B32029 /* MainMenu.xib */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C01FCF4B08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = DarumaBasic_Prefix.pch;
+				INFOPLIST_FILE = "DarumaBasic-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = DarumaBasic;
+				SDKROOT = macosx10.5;
+			};
+			name = Debug;
+		};
+		C01FCF4C08A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = DarumaBasic_Prefix.pch;
+				INFOPLIST_FILE = "DarumaBasic-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = DarumaBasic;
+				SDKROOT = macosx10.5;
+			};
+			name = Release;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.6;
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.6;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "DarumaBasic" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4B08A954540054247B /* Debug */,
+				C01FCF4C08A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "DarumaBasic" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}

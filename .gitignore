@@ -1,0 +1,12 @@
+build_mac/build*
+build_mac/*.xcodeproj/project.xcworkspace
+build_mac/*.xcodeproj/*.mode1v3
+build_mac/*.xcodeproj/*.pbxuser
+build_mac/*.xcodeproj/xcuserdata
+build_msw
+build_msw/build*
+*/.DS_Store
+.DS_Store
+_*
+*/_*
+
