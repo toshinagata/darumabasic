@@ -78,11 +78,20 @@ int
 main(int argc, const char **argv)
 {
 #ifndef __CONSOLE__
-	if (argc > 1 && strcmp(argv[1], "-t") == 0)
+	if (argc > 1 && strcmp(argv[1], "-t") == 0) {
+		argc--;
+		argv++;
 		my_console = BS_CONSOLE_TTY;
+	}
 #else
 	my_console = BS_CONSOLE_TTY;
 #endif
+	
+	if (argc > 1 && strcmp(argv[1], "-1") == 0) {
+		argc--;
+		argv++;
+		my_graphic_mode = 1;
+	}
 	
 #ifdef __BAREMETAL__
 	{

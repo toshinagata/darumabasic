@@ -753,6 +753,7 @@ bs_init_screen(void)
 {
 	int i;
 	static u_int8_t s_init_screen_platform_done = 0;
+	int save_graphic_mode = my_graphic_mode;
 
 	my_graphic_mode = 0;
 /*	my_origin_x = my_origin_y = 0; */
@@ -778,6 +779,11 @@ bs_init_screen(void)
 	memset(my_patterns, 0, sizeof(my_patterns)); */
 
 	bs_redraw(0, 0, my_width, my_height);
+	
+	if (save_graphic_mode != 0) {
+		bs_gmode_platform(save_graphic_mode);
+		my_graphic_mode = save_graphic_mode;
+	}
 	
 	if (my_console == BS_CONSOLE_TTY) {
 		/*  Determine screen size if possible  */
