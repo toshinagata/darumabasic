@@ -313,6 +313,34 @@ s_RegisterKeyDown(u_int16_t *ch)
 	}
 }
 
+static void
+s_ScreenShot(void)
+{
+	NSImage *image;
+	NSBitmapImageRep *bitmapImageRep;
+	NSData *tiffData, *pngData;
+	NSString *path;
+	NSAffineTransform *tr;
+	static int s_shotnum = 0;
+	NSRect rect = NSMakeRect(0, 0, my_width + 8, my_height + 8);
+	image = [[NSImage alloc] initWithSize:rect.size];
+	[image lockFocus];
+	[[NSColor blackColor] set];
+	NSRectFill(rect);
+	tr = [NSAffineTransform transform];
+	[tr translateXBy:4 yBy:4];
+	[tr set];
+	bs_draw_platform(&rect);
+	[image unlockFocus];
+	tiffData = [image TIFFRepresentationUsingCompression:NSTIFFCompressionNone factor:1.0];
+	bitmapImageRep = [NSBitmapImageRep imageRepWithData:tiffData];
+	pngData = [bitmapImageRep representationUsingType:NSPNGFileType properties:nil];
+	path = [[NSString stringWithFormat:@"%s/../screenshot%03d.png", bs_basedir, ++s_shotnum]
+			stringByStandardizingPath];
+	[pngData writeToFile:path atomically:YES];
+	[image release];
+}
+
 /*  TODO: is it possible to interface with anthy for Japanese input?  */
 /*  (https://osdn.jp/projects/anthy/)  */
 
@@ -328,6 +356,7 @@ s_RegisterKeyDown(u_int16_t *ch)
 		case NSRightArrowFunctionKey: ch[0] = 0x1b; ch[1] = '['; ch[2] = 'C'; ch[3] = 0; break;
 		case NSDeleteFunctionKey: ch[0] = 127; break;
 		case NSBreakFunctionKey: ch[0] = 27; break;
+		case NSF3FunctionKey: if ([theEvent modifierFlags] & NSAlternateKeyMask) s_ScreenShot(); ch[0] = 0; break;
 		default: break;
 	}
 	s_RegisterKeyDown(ch);
@@ -425,7 +454,7 @@ bs_draw_platform(void *ref)
 		return;
 	CGContextSaveGState(cref);
 	r = CGRectMake(0, 0, my_fb_width, my_fb_height);
-	
+
 	/*  Draw graphic layer  */
 	image = CGBitmapContextCreateImage(s_graphic_context);
 	CGContextDrawImage(cref, r, image);
