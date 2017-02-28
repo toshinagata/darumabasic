@@ -455,6 +455,9 @@ bs_draw_platform(void *ref)
 	CGContextSaveGState(cref);
 	r = CGRectMake(0, 0, my_fb_width, my_fb_height);
 
+	/*  Only draw inside the 'visible' screen  */
+	CGContextClipToRect(cref, CGRectMake(0, 0, my_width, my_height));
+
 	/*  Draw graphic layer  */
 	image = CGBitmapContextCreateImage(s_graphic_context);
 	CGContextDrawImage(cref, r, image);
