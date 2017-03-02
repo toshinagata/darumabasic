@@ -227,6 +227,7 @@
 				8D11072E0486CEB800E47090 /* Frameworks */,
 				E4EAE26D1C5C6E2E003F0D40 /* CopyFiles */,
 				E42D71701D0D016900B6BF64 /* ShellScript */,
+				E49A2F6A1E6847CD0099599E /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -289,6 +290,19 @@
 			shellPath = /bin/sh;
 			shellScript = "cd $PROJECT_DIR\nif [[ (build/y.tab.c -ot ../grammar.y) || (build/y.tab.h -ot ../grammar.y) ]]; then\n  cp -p -v $DERIVED_FILES_DIR/y.tab.* build\nfi\n";
 			showEnvVarsInLog = 0;
+		};
+		E49A2F6A1E6847CD0099599E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"$BUILD_STYLE\" = \"Release\" ]; then\n  cd \"$BUILT_PRODUCTS_DIR\"\n  mkdir daruma_mac\n  cp -a DarumaBasic.app basic fontdata.bin daruma_mac\n  tar cfj daruma_mac.tar.bz2 daruma_mac\n  rm -rf daruma_mac\n  mv daruma_mac.tar.bz2 \"$PROJECT_DIR/../binaries\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
