@@ -35,6 +35,11 @@ pre code {
 	/*	text-indent: -2em; */
 }
 
+div.end_header {
+	clear:both;
+	border-top: solid thin #aaa;
+}
+
 span.italic {
     font-style: italic;
 }
