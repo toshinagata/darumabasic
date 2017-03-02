@@ -8,12 +8,17 @@
 
 #import "MyAppDelegate.h"
 #include "daruma.h"
+#include "screen.h"
 
 @implementation MyAppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+	/*  Set current directory to the same directory as .app  */
+	NSString *bundlePath = [[NSBundle mainBundle] bundlePath];
+	chdir([[bundlePath stringByDeletingLastPathComponent] fileSystemRepresentation]);
 	[window makeKeyAndOrderFront:self];
+	my_graphic_mode = 1;
 	bs_runloop();
 	[NSApp terminate:self];
 }

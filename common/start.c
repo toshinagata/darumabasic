@@ -145,14 +145,20 @@ int
 bs_runloop(void)
 {
 	FILE *fp;
-	int n = -1;
+	int n;
 	int cont_flag = 0;
-	
+	char *p;
+
 	bs_init_memory();
 	bs_read_fontdata("fontdata.bin");
 	bs_uptime(1);  /*  Set the 'startup' time  */
 	
-	chdir("basic");
+	if ((p = getenv("DARUMA_BASIC_DIR")) != NULL && *p != 0) {
+		n = chdir(p);
+	} else n = -1;
+	if (n < 0) 
+		chdir("basic");
+
 	getcwd(bs_basedir, sizeof(bs_basedir));
 
 	bs_init_screen();
@@ -160,6 +166,7 @@ bs_runloop(void)
 	bs_new();
 	bs_welcome();
 
+	n = -1;
 	fp = fopen("autorun.bas", "r");
 	if (fp != NULL) {
 		fclose(fp);

@@ -77,6 +77,21 @@ unset_raw_mode(void)
 int
 main(int argc, const char **argv)
 {
+	char *p;
+
+	/*  Set current directory to the same direcory as this executable  */
+	p = strrchr(argv[0], '/');
+	if (p != NULL) {
+		int n = p - argv[0];
+		char *pp = (char *)malloc(n + 1);
+		strncpy(pp, argv[0], n);
+		pp[n] = 0;
+		chdir(pp);
+		free(pp);
+	}
+	
+	my_graphic_mode = 1;
+
 #ifndef __CONSOLE__
 	if (argc > 1 && strcmp(argv[1], "-t") == 0) {
 		argc--;
@@ -87,10 +102,10 @@ main(int argc, const char **argv)
 	my_console = BS_CONSOLE_TTY;
 #endif
 	
-	if (argc > 1 && strcmp(argv[1], "-1") == 0) {
+	if (argc > 1 && strcmp(argv[1], "-0") == 0) {
 		argc--;
 		argv++;
-		my_graphic_mode = 1;
+		my_graphic_mode = 0;
 	}
 	
 #ifdef __BAREMETAL__
