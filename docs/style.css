@@ -1,0 +1,170 @@
+html {
+	background: #d0d0f0;
+	padding: 12px;
+}
+
+body {
+	max-width: 760px;
+	margin-top: 0;
+	margin-bottom: 0;
+	padding: 6px 20px;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: #eeffee;
+	border-radius: 20px;
+	font-size: 100%;
+	color: black;
+}
+a:link { color: blue }
+a:visited { color: red }
+
+#content {
+	margin-left: 10px;
+}
+
+pre code {
+	display: block;
+	overflow-x: auto;
+	margin: 1ex 1em 1ex 1em;
+	background-color: #004;
+	color: #ffc;
+	font-family: Osaka-mono, "Osaka-等幅", Consolas, Monaco, monospace;
+	padding: 0.5ex 0.5em;
+	line-height: 1.2;
+	white-space: pre;
+	/*	text-indent: -2em; */
+}
+
+span.italic {
+    font-style: italic;
+}
+
+span.bold {
+    font-weight: bold;
+}
+
+.float_left {
+    float:left;
+    margin-right: 1em;
+    margin-top: 1ex;
+    margin-bottom: 1ex;
+}
+
+.float_right {
+	float:right;
+	margin-left: 1em;
+	margin-top: 1ex;
+	margin-bottom: 1ex;
+}
+
+.float_clear {
+	clear:both;
+}
+
+code {
+	font-family: monospace;
+	font-size: 1em;
+	background-color: #ffeeee;
+}
+
+/*  Inserted notes  */
+p.note {
+	font-size: smaller;
+	padding: 0px 2em;
+	color: #990066;
+}
+
+span.note {
+	font-size: smaller;
+	color: #990066;
+}
+
+span.modified {
+	color: #990000;
+	background-color: #ddeedd;
+}
+
+span.typein {
+	color: #0000ff;
+}
+
+span.typeout {
+	color: #cc0000;
+}
+
+span.comment {
+	color: #990066;
+}
+
+hr {
+}
+
+h1 {
+	font-size: x-large;
+/*	font-style: italic; */
+	text-align: center;
+}
+h2 {
+	font-size: large;
+	margin-left: 3%;
+	margin-right: 3%;
+}
+h3 {
+	margin-left: 4%;
+	margin-right: 4%
+}
+h4, h5 {
+	margin-left: 5%;
+	margin-right: 5%
+}
+
+div.subtitle {
+	font-size: large;
+	text-align: center
+}
+
+p {
+	line-height: 150%;
+}
+
+table {
+    margin-left: 5%;
+    margin-right: 5%;
+    line-height: 150%;
+}
+
+ul, ol, dl {
+	margin-left: 1em;
+	margin-right: 1em;
+	line-height: 150%;
+}
+
+td {
+	padding-left: 1em;
+	padding-right: 1em;
+	text-align: center;
+}
+
+td.text {
+    text-align: left;
+    vertical-align: top;
+}
+
+blockquote {
+	border: thin dashed;
+	font-style: italic;
+	color: #006600;
+}
+
+q {
+	font-style: italic;
+	color: #006600;
+}
+
+q:before {
+  content: none;
+}
+
+q:after {
+  content: none;
+}

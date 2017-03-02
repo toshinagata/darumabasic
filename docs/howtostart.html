@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml' lang='ja' xml:lang='ja'>
+<head>
+<meta lang='ja' xml:lang='ja' content='text/html;charset=utf-8' http-equiv='Content-Type' />
+<title>Daruma BASIC - 動かし方</title>
+<script type="text/javascript" src="./branchcss.js"></script>
+<link href='index.html' rel='Start' />
+</head>
+<body>
+<h1>Daruma BASIC - 動かし方</h1>
+<p>
+まず、Raspberry Pi でコンソールモード（X window = グラフィックインターフェイスを使わない設定）に入れるようにしておいてください。Daruma BASIC はコンソールモードで動作します。
+</p>
+<p>
+公式サイトから、<code>daruma_raspi.tar.gz</code> をダウンロードします。
+</p>
+<pre><code>$ wget http://..../daruma_raspi.tar.gz
+</code></pre>
+<p>
+展開します。
+</p>
+<pre><code>$ tar xvfz daruma_raspi.tar.gz
+</code></pre>
+<p>
+<code>daruma_raspi</code> ディレクトリの中の <code>daruma</code> を実行します。
+</p>
+<pre><code>$ daruma_raspi/daruma
+または
+$ cd daruma_raspi; ./daruma
+</code></pre>
+<p>
+展開してできた <code>daruma_raspi</code> ディレクトリの中のファイルは、移動したり削除したりしないでください。<code>daruma_raspi</code> ディレクトリ自体は、名前を変えたり場所を移動しても構いません。
+</p>
+<p>
+起動後のデフォルトディレクトリは、<code>daruma_raspi</code> ディレクトリ中の <code>basic</code> ディレクトリとなります。これを変更したい時は、環境変数 <code>DARUMA_BASIC_DIR</code> にデフォルトディレクトリを入れておいてください。下の例では、デフォルトディレクトリを、ホームディレクトリ中の <code>basic</code> ディレクトリに設定しています。
+</p>
+<pre><code>$ export DARUMA_BASIC_DIR=$HOME/basic
+</code></pre>
+<p>
+[ <a href="index.html">← トップページへ</a> ]
+</p>
+</body>
+</html>

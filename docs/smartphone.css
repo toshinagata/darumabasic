@@ -1,0 +1,12 @@
+body {
+  max-width: none;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0;
+  border-radius: 0;
+  font-size: 100%;
+  -moz-text-size-adjust: none;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
