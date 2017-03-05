@@ -110,7 +110,10 @@ h1 {
 	text-align: center;
 }
 h2 {
-	font-size: large;
+	font-size: 110%;
+	font-weight: bold;
+	line-height: 100%;
+	margin-bottom: 0;
 	margin-left: 3%;
 	margin-right: 3%;
 }
@@ -129,6 +132,7 @@ div.subtitle {
 }
 
 p {
+	text-indent: 1em;
 	line-height: 150%;
 }
 

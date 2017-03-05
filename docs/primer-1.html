@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml' lang='ja' xml:lang='ja'>
+<head>
+<meta lang='ja' xml:lang='ja' content='text/html;charset=utf-8' http-equiv='Content-Type' />
+<title>Daruma BASIC 入門 (1) - 整数の式の計算</title>
+<script type="text/javascript" src="./branchcss.js"></script>
+<link href='index.html' rel='Start' />
+</head>
+<body>
+<a href="index.html"><img class="float_right" src="images/darumalogo172x72.png" /></a>
+<h1>Daruma BASIC 入門 (1) - 整数の式の計算</h1>
+<div class="end_header"></div>
+<p>
+「プログラミング」に入る前に、Daruma BASIC で数の計算をやってみましょう。Daruma BASIC では、整数と小数が使えます。しばらくは整数のみを使うことにします。
+</p>
+<p>
+次のようにタイプしてみてください。行の終わりには ENTER キーを押します。
+</p>
+<pre><code>PRINT 5+2
+</code></pre>
+<p>
+「7」と答えが表示されます。画面では下のようになります。
+</p>
+<p><img src="images/primer1-1.png" /></p>
+<p>
+<code>PRINT</code> は、「後に置かれた式の値を表示する」ための命令です。<code>print</code> と小文字で書いても構いません。（<code>PriNt</code> のように大文字と小文字を混ぜて書いても動きますが、こういう書き方はみっともないのでやめましょう。）
+</p>
+<p>
+たし算だけでなく、ひき算・かけ算・わり算がすべて使えます。普通の算数と違って、かけ算は <code>*</code>、わり算は <code>/</code> という記号を使います。
+</p>
+<p><img src="images/primer1-2.png" /></p>
+<p>
+<code>%</code> で、「わり算の余り」を求めることができます。プログラミングではよく出てきます。
+</p>
+<p><img src="images/primer1-3.png" /></p>
+<p>
+カッコを使って複雑な式を書くこともできます。カッコは二重、三重、…になっても構いません。
+</p>
+<p><img src="images/primer1-4.png" /></p>
+<p>
+わり算や余りの計算で、わる数が０になると、エラーが発生します。<sup>[1]</sup>
+</p>
+<p class="note">[1] バージョン pre 2 以降。最初のバージョンでは Daruma BASIC が異常終了していました。</p>
+<p><img src="images/primer1-5.png" /></p>
+
+<p>[ <a href="index.html">← トップページへ</a> ]</p>
+<p>[ <a href="https://github.com/toshinagata/darumabasic/releases/">ダウンロードページへ →</a> ]</p>
+</body>
+</html>
