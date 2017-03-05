@@ -240,6 +240,51 @@ const char *err_msg[] = {
 	
 	/* BS_M_INVALID_FNAME */
 	"File name is invalid",
+	
+	/* BS_M_ZERO_DIVISION */
+	"Zero division",
+
+	/* BS_M_STACK_UNDERFLOW */
+	"Stack underflow",
+	
+	/* BS_M_STACK_OVERFLOW */
+	"Stack overflow",
+	
+	/* BS_M_USER_INTERRUPT */
+	"\nUser Interrupt\n",
+	
+	/* BS_M_OUT_OF_MEMORY_STRING */
+	"Out of memory during string operation",
+
+	/* BS_M_JUMP_ADDRESS_OUT_OF_RANGE */
+	"Jump address out of range",
+	
+	/* BS_M_OUT_OF_MEMORY_DIM_ALLOC */
+	"Out of memory during DIM allocation",
+
+	/* BS_M_DIM_NO_MATCH_RUNTIME */
+	"Dimension does not match (dimension memory area is corrupted??)",
+	
+	/* BS_M_TOO_MANY_DIM_INIT */
+	"Too many DIM initializers",
+
+	/* BS_M_DATA_POS_OUT_OF_RANGE */
+	"Data position out of range",
+	
+	/* BS_M_DATA_MISMATCH_NUMBER_EXPECTED */
+	"Data type mismatch, number is expected",
+
+	/* BS_M_DATA_MISMATCH_STRING_EXPECTED */
+	"Data type mismatch, string is expected",
+	
+	/* BS_M_CDATA_READ_ONLY_INTEGER */
+	"CDATA can be read only as integer",
+	
+	/* BS_M_BAD_DATA_STATEMENT */
+	"Bad DATA statement (Data section is broken?)",
+	
+	/* BS_M_PREP_WAIT_ERROR */
+	"PREP_WAIT must be followed by WAIT instruction",
 };
 
 const char *translated_err_msg[] = {
@@ -457,7 +502,7 @@ const char *translated_err_msg[] = {
 	"保存するプログラムがありません\n",
 
 	/* BS_M_FILE_EXISTS */
-	"ファイル %s はすでにあります。上書きする? (y/N) ",
+	"ファイル %s はすでにあります。上書きしますか? (y/N) ",
 	
 	/* BS_M_SAVE_CANCELED */
 	"保存をキャンセルしました.\n",
@@ -466,10 +511,55 @@ const char *translated_err_msg[] = {
 	"ファイル %s に保存できません",
 	
 	/* BS_M_NO_DIRECT */
-	"%sはダイレクトモードでしか使えません."
+	"%sはダイレクトモードでしか使えません.",
 
 	/* BS_M_INVALID_FNAME */
 	"ファイル名が無効です",
+	
+	/* BS_M_ZERO_DIVISION */
+	"ゼロで割ることはできません",
+	
+	/* BS_M_STACK_UNDERFLOW */
+	"スタックがアンダーフローを起こしました",
+
+	/* BS_M_STACK_OVERFLOW */
+	"スタックがオーバーフローを起こしました",
+
+	/* BS_M_USER_INTERRUPT */
+	"\nユーザー割り込みが起きました\n",
+	
+	/* BS_M_OUT_OF_MEMORY_STRING */
+	"文字列処理中にメモリが不足しました",
+	
+	/* BS_M_JUMP_ADDRESS_OUT_OF_RANGE */
+	"ジャンプ先が範囲外です",
+	
+	/* BS_M_OUT_OF_MEMORY_DIM_ALLOC */
+	"配列宣言中にメモリが不足しました",
+
+	/* BS_M_DIM_NO_MATCH */
+	"配列の添字の数が合いません（配列データが壊れているかも？）",
+	
+	/* BS_M_TOO_MANY_DIM_INIT */
+	"配列の初期化データが多すぎます",
+	
+	/* BS_M_DATA_POS_OUT_OF_RANGE */
+	"データの読み出し位置が範囲外です",
+	
+	/* BS_M_DATA_MISMATCH_NUMBER_EXPECTED */
+	"データの型が合いません。数値が必要です",
+
+	/* BS_M_DATA_MISMATCH_STRING_EXPECTED */
+	"データの型が合いません。文字列が必要です",
+	
+	/* BS_M_CDATA_READ_ONLY_INTEGER */
+	"CDATA は整数でしか読み込めません",
+	
+	/* BS_M_BAD_DATA_STATEMENT */
+	"DATA 文が変です（データが壊れているかも？）",
+	
+	/* BS_M_PREP_WAIT_ERROR */
+	"PREP_WAITの次にはWAIT命令が来るべきです",
 
 };
 

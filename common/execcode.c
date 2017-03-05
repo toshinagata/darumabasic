@@ -20,6 +20,7 @@
 #include "daruma.h"
 #include "gencode.h"
 #include "screen.h"
+#include "transmessage.h"
 #include "y.tab.h"
 
 /*  Runtime VM registers  */
@@ -188,10 +189,10 @@ int
 bs_stackcheck(void)
 {
 	if (sVMStackPtr < gVMStackBasePtr) {
-		fprintf(stderr, "Stack underflow\n");
+		bs_runtime_error(MSG_(BS_M_STACK_UNDERFLOW));
 		return 1;
 	} else if (sVMStackPtr >= gVMStackEndPtr - 10 * sizeof(Off_t)) {
-		fprintf(stderr, "Stack overflow\n");
+		bs_runtime_error(MSG_(BS_M_STACK_OVERFLOW));
 		return 1;
 	}
 	return 0;
@@ -289,7 +290,7 @@ loop:
 			bs_update_screen();
 			tm0 = tm;
 			if (bs_getch_with_timeout(0) == 3) {
-				bs_runtime_error("\nUser Interrupt\n");
+				bs_runtime_error(MSG_(BS_M_USER_INTERRUPT));
 				retval = 2;
 				goto exit;
 			}
@@ -347,7 +348,7 @@ loop:
 			ival = sVMStackIntPtr[-1];
 			if (ival == 0) {
 				sVMStackPtr -= sizeof(Int) * 2;
-				bs_runtime_error("Zero division");
+				bs_runtime_error(MSG_(BS_M_ZERO_DIVISION));
 				retval = 1;
 				goto exit;
 			}
@@ -358,7 +359,7 @@ loop:
 			ival = sVMStackIntPtr[-1];
 			if (ival == 0) {
 				sVMStackPtr -= sizeof(Int) * 2;
-				bs_runtime_error("Zero division");
+				bs_runtime_error(MSG_(BS_M_ZERO_DIVISION));
 				retval = 1;
 				goto exit;
 			}
@@ -443,7 +444,7 @@ loop:
 			i3 = strlen(p2);
 			sval = bs_new_runtime_string(NULL, i2 + i3 + 1);
 			if (sval == kInvalidOff) {
-				bs_runtime_error("Out of memory during string operation");
+				bs_runtime_error(MSG_(BS_M_OUT_OF_MEMORY_STRING));
 				retval = 1;
 				goto exit;
 			}
@@ -776,7 +777,7 @@ loop:
 			RECORD_PC(0);
 			break;
 			
-		pc_error: bs_runtime_error("Jump address out of range");
+		pc_error: bs_runtime_error(MSG_(BS_M_JUMP_ADDRESS_OUT_OF_RANGE));
 			retval = 1;
 			goto exit;
 
@@ -900,7 +901,7 @@ loop:
 					i4 = ((i4 + 4095) / 4096) * 4096;
 					if (bs_realloc_block(MEM_VAR, i4) < 0) {
 						/*  Runtime exception: out of memory  */
-						bs_runtime_error("Out of memory during DIM allocation");
+						bs_runtime_error(MSG_(BS_M_OUT_OF_MEMORY_DIM_ALLOC));
 						retval = 1;
 						goto exit;
 					}
@@ -941,7 +942,7 @@ loop:
 			i2 = *op++;
 			if (sVMStackIntPtr[-1] != i2) {
 				/*  Runtime exception: dimension does not match  */
-				bs_runtime_error("Dimension does not match (dimension memory area is corrupted??)");
+				bs_runtime_error(MSG_(BS_M_DIM_NO_MATCH_RUNTIME));
 				retval = 1;
 				goto exit;
 			}
@@ -1002,7 +1003,7 @@ loop:
 			sVMStackOffPtr[-1]++;
 			break;
 		storeloop_error:
-			bs_runtime_error("Too many DIM initializers");
+			bs_runtime_error(MSG_(BS_M_TOO_MANY_DIM_INIT));
 			retval = 1;
 			goto exit;
 #pragma mark ------ Built-in functions ------
@@ -1056,7 +1057,7 @@ loop:
 				if ((ival = NEXT_DATA(up, sDataAccessor)) == 0) {
 					sVMDataPos = i3;
 					if (sVMDataPos >= gVMDataTop) {
-						bs_runtime_error("Data position out of range");
+						bs_runtime_error(MSG_(BS_M_DATA_POS_OUT_OF_RANGE));
 						retval = 1;
 						goto exit;
 					}
@@ -1072,7 +1073,7 @@ loop:
 						ival = (Int)dval;
 						goto end_read_int;
 					} else {
-						bs_runtime_error("Data type mismatch, number is expected");
+						bs_runtime_error(MSG_(BS_M_DATA_MISMATCH_NUMBER_EXPECTED));
 						retval = 1;
 						goto exit;
 					}
@@ -1084,14 +1085,14 @@ loop:
 						dval = (Float)ival;
 						goto end_read_flt;
 					} else {
-						bs_runtime_error("Data type mismatch, number is expected");
+						bs_runtime_error(MSG_(BS_M_DATA_MISMATCH_NUMBER_EXPECTED));
 						retval = 1;
 						goto exit;
 					}
 				} else {
 					sval = *((Off_t *)up);
 					if (code != C_READ_STR) {
-						bs_runtime_error("Data type mismatch, string is expected");
+						bs_runtime_error(MSG_(BS_M_DATA_MISMATCH_STRING_EXPECTED));
 						retval = 1;
 						goto exit;
 					}
@@ -1103,7 +1104,7 @@ loop:
 				if (sDataAccessor.ofs >= ival) {
 					sVMDataPos = i3;
 					if (sVMDataPos >= gVMDataTop) {
-						bs_runtime_error("Data position out of range");
+						bs_runtime_error(MSG_(BS_M_DATA_POS_OUT_OF_RANGE));
 						retval = 1;
 						goto exit;
 					}
@@ -1111,7 +1112,7 @@ loop:
 					goto redo_read;
 				}
 				if (code != C_READ_INT) {
-					bs_runtime_error("CDATA can be read only as integer");
+					bs_runtime_error(MSG_(BS_M_CDATA_READ_ONLY_INTEGER));
 					retval = 1;
 					goto exit;
 				}
@@ -1119,7 +1120,7 @@ loop:
 				sDataAccessor.ofs++;
 				goto end_read_int;
 			} else {
-				bs_runtime_error("Bad DATA statement (Data section is broken?)");
+				bs_runtime_error(MSG_(BS_M_BAD_DATA_STATEMENT));
 				retval = 1;
 				goto exit;
 			}
@@ -1146,7 +1147,7 @@ loop:
 		case C_PREP_WAIT:
 			ival = bs_uptime(0);
 			if (gVMCodeBasePtr[sVMCodePos] != C_WAIT) {
-				bs_runtime_error("PREP_WAIT must be followed by WAIT instruction");
+				bs_runtime_error(MSG_(BS_M_PREP_WAIT_ERROR));
 				retval = 1;
 				goto exit;
 			}
