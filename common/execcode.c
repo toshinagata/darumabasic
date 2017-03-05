@@ -344,12 +344,26 @@ loop:
 			sVMStackIntPtr[-1] *= sVMStackIntPtr[0];
 			break;
 		case C_DIV_INT:
+			ival = sVMStackIntPtr[-1];
+			if (ival == 0) {
+				sVMStackPtr -= sizeof(Int) * 2;
+				bs_runtime_error("Zero division");
+				retval = 1;
+				goto exit;
+			}
 			sVMStackPtr -= sizeof(Int);
-			sVMStackIntPtr[-1] /= sVMStackIntPtr[0];
+			sVMStackIntPtr[-1] /= ival;
 			break;
 		case C_MOD_INT:
+			ival = sVMStackIntPtr[-1];
+			if (ival == 0) {
+				sVMStackPtr -= sizeof(Int) * 2;
+				bs_runtime_error("Zero division");
+				retval = 1;
+				goto exit;
+			}
 			sVMStackPtr -= sizeof(Int);
-			sVMStackIntPtr[-1] %= sVMStackIntPtr[0];
+			sVMStackIntPtr[-1] %= ival;
 			break;
 		case C_LT_INT:
 			sVMStackPtr -= sizeof(Int);
