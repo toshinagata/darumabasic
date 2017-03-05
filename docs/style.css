@@ -91,14 +91,17 @@ span.modified {
 
 span.typein {
 	color: #0000ff;
+	background-color: #ddeedd;
 }
 
 span.typeout {
 	color: #cc0000;
+	background-color: #ddeedd;
 }
 
 span.comment {
 	color: #990066;
+	background-color: #ddeedd;
 }
 
 hr {
