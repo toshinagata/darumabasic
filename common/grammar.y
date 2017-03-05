@@ -407,9 +407,13 @@ dim_assign_statement: BS_DIMNAME '=' { gParserInfo.dim_index = $1.u.iv; } dim_in
 
 /*  PRINT statement  */
 
-print_statement: BS_PRINT print_arguments { bs_code0(C_NEWLINE); }
-| BS_PRINT print_arguments ';'
-| BS_PRINT print_arguments ',' { bs_code1(C_PUTC, ' '); }
+print_keyword: BS_PRINT
+| '?'
+;
+
+print_statement: print_keyword print_arguments { bs_code0(C_NEWLINE); }
+| print_keyword print_arguments ';'
+| print_keyword print_arguments ',' { bs_code1(C_PUTC, ' '); }
 ;
 
 print_arguments:

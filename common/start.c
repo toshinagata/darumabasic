@@ -132,7 +132,7 @@ bs_welcome(void)
 	/*  Welcome message  */
 	bs_tcolor(RGBFLOAT(1, 1, 1));
 	bs_puts("---------------------------------------\n");
-	bs_puts(" Daruma (だるま) BASIC, Version 1.0pre\n");
+	bs_puts(" Daruma (だるま) BASIC, Ver. 1.0pre2\n");
 	bs_puts(" Copyright (C) 2016-2017 Toshi Nagata\n");
 	bs_puts("---------------------------------------\n");
 	bs_puts(MSG_(BS_M_START_PROGRAM));
@@ -191,41 +191,46 @@ bs_runloop(void)
 				continue;
 			for (n1 = n; isalpha(s[n1]); n1++);
 			n1 -= n;
-			
-			if (strncasecmp(s + n, "RUN", n1) == 0) {
-				cont_flag = 0;
-				n = bs_run(gSourceBasePtr, 1, 0);
-				if (n < 0)
-					cont_flag = 0;  /*  Compile error  */
-				else
-					cont_flag = 1;  /*  Normal termination of runtime error  */
-			} else if (strncasecmp(s + n, "NEW", n1) == 0) {
-				/*  Initialize the program and lua engine  */
-				if (gSourceTop > 0) {
-					bs_puts(MSG_(BS_M_PROG_DELETED_YN));
-					if (bs_getline(s, sizeof s) > 0 && (s[0] == 'y' || s[0] == 'Y'))
-						bs_new();
+			if (n1 > 0) {
+				/*  Check for the 'direct' commands  */
+				if (strncasecmp(s + n, "RUN", n1) == 0) {
+					cont_flag = 0;
+					n = bs_run(gSourceBasePtr, 1, 0);
+					if (n < 0)
+						cont_flag = 0;  /*  Compile error  */
+					else
+						cont_flag = 1;  /*  Normal termination of runtime error  */
+					continue;
+				} else if (strncasecmp(s + n, "NEW", n1) == 0) {
+					/*  Initialize the program and lua engine  */
+					if (gSourceTop > 0) {
+						bs_puts(MSG_(BS_M_PROG_DELETED_YN));
+						if (bs_getline(s, sizeof s) > 0 && (s[0] == 'y' || s[0] == 'Y'))
+							bs_new();
+					}
+					continue;
+				} else if (strncasecmp(s + n, "EDIT", n1) == 0) {
+					bs_edit();
+					continue;
+				} else if (strncasecmp(s + n, "EXIT", n1) == 0) {
+					bs_puts(MSG_(BS_M_EXIT_IN_DIRECT));
+					continue;
+				} else if (strncasecmp(s + n, "QUIT", n1) == 0) {
+					if (gSourceTop > 0 && gSourceTouched) {
+						bs_puts(MSG_(BS_M_PROG_SAVE_YN));
+						if (bs_getline(s, sizeof s) <= 0 || (s[0] != 'y' && s[0] != 'Y'))
+							continue;
+					}
+					bs_puts(MSG_(BS_M_FINISHED));
+					bs_update_screen();
+					usleep(2000000);
+					break;
 				}
-			} else if (strncasecmp(s + n, "EDIT", n1) == 0) {
-				bs_edit();
-			} else if (strncasecmp(s + n, "EXIT", n1) == 0) {
-				bs_puts(MSG_(BS_M_EXIT_IN_DIRECT));
-			} else if (strncasecmp(s + n, "QUIT", n1) == 0) {
-				if (gSourceTop > 0 && gSourceTouched) {
-					bs_puts(MSG_(BS_M_PROG_SAVE_YN));
-					if (bs_getline(s, sizeof s) <= 0 || (s[0] != 'y' && s[0] != 'Y'))
-						continue;
-				}
-				bs_puts(MSG_(BS_M_FINISHED));
-				bs_update_screen();
-				usleep(2000000);
-				break;
-			} else {
-				strcat(s + n, "\n");
-				n = bs_run((u_int8_t *)s + n, !cont_flag, 1);
-				if (cont_flag == 0 && n >= 0)
-					cont_flag = 1;
 			}
+			strcat(s + n, "\n");
+			n = bs_run((u_int8_t *)s + n, !cont_flag, 1);
+			if (cont_flag == 0 && n >= 0)
+				cont_flag = 1;
 		}
 	}
 	
