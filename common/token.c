@@ -65,7 +65,7 @@ bs_error(const char *fmt, ...)
 	}
 	
 	bs_tcolor(RGBFLOAT(1, 1, 1));
-	snprintf(msg, sizeof msg, "Line %d: ", gParserInfo.lineno);
+	snprintf(msg, sizeof msg, MSG_(BS_M_LINE), gParserInfo.lineno);
 	bs_puts(msg);
 	for (n = 0; s_buf[n] != 0; n++) {
 		if (n == s_bufindex || (n == s_bufindex - 1 && s_buf[n + 1] == 0)) {
@@ -98,7 +98,7 @@ bs_runtime_error(const char *fmt, ...)
 	
 	codepos = bs_codepos();
 	n = bs_get_lineno_for_vmcodepos(codepos);
-	snprintf(msg, sizeof msg, "Runtime error in line %d\n", n);
+	snprintf(msg, sizeof msg, MSG_(BS_M_RUNTIME_ERROR), n);
 	
 	if (fmt != NULL && fmt[0] != 0) {
 		va_start(arg, fmt);
@@ -213,7 +213,7 @@ bs_lookup_label(SymbolCode symcode)
 	/*  If undefined, then implicitly define it  */
 	if (gLabelInfoTop + sizeof(LabelInfo) >= gLabelInfoEnd - gLabelInfoBase) {
 		if (bs_realloc_block(MEM_LABEL_INFO, gLabelInfoEnd - gLabelInfoBase + sizeof(LabelInfo) * 32) < 0) {
-			bs_error("Out of memory during registering LABEL");
+			bs_error(MSG_(BS_M_OUT_OF_MEMORY_LABEL));
 			return -1;
 		}
 	}
@@ -250,8 +250,10 @@ bs_define_dim(SymbolCode symcode)
 {
 	DimInfo *dp;
 	if (gDimInfoTop >= gDimInfoEnd - gDimInfoBase) {
-		bs_error("Too many dimension variables");
-		return -1;
+		if (bs_realloc_block(MEM_DIM_INFO, sizeof(DimInfo) * 16) < 0) {
+			bs_error(MSG_(BS_M_OUT_OF_MEMORY_DIM_DEF));
+			return -1;
+		}
 	}
 	dp = (DimInfo *)(gDimInfoBasePtr + gDimInfoTop);
 	gDimInfoTop += sizeof(DimInfo);
@@ -279,12 +281,14 @@ bs_define_funcname(SymbolCode symcode, int is_func)
 {
 	FuncInfo *fp;
 	if (gFuncInfoTop >= gFuncInfoEnd - gFuncInfoBase) {
-		bs_error("Too many functions/subroutines");
-		return -1;
+		if (bs_realloc_block(MEM_FUNC_INFO, sizeof(FuncInfo) * 16) < 0) {
+			bs_error(MSG_(BS_M_OUT_OF_MEMORY_FUNC_DEF));
+			return -1;
+		}
 	}
 	if (!is_func) {
 		if (symcode.type != BS_TYPE_INTEGER) {
-			bs_error("SUB name should not have type postfix ('$' or '#')");
+			bs_error(MSG_(BS_M_PROC_NAME_POSTFIX));
 			return -1;
 		}
 		symcode.type = BS_TYPE_NONE;
@@ -353,14 +357,14 @@ bs_get_token(void)
 			n = strlen((char *)s_buf);
 			if (s_buf[n - 1] != '\n') {
 				s_bufindex = -1;
-				bs_error("Line %d: line too long (max %d characters)\n", gParserInfo.lineno, s_bufsize - 2);
+				bs_error(MSG_(BS_M_LINE_TOO_LONG), gParserInfo.lineno, s_bufsize - 2);
 				return BS_ERROR_TOKEN;
 			}
 			
 			/*  Record current execution address for each line  */
 			if (gVMAddressTop >= gVMAddressEnd - gVMAddressBase - sizeof(Off_t)) {
 				if (bs_realloc_block(MEM_VMADDRESS, gVMAddressEnd - gVMAddressBase + 1024) < 0) {
-					bs_error("Line %d: out of memory for recording line address\n", gParserInfo.lineno);
+					bs_error(MSG_(BS_M_OUT_OF_MEMORY_LINE_ADDRESS), gParserInfo.lineno);
 					return BS_EOF;
 				}
 			}
@@ -401,7 +405,7 @@ bs_get_token(void)
 				 (((ch = s_buf[s_bufindex++]) >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z')
 				 || (ch >= '0' && ch <= '9')));
 		if (n >= sizeof buf - 3) {
-			bs_error("Too long identifier (max %d characters)", sizeof buf - 4);
+			bs_error(MSG_(BS_M_TOO_LONG_IDENTIFIER), sizeof buf - 4);
 			s_bufindex = -1;
 			return BS_ERROR_TOKEN;
 		}
@@ -426,7 +430,7 @@ bs_get_token(void)
 		
 		str = bs_new_literal_string((char *)buf, -1);
 		if (str == kInvalidOff) {
-			bs_error("Too many literal strings");
+			bs_error(MSG_(BS_M_OUT_OF_MEMORY_LITERAL_STRING));
 			s_bufindex = -1;
 			return BS_ERROR_TOKEN;
 		}
@@ -438,6 +442,7 @@ bs_get_token(void)
 				gTokenValue.u.iv = n;
 				return BS_LABEL;
 			}
+			/*  Error message is already shown  */
 			s_bufindex = -1;
 			return BS_ERROR_TOKEN;
 		}
@@ -506,14 +511,14 @@ bs_get_token(void)
 						i++;
 					}
 					if (strval >= gConstStringEnd - 1) {
-						bs_error("String literal overflow");
+						bs_error(MSG_(BS_M_OUT_OF_MEMORY_LITERAL_STRING));
 						s_bufindex = -1;
 						return BS_ERROR_TOKEN;
 					}
 					gMemoryPtr[strval++] = s_buf[i];
 				}
 				if (s_buf[i] == 0) {
-					bs_error("Quoted string not closed");
+					bs_error(MSG_(BS_M_STRING_QUOTE_ERROR));
 					s_bufindex = -1;
 					return BS_ERROR_TOKEN;  /*  Skip error in the parser  */
 				}
@@ -539,16 +544,18 @@ bs_get_token(void)
 							n = 1;
 						} else {
 							if (strval >= gConstStringEnd - 1) {
-								bs_error("String literal overflow");
-								s_bufindex = -1;
-								return BS_ERROR_TOKEN;
+								if (bs_realloc_block(MEM_CONST_STRING, 1024) < 0) {
+									bs_error(MSG_(BS_M_OUT_OF_MEMORY_LITERAL_STRING));
+									s_bufindex = -1;
+									return BS_ERROR_TOKEN;
+								}
 							}
 							gMemoryPtr[strval++] += ch;
 							n = 0;
 						}
 					}
 					if (n == 1) {
-						bs_error("Hexadecimal escape sequence ended unexpectedly");
+						bs_error(MSG_(BS_M_WRONG_HEX_ESCAPE));
 						s_bufindex = -1;
 						return BS_ERROR_TOKEN;
 					}
@@ -562,7 +569,7 @@ bs_get_token(void)
 					else if (ch == 't')
 						ch = '\t';
 					else {
-						bs_error("Unknown escape sequence");
+						bs_error(MSG_(BS_M_WRONG_ESCAPE_SEQ));
 						s_bufindex = -1;
 						return BS_ERROR_TOKEN;
 					}
@@ -606,7 +613,7 @@ bs_get_token(void)
 		return ch;
 	if (ch == '\n' || ch == '\r')
 		return '\n';
-	bs_error("Unrecognized character %c(0x%02x)", ch, (int)ch);
+	bs_error(MSG_(BS_M_UNRECOGNIZED_CHAR), ch, (int)ch);
 	s_bufindex = -1;
 	return BS_ERROR_TOKEN;
 }

@@ -288,6 +288,49 @@ const char *err_msg[] = {
 	
 	/* BS_M_INTEGER_LITERAL_OVERFLOW */
 	"Integer literal overflow",
+	
+	/* BS_M_LINE */
+	"Line %d: ",
+	
+	/* BS_M_RUNTIME_ERROR */
+	"Runtime error in line %d\n",
+	
+	/* BS_M_OUT_OF_MEMORY_LABEL */
+	"Out of memory during registering LABEL",
+	
+	/* BS_M_OUT_OF_MEMORY_DIM_DEF */
+	"Out of memory during DIM declaration",
+	
+	/* BS_M_OUT_OF_MEMORY_FUNC_DEF */
+	"Out of memory during FUNC/PROC definition",
+	
+	/* BS_M_PROC_NAME_POSTFIX */
+	"PROC name should not have type postfix ('$' or '#')",
+	
+	/* BS_M_LINE_TOO_LONG */
+	"Line %d: line too long (max %d characters)\n",
+	
+	/* BS_M_OUT_OF_MEMORY_LINE_ADDRESS */
+	"Line %d: out of memory for recording line address\n",
+	
+	/* BS_M_TOO_LONG_IDENTIFIER */
+	"Too long identifier (max %d characters)",
+	
+	/* BS_M_OUT_OF_MEMORY_LITERAL_STRING */
+	"Out of memory during definition of string",
+
+	/* BS_M_STRING_QUOTE_ERROR */
+	"Quoted string not closed",
+	
+	/* BS_M_WRONG_HEX_ESCAPE */
+	"Hexadecimal escape ends unexpectedly",
+	
+	/* BS_M_WRONG_ESCAPE_SEQ */
+	"Unknown escape sequence",
+	
+	/* BS_M_UNRECOGNIZED_CHAR */
+	"Unrecognized character %c(0x%02x)",
+
 };
 
 const char *translated_err_msg[] = {
@@ -566,6 +609,49 @@ const char *translated_err_msg[] = {
 
 	/* BS_M_INTEGER_LITERAL_OVERFLOW */
 	"整数の絶対値が大きすぎます",
+	
+	/* BS_M_LINE */
+	"%d行: ",
+	
+	/* BS_M_RUNTIME_ERROR */
+	"%d行で実行時エラーが発生しました\n",
+	
+	/* BS_M_OUT_OF_MEMORY_LABEL */
+	"ラベルの登録中にメモリ不足になりました",
+	
+	/* BS_M_OUT_OF_MEMORY_DIM_DEF */
+	"配列の定義中にメモリ不足になりました",
+	
+	/* BS_M_OUT_OF_MEMORY_FUNC_DEF */
+	"関数/手続きの定義中にメモリ不足になりました",
+	
+	/* BS_M_PROC_NAME_POSTFIX */
+	"手続き名には'$'や'#'をつけてはいけません",
+	
+	/* BS_M_LINE_TOO_LONG */
+	"%d行: 行が長過ぎます（最大 %d 文字まで）\n",
+	
+	/* BS_M_OUT_OF_MEMORY_LINE_ADDRESS */
+	"%d行: 行の位置を記録中にメモリ不足になりました\n",
+	
+	/* BS_M_TOO_LONG_IDENTIFIER */
+	"名前が長過ぎます（最大 %d 文字）",
+
+	/* BS_M_OUT_OF_MEMORY_LITERAL_STRING */
+	"文字列の定義中にメモリ不足になりました",
+	
+	/* BS_M_STRING_QUOTE_ERROR */
+	"文字列の引用符が閉じていません",
+	
+	/* BS_M_WRONG_HEX_ESCAPE */
+	"16進エスケープが間違っています",
+
+	/* BS_M_WRONG_ESCAPE_SEQ */
+	"不正なエスケープシーケンスです",
+	
+	/* BS_M_UNRECOGNIZED_CHAR */
+	"不正な文字です %c(0x%02x)",
+
 };
 
 
