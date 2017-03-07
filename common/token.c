@@ -13,10 +13,12 @@
 #include <string.h>
 #include <math.h>
 #include <ctype.h>
+#include <errno.h>
 
 #include "daruma.h"
 #include "gencode.h"
 #include "screen.h"
+#include "transmessage.h"
 #include "y.tab.h"
 
 TokenValue gTokenValue;
@@ -475,7 +477,12 @@ bs_get_token(void)
 		} else {
 			/*  Integer value  */
 			gTokenValue.type = BS_TYPE_INTEGER;
-			gTokenValue.u.iv = strtol(p, &p, 0);
+			gTokenValue.u.iv = strtoul(p, &p, 0);
+			if (gTokenValue.u.iv == ULONG_MAX && errno == ERANGE) {
+				bs_error(MSG_(BS_M_INTEGER_LITERAL_OVERFLOW));
+				s_bufindex = -1;
+				return BS_ERROR_TOKEN;
+			}
 			s_bufindex = (u_int8_t *)p - s_buf;
 			return BS_INTEGER;
 		}
