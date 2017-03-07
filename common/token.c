@@ -14,6 +14,7 @@
 #include <math.h>
 #include <ctype.h>
 #include <errno.h>
+#include <limits.h>
 
 #include "daruma.h"
 #include "gencode.h"
@@ -396,8 +397,9 @@ bs_get_token(void)
 		n = 0;
 		do {
 			buf[n++] = (ch >= 'a' ? ch - ('a' - 'A') : ch);
-		} while (n < sizeof buf - 3 && ((ch = s_buf[s_bufindex++]) >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z')
-				 || (ch >= '0' && ch <= '9'));
+		} while (n < sizeof buf - 3 &&
+				 (((ch = s_buf[s_bufindex++]) >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z')
+				 || (ch >= '0' && ch <= '9')));
 		if (n >= sizeof buf - 3) {
 			bs_error("Too long identifier (max %d characters)", sizeof buf - 4);
 			s_bufindex = -1;
