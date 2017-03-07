@@ -285,6 +285,9 @@ const char *err_msg[] = {
 	
 	/* BS_M_PREP_WAIT_ERROR */
 	"PREP_WAIT must be followed by WAIT instruction",
+	
+	/* BS_M_INTEGER_LITERAL_OVERFLOW */
+	"Integer literal overflow",
 };
 
 const char *translated_err_msg[] = {
@@ -561,6 +564,8 @@ const char *translated_err_msg[] = {
 	/* BS_M_PREP_WAIT_ERROR */
 	"PREP_WAITの次にはWAIT命令が来るべきです",
 
+	/* BS_M_INTEGER_LITERAL_OVERFLOW */
+	"整数の絶対値が大きすぎます",
 };
 
 
