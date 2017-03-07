@@ -47,8 +47,8 @@ s_bs_raspi_framebuffer(void)
 #ifndef __CONSOLE__
 #if __BAREMETAL__
 	fb_init(0, 0);
-	my_width = fb_width;
-	my_height = fb_height;
+	my_width = my_fb_width = fb_width;
+	my_height = my_fb_height = fb_height;
 	s_framebuffer = (char *)fb_addr;
 #else
 	struct fb_var_screeninfo vinfo;

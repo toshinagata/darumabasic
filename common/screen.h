@@ -13,9 +13,11 @@
 #include "daruma.h"
 
 #if __RASPBERRY_PI__
-#define BYTES_PER_PIXEL 2
 #if __BAREMETAL__
-#include <fb.h>
+#include <fb.h>     /*  BYTES_PER_PIXEL is defined in fb.h  */
+#define PIXEL_T_DEFINED 1
+#else
+#define BYTES_PER_PIXEL 2
 #endif
 #endif
 
@@ -24,7 +26,9 @@
 #endif
 
 #if BYTES_PER_PIXEL == 2
-typedef unsigned short  pixel_t;
+#if !PIXEL_T_DEFINED
+typedef u_int16_t  pixel_t;
+#endif
 #define RGBAINT(ri, gi, bi, ai) \
 ((((pixel_t)(ri)) << 11) | \
 (((pixel_t)(gi)) << 5) | \
@@ -43,18 +47,20 @@ typedef unsigned short  pixel_t;
 #define BLUECOMPONENT(pix) (BLUECOMPINT(pix) / 31.0)
 #define ALPHACOMPONENT(pix) (1.0)
 #else
-typedef unsigned long   pixel_t;
+#if !PIXEL_T_DEFINED
+typedef u_int32_t   pixel_t;
+#endif
 #if __RASPBERRY_PI__
 #define RGBAINT(ri, gi, bi, ai) \
-((((pixel_t)(ri)) << 24) | \
-(((pixel_t)(gi)) << 16) | \
-(((pixel_t)(bi)) << 8) | \
-((pixel_t)(ai)))
+((((pixel_t)(ai)) << 24) | \
+(((pixel_t)(ri)) << 16) | \
+(((pixel_t)(gi)) << 8) | \
+((pixel_t)(bi)))
 #define RGBAFLOAT(rf, gf, bf, af) RGBAINT((rf)*255+0.5, (gf)*255+0.5, (bf)*255+0.5, (af)*255+0.5)
-#define REDCOMPINT(pix) (((pix) >> 24) & 255)
-#define GREENCOMPINT(pix) (((pix) >> 16) & 255)
-#define BLUECOMPINT(pix) (((pix) >> 8) & 255)
-#define ALPHACOMPINT(pix) ((pix) & 255)
+#define REDCOMPINT(pix) (((pix) >> 16) & 255)
+#define GREENCOMPINT(pix) (((pix) >> 8) & 255)
+#define BLUECOMPINT(pix) (((pix)) & 255)
+#define ALPHACOMPINT(pix) (((pix) >> 24) & 255)
 #define REDCOMPINTMAX 256
 #define GREENCOMPINTMAX 256
 #define BLUECOMPINTMAX 256

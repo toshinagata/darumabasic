@@ -57,6 +57,40 @@ int gPCRecordTop;
 volatile u_int8_t gTimerInvoked;
 volatile int32_t gTimerCount;
 
+#if defined(__BAREMETAL__)
+
+#include <uspios.h>
+
+volatile unsigned s_timer_id = 0;
+
+static void
+s_timer_action(unsigned hTimer, void *pParam, void *pContext)
+{
+	gTimerCount++;
+	gTimerInvoked = 1;
+	s_timer_id = StartKernelTimer(1, s_timer_action, NULL, NULL);
+}
+
+
+static void
+s_stop_interval_timer(void)
+{
+	if (s_timer_id != 0) {
+		CancelKernelTimer(s_timer_id);
+		s_timer_id = 0;
+	}
+}
+
+static void
+s_start_interval_timer(void)
+{
+	if (s_timer_id == 0) {
+		s_timer_id = StartKernelTimer(1, s_timer_action, NULL, NULL);
+	}
+}
+
+#else
+
 static void
 s_signal_action(int n)
 {
@@ -89,6 +123,8 @@ s_start_interval_timer(void)
 	val.it_interval = val.it_value;
 	setitimer(ITIMER_REAL, &val, NULL);
 }
+
+#endif /* __BAREMETAL__ */
 
 static struct timeval s_start_timeval;
 

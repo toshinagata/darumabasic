@@ -28,7 +28,7 @@ CFLAGS += $(ARCHFLAGS) $(BASEFLAGS) $(INCLUDES)
 LDFLAGS += $(ARCHFLAGS)
 LIBS += -lm
 
-all: build/$(SUBDIR) ../common/y.tab.c build/common $(TARGET)
+all: build/$(SUBDIR) ../common/y.tab.c build/common $(OTHER_DIRS) $(TARGET)
 
 -include $(DEPS)
 

@@ -14,6 +14,10 @@
 #include <sys/types.h>
 #include <sys/param.h>  /*  For MAXPATHLEN  */
 
+#ifndef MAXPATHLEN
+#define MAXPATHLEN 4096
+#endif
+
 /*  To enable debug_printf, define ENABLE_DPRINTF  */
 #if defined(ENABLE_DEBUG_PRINTF)
 extern int debug_printf(const char *fmt, ...);
@@ -30,7 +34,8 @@ typedef Int Off_t;    /*  Offset type: same as integer  */
 
 typedef uint8_t u_int8_t;
 typedef uint16_t u_int16_t;
-typedef u_int32_t u_int32_t;
+typedef uint32_t u_int32_t;
+typedef uint64_t u_int64_t;
 
 extern volatile u_int8_t gTimerInvoked;
 extern volatile int32_t gTimerCount;

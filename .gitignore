@@ -5,6 +5,8 @@ build_mac/*.xcodeproj/*.pbxuser
 build_mac/*.xcodeproj/xcuserdata
 build_msw
 build_msw/build*
+build_raspi_bm/build*
+build_raspi_bm/kernel.img
 */.DS_Store
 .DS_Store
 _*
