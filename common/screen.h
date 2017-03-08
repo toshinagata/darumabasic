@@ -120,6 +120,8 @@ extern void bs_unlock(void);
 /*  TEXT_ACTIVE: text, GRAPHIC_ACTIVE: graphic  */
 extern int bs_select_active_buffer(int active);
 
+extern void bs_fadeout(int n);
+	
 enum {
 	TEXT_ACTIVE = 0,
 	GRAPHIC_ACTIVE,

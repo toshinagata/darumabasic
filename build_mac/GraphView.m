@@ -564,6 +564,32 @@ bs_platform_name(void)
 	return "mac";
 }
 
+void
+bs_fadeout(int n)
+{
+	int i, j, r, g, b, a;
+	float rr = 0.92;
+	pixel_t *p1, c;
+	for (j = 0; j < 2; j++) {
+		p1 = (j == 0 ? s_text_pixels : s_graphic_pixels);
+		for (i = 0; i < my_fb_width * my_fb_height; i++) {
+			if (n == 0)
+				*p1 = 0;
+			else {
+				c = *p1;
+				r = REDCOMPINT(c) * rr;
+				g = GREENCOMPINT(c) * rr;
+				b = BLUECOMPINT(c) * rr;
+				a = ALPHACOMPINT(c) * rr;
+				*p1 = RGBAINT(r, g, b, a);
+			}
+			p1++;
+		}
+	}
+	bs_redraw(0, 0, my_fb_width, my_fb_height);
+	bs_update_screen();
+}
+
 #if 0
 #pragma mark ====== Drawing primitives ======
 #endif

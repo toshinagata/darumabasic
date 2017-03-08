@@ -149,6 +149,8 @@ bs_runloop(void)
 	int cont_flag = 0;
 	char *p;
 
+	bs_init_screen();
+	
 	bs_init_memory();
 	bs_read_fontdata("fontdata.bin");
 	bs_uptime(1);  /*  Set the 'startup' time  */
@@ -160,8 +162,6 @@ bs_runloop(void)
 		chdir("basic");
 
 	getcwd(bs_basedir, sizeof(bs_basedir));
-
-	bs_init_screen();
 
 	bs_new();
 	bs_welcome();
@@ -216,6 +216,7 @@ bs_runloop(void)
 					bs_puts(MSG_(BS_M_EXIT_IN_DIRECT));
 					continue;
 				} else if (strncasecmp(s + n, "QUIT", n1) == 0) {
+					u_int64_t us1, us2;
 					if (gSourceTop > 0 && gSourceTouched) {
 						bs_puts(MSG_(BS_M_PROG_SAVE_YN));
 						if (bs_getline(s, sizeof s) <= 0 || (s[0] != 'y' && s[0] != 'Y'))
@@ -223,7 +224,15 @@ bs_runloop(void)
 					}
 					bs_puts(MSG_(BS_M_FINISHED));
 					bs_update_screen();
-					usleep(2000000);
+					usleep(1000000);
+					us1 = bs_uptime(0);
+					for (n = 20; n >= 0; n--) {
+						bs_fadeout(n);
+						us2 = bs_uptime(0);
+						if (us1 + 50000 > us2 + 20)
+							usleep(us1 + 50000 - us2);
+						us1 = us2;
+					}
 					break;
 				}
 			}
