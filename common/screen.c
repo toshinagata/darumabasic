@@ -781,8 +781,10 @@ bs_init_screen(void)
 	bs_redraw(0, 0, my_width, my_height);
 	
 	if (save_graphic_mode != 0) {
-		bs_gmode_platform(save_graphic_mode);
-		my_graphic_mode = save_graphic_mode;
+		if (my_fb_width >= 640 && my_fb_width >= 400) {
+			bs_gmode_platform(save_graphic_mode);
+			my_graphic_mode = save_graphic_mode;
+		}
 	}
 	
 	if (my_console == BS_CONSOLE_TTY) {
