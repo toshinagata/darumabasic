@@ -7,6 +7,7 @@ build_msw
 build_msw/build*
 build_raspi_bm/build*
 build_raspi_bm/kernel.img
+common/y.tab.*
 */.DS_Store
 .DS_Store
 _*
