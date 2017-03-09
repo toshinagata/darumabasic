@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml' lang='ja' xml:lang='ja'>
+<head>
+<meta lang='ja' xml:lang='ja' content='text/html;charset=utf-8' http-equiv='Content-Type' />
+<title>Daruma BASIC - 動かし方（超初心者向け：単体で動かす）</title>
+<script type="text/javascript" src="./branchcss.js"></script>
+<link href='index.html' rel='Start' />
+</head>
+<body>
+<a href="index.html"><img class="float_right" src="images/darumalogo172x72.png" /></a>
+<h1>Daruma BASIC - 動かし方<br />（超初心者向け：単体で動かす）</h1>
+<div class="end_header"></div>
+<p>
+Raspberry Pi を触ったことがなくて、Linux の知識も全くない人でも、Daruma BASIC を動かしてみることができます。
+</p>
+<h2>1. 必要なもの</h2>
+<p>「<a href="howtostart_beginner.html">ラズパイ初心者向け</a>」と同じですので、そちらを参照してください。</p>
+<ul>
+<li>(1) Raspberry Pi 本体</li>
+<li>(2) USB キーボード</li>
+<li>(3) HDMI ディスプレイとケーブル</li>
+<li>(4) micro SD カード</li>
+<li>(5) micro USB ケーブル</li>
+</ul>
+
+<h2>2. 手順</h2>
+<h3>(1) Daruma BASIC（単体で動かすバージョン）をダウンロードする</h3>
+<p>「<a href="https://github.com/toshinagata/darumabasic/releases/">ダウンロードページ</a>」で、<code>daruma_raspi_bm.zip</code> というファイルをダウンロードして、解凍してください。<code>boot</code> というフォルダができて、下のようなファイルが中に入っているはずです。
+<p><a href="images/baremetal1-1.png"><img src="images/baremetal1-1-thumb.png" /></a></p>
+
+<h3>(2) SD カードのフォーマット</h3>
+<p>
+<a href="https://www.sdcard.org/jp/downloads/formatter_4/">SD カードフォーマッタ</a>を使って、SD カードを初期化します。買ったばかりの SD カードで普通に読めるようになっているものでも、必ず一度この「正式な」フォーマッタを使って初期化するようにしましょう。カードの名前は "boot" にしておいてください。
+</p>
+<p><a href="images/beginner1-3.png"><img src="images/beginner1-3-thumb.png" /></a></p>
+
+<h3>(3) ファイルをコピーする</h3>
+<p>
+(1) の <code>boot</code> フォルダの中身を、すべて SD カードにコピーしてください。
+</p>
+
+<h3>(4) Config.txt の設定</h3>
+<p>
+書き込んだ SD カードを Raspberry Pi に差し込んで立ち上げればよいのですが、画面がうまく出ないことがあります。画面の設定は、SD カードの <code>boot</code> パーティション<sup>[1]</sup>にある <code>config.txt</code> というファイルに書き込まれているので、少し目を通しておきましょう。特に、HDMI ディスプレイについては、下のように修正しておくと、「画面に何も映らない」というトラブルが起こりにくくなります。
+</p>
+<pre><code># For more options and information see
+# http://www.raspberrypi.org/documentation/configuration/config-txt.md
+# Some settings may impact device functionality. See link above for details
+
+# uncomment if you get no picture on HDMI for a default "safe" mode
+hdmi_safe=1    <span class="comment">← 行頭の # を削除しておく</span>
+
+# uncomment this if your display has a black border of unused pixels visible
+# and your display can output without overscan
+#disable_overscan=1
+</code></pre>
+<p class="note">[1] <code>boot</code> パーティションがマウントされていなければ、一度 SD カードをカードリーダーから抜いて、さし直してください。</p>
+
+<h3>(5) 立ち上げ</h3>
+<p>
+Micro SD を Raspberry Pi に差し込み、HDMI ディスプレイと USB キーボードをつないで、micro USB ケーブルで給電します。まず、だるまの絵が出てきます。
+</p>
+<p><a href="images/baremetal1-2.png"><img src="images/baremetal1-2-thumb.png" /></a></p>
+<p>
+しばらく待つと、起動メッセージが表示されて、Daruma BASIC が使えるようになります。
+</p>
+<p><a href="images/baremetal1-3.png"><img src="images/baremetal1-3-thumb.png" /></a></p>
+
+<h2>3. 終了のやり方</h2>
+<p>
+Daruma BASIC 上で <code>quit</code> と打つと、終了メッセージが出て、画面がフェードアウトします。完全に表示が消えたら、そのまま電源を切って構いません。
+</p>
+
+<p>[ <a href="index.html">← トップページへ</a> ]</p>
+<p>[ <a href="https://github.com/toshinagata/darumabasic/releases/">ダウンロードページへ →</a> ]</p>
+</body>
+</html>
