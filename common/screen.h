@@ -121,6 +121,7 @@ extern void bs_unlock(void);
 extern int bs_select_active_buffer(int active);
 
 extern void bs_fadeout(int n);
+extern void bs_show_darumalogo(void);
 	
 enum {
 	TEXT_ACTIVE = 0,

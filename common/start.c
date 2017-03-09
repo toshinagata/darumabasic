@@ -148,12 +148,14 @@ bs_runloop(void)
 	int n;
 	int cont_flag = 0;
 	char *p;
-
+	u_int64_t ut;
+	
 	bs_init_screen();
+	bs_show_darumalogo();
+	bs_uptime(1);  /*  Set the 'startup' time  */
 	
 	bs_init_memory();
 	bs_read_fontdata("fontdata.bin");
-	bs_uptime(1);  /*  Set the 'startup' time  */
 	
 	if ((p = getenv("DARUMA_BASIC_DIR")) != NULL && *p != 0) {
 		n = chdir(p);
@@ -164,6 +166,15 @@ bs_runloop(void)
 	getcwd(bs_basedir, sizeof(bs_basedir));
 
 	bs_new();
+
+	ut = bs_uptime(0);
+	if (ut < 1000000) {
+		usleep(1000000 - ut);
+	}
+	
+	bs_select_active_buffer(GRAPHIC_ACTIVE);
+	bs_clear_box(0, 0, my_width, my_height);
+
 	bs_welcome();
 
 	n = -1;

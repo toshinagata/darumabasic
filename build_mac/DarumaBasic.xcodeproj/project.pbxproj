@@ -15,6 +15,7 @@
 		E40818751E4C9C9D0091B0BE /* cocoa_main.m in Sources */ = {isa = PBXBuildFile; fileRef = E460F7301CAA268B009AC6A6 /* cocoa_main.m */; };
 		E40819121E4CB63A0091B0BE /* basic in Resources */ = {isa = PBXBuildFile; fileRef = E408190F1E4CB63A0091B0BE /* basic */; };
 		E40819131E4CB6500091B0BE /* basic in CopyFiles */ = {isa = PBXBuildFile; fileRef = E408190F1E4CB63A0091B0BE /* basic */; };
+		E419EC6D1E7060B2003F91F3 /* darumalogo.c in Sources */ = {isa = PBXBuildFile; fileRef = E419EC6C1E7060B2003F91F3 /* darumalogo.c */; };
 		E41B28641E64681A00AA596E /* edit.c in Sources */ = {isa = PBXBuildFile; fileRef = E41B28541E64681A00AA596E /* edit.c */; };
 		E41B28651E64681A00AA596E /* execcode.c in Sources */ = {isa = PBXBuildFile; fileRef = E41B28551E64681A00AA596E /* execcode.c */; };
 		E41B28661E64681A00AA596E /* gencode.c in Sources */ = {isa = PBXBuildFile; fileRef = E41B28561E64681A00AA596E /* gencode.c */; };
@@ -56,6 +57,7 @@
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		8D1107320486CEB800E47090 /* DarumaBasic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DarumaBasic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E408190F1E4CB63A0091B0BE /* basic */ = {isa = PBXFileReference; lastKnownFileType = folder; name = basic; path = ../basic; sourceTree = SOURCE_ROOT; };
+		E419EC6C1E7060B2003F91F3 /* darumalogo.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = darumalogo.c; sourceTree = "<group>"; };
 		E41B28531E64681A00AA596E /* daruma.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = daruma.h; sourceTree = "<group>"; };
 		E41B28541E64681A00AA596E /* edit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = edit.c; sourceTree = "<group>"; };
 		E41B28551E64681A00AA596E /* execcode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = execcode.c; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 				E4C003EA1E585A6600F19D94 /* builtin_argtypes.h */,
 				E4C003EB1E585A6600F19D94 /* builtin.c */,
 				E41B28531E64681A00AA596E /* daruma.h */,
+				E419EC6C1E7060B2003F91F3 /* darumalogo.c */,
 				E41B28541E64681A00AA596E /* edit.c */,
 				E41B28551E64681A00AA596E /* execcode.c */,
 				E41B28561E64681A00AA596E /* gencode.c */,
@@ -327,6 +330,7 @@
 				E41B286D1E64681A00AA596E /* token.c in Sources */,
 				E41B286E1E64681A00AA596E /* transmessage.c in Sources */,
 				E41B286F1E64681A00AA596E /* uim_interface.c in Sources */,
+				E419EC6D1E7060B2003F91F3 /* darumalogo.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,7 +7,7 @@
 #  It assumes that the current directory is SOME_DIR
 
 C_SRCS = builtin.c gencode.c graph.c token.c edit.c execcode.c memory.c screen.c transmessage.c
-C_SRCS += start.c string.c y.tab.c
+C_SRCS += start.c string.c darumalogo.c y.tab.c
 
 SUBDIR := $(shell basename $(PWD))
 A_SRCS := $(patsubst %.c,../$(SUBDIR)/%.c,$(SRCS)) $(patsubst %.c,../common/%.c,$(C_SRCS))
