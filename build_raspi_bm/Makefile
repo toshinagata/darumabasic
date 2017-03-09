@@ -45,6 +45,7 @@ OTHER_DIRS = build/build_raspi
 kernel.img: $(A_OBJS) $(SYS_OBJS)
 	$(CXX) $(LDFLAGS) -Wl,-Map=build/$(SUBDIR)/kernel.map -o build/$(SUBDIR)/kernel.elf $(A_OBJS) $(SYS_OBJS) $(LIBS)
 	$(OBJCOPY) build/$(SUBDIR)/kernel.elf -O binary kernel.img
+	mkdir boot; cp _boot/* boot; cp kernel.img boot; tar cfz boot.tar.gz boot; rm -rf boot; mv -f boot.tar.gz ../binaries
 
 build/build_raspi:
 	mkdir -p build/build_raspi
