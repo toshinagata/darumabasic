@@ -45,7 +45,7 @@ OTHER_DIRS = build/build_raspi
 kernel.img: $(A_OBJS) $(SYS_OBJS)
 	$(CXX) $(LDFLAGS) -Wl,-Map=build/$(SUBDIR)/kernel.map -o build/$(SUBDIR)/kernel.elf $(A_OBJS) $(SYS_OBJS) $(LIBS)
 	$(OBJCOPY) build/$(SUBDIR)/kernel.elf -O binary kernel.img
-	mkdir boot; cp _boot/* boot; cp kernel.img boot; cp -R ../basic boot; cp ../common/fontdata.bin boot; tar cfj daruma_raspi_bm.tar.bz2 boot; rm -rf boot; mv -f daruma_raspi_bm.tar.bz2 ../binaries
+	mkdir boot; cp _boot/* boot; cp kernel.img boot; cp -R ../basic boot; cp ../common/fontdata.bin boot; zip -r daruma_raspi_bm.zip boot -x \*.DS_Store; rm -rf boot; mv -f daruma_raspi_bm.zip ../binaries
 
 build/build_raspi:
 	mkdir -p build/build_raspi
