@@ -152,6 +152,7 @@ bs_update_screen(void)
 	if (!my_suppress_update) {
 		if (s_redraw_x1 < s_redraw_x2 && s_redraw_y1 < s_redraw_y2) {
 			bs_draw_platform(NULL);
+			CLEAR_REDRAW;
 		}
 	}
 }
@@ -165,8 +166,8 @@ bs_draw_platform(void *ref)
 	
 	x1 = s_redraw_x1;
 	x2 = s_redraw_x2;
-	y1 = s_redraw_y1;
-	y2 = s_redraw_y2;
+	y1 = my_height - s_redraw_y2;
+	y2 = my_height - s_redraw_y1;
 
 	mx1 = my1 = 0;
 	mx2 = my_width;

@@ -17,8 +17,8 @@
 static pixel_t sPalette[65536];
 #endif
 
-static CGContextRef s_text_context, s_graphic_context, s_active_context;
-static pixel_t *s_text_pixels, *s_graphic_pixels;
+static CGContextRef s_text_context, s_graphic_context, s_active_context, s_composed_context;
+static pixel_t *s_text_pixels, *s_graphic_pixels, *s_composed_pixels;
 
 static int16_t s_redraw_x1, s_redraw_y1, s_redraw_x2, s_redraw_y2;
 
@@ -313,6 +313,10 @@ s_RegisterKeyDown(u_int16_t *ch)
 	}
 }
 
+/*  If true, then draw the screen with white background  */
+/*  (For creating manuals: black background is not friendly to printers  */
+static unsigned char s_reverse = 0;
+
 static void
 s_ScreenShot(void)
 {
@@ -323,6 +327,8 @@ s_ScreenShot(void)
 	NSAffineTransform *tr;
 	static int s_shotnum = 0;
 	NSRect rect = NSMakeRect(0, 0, my_width + 8, my_height + 8);
+	if ([[NSApp currentEvent] modifierFlags] & NSShiftKeyMask)
+		s_reverse = 1;
 	image = [[NSImage alloc] initWithSize:rect.size];
 	[image lockFocus];
 	[[NSColor blackColor] set];
@@ -331,6 +337,7 @@ s_ScreenShot(void)
 	[tr translateXBy:4 yBy:4];
 	[tr set];
 	bs_draw_platform(&rect);
+	s_reverse = 0;
 	[image unlockFocus];
 	tiffData = [image TIFFRepresentationUsingCompression:NSTIFFCompressionNone factor:1.0];
 	bitmapImageRep = [NSBitmapImageRep imageRepWithData:tiffData];
@@ -375,11 +382,16 @@ bs_init_screen_platform(void)
 	CGColorSpaceRef space = CGColorSpaceCreateDeviceRGB();
 	s_text_pixels = (pixel_t *)calloc(sizeof(pixel_t), my_fb_width * my_fb_height);
 	s_graphic_pixels = (pixel_t *)calloc(sizeof(pixel_t), my_fb_width * my_fb_height);
+	s_composed_pixels = (pixel_t *)calloc(sizeof(pixel_t), my_fb_width * my_fb_height);
 	s_text_context = CGBitmapContextCreate(s_text_pixels,
 										   my_fb_width, my_fb_height,
 										   8, 4 * my_fb_width, space,
 										   kCGImageAlphaPremultipliedLast);
 	s_graphic_context = CGBitmapContextCreate(s_graphic_pixels,
+											  my_fb_width, my_fb_height,
+											  8, 4 * my_fb_width, space,
+											  kCGImageAlphaPremultipliedLast);
+	s_composed_context = CGBitmapContextCreate(s_composed_pixels,
 											  my_fb_width, my_fb_height,
 											  8, 4 * my_fb_width, space,
 											  kCGImageAlphaPremultipliedLast);
@@ -430,8 +442,8 @@ bs_update_screen(void)
 		if (s_redraw_x1 < s_redraw_x2 && s_redraw_y1 < s_redraw_y2) {
 			NSRect aRect = NSMakeRect(s_redraw_x1, s_redraw_y1, s_redraw_x2 - s_redraw_x1, s_redraw_y2 - s_redraw_y1);
 			[s_graphView setNeedsDisplayInRect:aRect];
-			CLEAR_REDRAW;
 			[s_graphView displayIfNeeded];
+			CLEAR_REDRAW;
 		}
 	}
 }
@@ -440,10 +452,13 @@ void
 bs_draw_platform(void *ref)
 {
 	CGContextRef cref = [[NSGraphicsContext currentContext] graphicsPort];
-	CGRect r;
+	CGRect r, rr;
 	CGColorRef color;
 	CGImageRef image;
 	NSRect dirtyRect = *((NSRect *)ref);
+	int x, y, x1, y1, x2, y2, mx1, mx2, my1, my2, cx1, cx2, cy1, cy2, width, width2;
+	pixel_t tpix;
+	int32_t ofs, ofs2;
 	
 	color = CGColorCreateGenericRGB(0, 0, 0, 1);
 	CGContextSetFillColorWithColor(cref, color);
@@ -453,16 +468,61 @@ bs_draw_platform(void *ref)
 	if (s_text_context == (CGContextRef)0)
 		return;
 	CGContextSaveGState(cref);
-	r = CGRectMake(0, 0, my_fb_width, my_fb_height);
+	rr = CGRectMake(0, my_height - my_fb_height, my_fb_width, my_fb_height);
 
+	x1 = s_redraw_x1;
+	x2 = s_redraw_x2;
+	y1 = my_height - s_redraw_y2;
+	y2 = my_height - s_redraw_y1;
+	
+	mx1 = my1 = 0;
+	mx2 = my_width;
+	my2 = my_height;
+	
+	if (x1 < mx1)
+		x1 = mx1;
+	if (x2 > mx2)
+		x2 = mx2;
+	if (y1 < my1)
+		y1 = my1;
+	if (y2 > my2)
+		y2 = my2;
+	
+	if (my_show_cursor) {
+		cx1 = my_cursor_x * 8;
+		cx2 = cx1 + 8;
+		cy1 = my_cursor_y * 16;
+		cy2 = cy1 + 16;
+	} else cx1 = cx2 = cy1 = cy2 = -1;
+	
+	ofs = (my_fb_height - my_height + y1) * my_fb_width + x1;
+	ofs2 = y1 * my_fb_width + x1;
+	width = x2 - x1;
+	width2 = width;		
+	for (y = y1; y < y2; y++) {
+		for (x = x1; x < x2; x++) {
+			tpix = s_text_pixels[ofs];
+			if (tpix == 0 && x < cx2 && x >= cx1 && y < cy2 && y >= cy1)
+				tpix = RGBFLOAT(0.5, 0.5, 0.5);  /*  cursor color: 50% gray  */
+			if (tpix == 0)
+				tpix = s_graphic_pixels[ofs];
+			s_composed_pixels[ofs2] = tpix;
+			ofs++;
+			ofs2++;
+		}
+		ofs += my_fb_width - width;
+		ofs2 += my_fb_width - width2;
+	}
+		
 	/*  Only draw inside the 'visible' screen  */
 	CGContextClipToRect(cref, CGRectMake(0, 0, my_width, my_height));
 
 	/*  Draw graphic layer  */
-	image = CGBitmapContextCreateImage(s_graphic_context);
-	CGContextDrawImage(cref, r, image);
+	image = CGBitmapContextCreateImage(s_composed_context);
+	CGContextDrawImage(cref, rr, image);
 	CGImageRelease(image);
 	
+#if 0
 	/*  Draw text layer  */
 	CGContextBeginTransparencyLayer(cref, NULL);
 	image = CGBitmapContextCreateImage(s_text_context);
@@ -479,6 +539,7 @@ bs_draw_platform(void *ref)
 		CGColorRelease(color);
 	}
 	CGContextEndTransparencyLayer(cref);
+#endif
 	
 	CGContextRestoreGState(cref);
 }
@@ -597,9 +658,20 @@ bs_fadeout(int n)
 void
 bs_clear_box(int x, int y, int width, int height)
 {
+	int x2, y2;
+	if (width <= 0 || height <= 0)
+		return;
+	x2 = x + width - 1;
+	y2 = y + height - 1;
+	while (y <= y2) {
+		bs_hline(x, x2, y, 0);
+		y++;
+	}
+/*	
 	CGRect r = {x, y, width, height};
 	CGContextClearRect(s_active_context, r);
 	bs_redraw(x, y, width, height);
+*/
 }
 
 void
