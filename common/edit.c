@@ -91,13 +91,6 @@ typedef struct RowAttr {
 static RowAttr *s_row_attrs;
 #endif
 
-/*  Reserved words  */
-static char *s_bs_reserved_words[] = {
-	"and", "break", "do", "else", "elseif", "end",
-	"false", "for", "function", "goto", "if", "in",
-	"local", "nil", "not", "or", "repeat", "return",
-	"then", "true", "until", "while", NULL };
-
 /*  Height and width of the editing area  */
 /*  s_width = my_max_x - BS_X_OFFSET, s_height = my_max_y - 1  */
 static int s_height;
@@ -117,18 +110,6 @@ static void
 s_bs_show_error_info(const char *msg)
 {
 	s_bs_show_info(RGBFLOAT(0.5, 0, 0), 0xffff, msg);
-}
-
-static int
-s_bs_lookup_reserved_words(u_int8_t *p)
-{
-	int i;
-	i = sizeof(s_bs_reserved_words) / sizeof(s_bs_reserved_words[0]) - 1;
-	while (--i >= 0) {
-		if (strcmp((char *)p, s_bs_reserved_words[i]) == 0)
-			return i;
-	}
-	return -1;
 }
 
 /*  Set edit gap position; i.e. move the text after the given position to
