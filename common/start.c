@@ -177,6 +177,14 @@ bs_runloop(void)
 
 	bs_welcome();
 
+	/*  Internal error check  */
+	if (C_STOP >= 255) {
+		bs_puts("Internal Error: too many VM opecodes are defined");
+		bs_update_screen();
+		usleep(2000000);
+		return -1;
+	}
+	
 	n = -1;
 	fp = fopen("autorun.bas", "r");
 	if (fp != NULL) {
