@@ -12,6 +12,8 @@
 //  CoreGraphics header
 #include <ApplicationServices/ApplicationServices.h>
 
+extern pixel_t gSyntaxColors[];
+
 /*  Color palette  */
 #if BYTES_PER_PIXEL == 2
 static pixel_t sPalette[65536];
@@ -336,6 +338,7 @@ s_ScreenShot(void)
 	tr = [NSAffineTransform transform];
 	[tr translateXBy:4 yBy:4];
 	[tr set];
+	bs_redraw(0, 0, my_width, my_height);
 	bs_draw_platform(&rect);
 	s_reverse = 0;
 	[image unlockFocus];
@@ -460,7 +463,10 @@ bs_draw_platform(void *ref)
 	pixel_t tpix;
 	int32_t ofs, ofs2;
 	
-	color = CGColorCreateGenericRGB(0, 0, 0, 1);
+	if (s_reverse)
+		color = CGColorCreateGenericRGB(1, 1, 1, 1);
+	else
+		color = CGColorCreateGenericRGB(0, 0, 0, 1);
 	CGContextSetFillColorWithColor(cref, color);
 	r = CGRectMake(dirtyRect.origin.x, dirtyRect.origin.y, dirtyRect.size.width, dirtyRect.size.height);
 	CGContextFillRect(cref, r);
@@ -502,10 +508,23 @@ bs_draw_platform(void *ref)
 	for (y = y1; y < y2; y++) {
 		for (x = x1; x < x2; x++) {
 			tpix = s_text_pixels[ofs];
-			if (tpix == 0 && x < cx2 && x >= cx1 && y < cy2 && y >= cy1)
-				tpix = RGBFLOAT(0.5, 0.5, 0.5);  /*  cursor color: 50% gray  */
+			if (tpix == 0 && x < cx2 && x >= cx1 && y < cy2 && y >= cy1) {
+				if (s_reverse == 0)
+					tpix = RGBFLOAT(0.5, 0.5, 0.5);  /*  cursor color: 50% gray  */
+			}
 			if (tpix == 0)
 				tpix = s_graphic_pixels[ofs];
+			if (s_reverse) {
+				int r, g, b;
+				if (tpix == gSyntaxColors[9])
+					tpix = RGBFLOAT(0.2, 0.2, 0.2);
+				else if (tpix == gSyntaxColors[8])
+					tpix = RGBFLOAT(0.7, 0.5, 0.8);
+				r = REDCOMPINTMAX - REDCOMPINT(tpix);
+				g = GREENCOMPINTMAX - GREENCOMPINT(tpix);
+				b = BLUECOMPINTMAX - BLUECOMPINT(tpix);
+				tpix = RGBAINT(r, g, b, ALPHACOMPINTMAX);
+			}
 			s_composed_pixels[ofs2] = tpix;
 			ofs++;
 			ofs2++;

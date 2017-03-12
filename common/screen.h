@@ -38,9 +38,9 @@ typedef u_int16_t  pixel_t;
 #define GREENCOMPINT(pix) (((pix) >> 5) & 63)
 #define BLUECOMPINT(pix) ((pix) & 31)
 #define ALPHACOMPINT(pix) (1)
-#define REDCOMPINTMAX 32
-#define GREENCOMPINTMAX 64
-#define BLUECOMPINTMAX 32
+#define REDCOMPINTMAX 31
+#define GREENCOMPINTMAX 63
+#define BLUECOMPINTMAX 31
 #define ALPHACOMPINTMAX 1
 #define REDCOMPONENT(pix) (REDCOMPINT(pix) / 31.0)
 #define GREENCOMPONENT(pix) (GREENCOMPINT(pix) / 63.0)
@@ -61,10 +61,10 @@ typedef u_int32_t   pixel_t;
 #define GREENCOMPINT(pix) (((pix) >> 8) & 255)
 #define BLUECOMPINT(pix) (((pix)) & 255)
 #define ALPHACOMPINT(pix) (((pix) >> 24) & 255)
-#define REDCOMPINTMAX 256
-#define GREENCOMPINTMAX 256
-#define BLUECOMPINTMAX 256
-#define ALPHACOMPINTMAX 256
+#define REDCOMPINTMAX 255
+#define GREENCOMPINTMAX 255
+#define BLUECOMPINTMAX 255
+#define ALPHACOMPINTMAX 255
 #define REDCOMPONENT(pix) (REDCOMPINT(pix) / 255.0)
 #define GREENCOMPONENT(pix) (GREENCOMPINT(pix) / 255.0)
 #define BLUECOMPONENT(pix) (BLUECOMPINT(pix) / 255.0)
@@ -80,10 +80,10 @@ typedef u_int32_t   pixel_t;
 #define GREENCOMPINT(pix) (((pix) >> 8) & 255)
 #define BLUECOMPINT(pix) (((pix) >> 16) & 255)
 #define ALPHACOMPINT(pix) (((pix) >> 24) & 255)
-#define REDCOMPINTMAX 256
-#define GREENCOMPINTMAX 256
-#define BLUECOMPINTMAX 256
-#define ALPHACOMPINTMAX 256
+#define REDCOMPINTMAX 255
+#define GREENCOMPINTMAX 255
+#define BLUECOMPINTMAX 255
+#define ALPHACOMPINTMAX 255
 #define REDCOMPONENT(pix) (REDCOMPINT(pix) / 255.0)
 #define GREENCOMPONENT(pix) (GREENCOMPINT(pix) / 255.0)
 #define BLUECOMPONENT(pix) (BLUECOMPINT(pix) / 255.0)

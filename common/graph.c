@@ -1000,9 +1000,9 @@ s_bs_builtin_patdraw_sub(Int n, Int x1, Int y1, pixel_t mask, int eraseflag)
 		if (eraseflag == 0) {
 			if (col != 0 && mask != (BYTES_PER_PIXEL == 2 ? 0xffff : 0xffffffff)) {
 				pixel_t r, g, b, a;
-				r = REDCOMPINT(col) * REDCOMPINT(mask) / (REDCOMPINTMAX - 1);
-				g = GREENCOMPINT(col) * GREENCOMPINT(mask) / (GREENCOMPINTMAX - 1);
-				b = BLUECOMPINT(col) * BLUECOMPINT(mask) / (BLUECOMPINTMAX - 1);
+				r = REDCOMPINT(col) * REDCOMPINT(mask) / REDCOMPINTMAX;
+				g = GREENCOMPINT(col) * GREENCOMPINT(mask) / GREENCOMPINTMAX;
+				b = BLUECOMPINT(col) * BLUECOMPINT(mask) / BLUECOMPINTMAX;
 				a = ALPHACOMPINT(col);
 				col = RGBAINT(r, g, b, a);
 			}
