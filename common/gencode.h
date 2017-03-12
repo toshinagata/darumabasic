@@ -113,20 +113,24 @@ enum {
 	C_SMOVE_STR,
 	
 	/*  Release the string value in the stack area at the given offset (negative)  */
-	C_RELSTR_SP,
-	
-	C_RELSTR,   /*  Release string values in the frame and replace with NULL  */
+	C_RELSTR_SP,	
+/*	C_RELSTR,   *//*  Release string values in the frame and replace with NULL  */
 
 	/*  Stack operations  */
 	C_DUP_REF,  /*  Duplicate the stack top as an offset  */
 	C_INC_SP,   /*  One operand: add N to the stack pointer  */
 
+	C_EXCHANGE, /*  Exchange the top two values on the stack; the 1-byte operand
+				    denotes the types of the two values; bits 0-2 are for the top
+				    value, and bits 3-5 are for the second value. (1:int, 2:flt, 3:ref) */
+#if 0
 	C_POP,  /*  Throw away the stack top  */
 	C_POPN,  /*  One operand: throw away N elements from the stack top  */
 	C_PUSH,  /*  Push null to the stack top  */
 	C_PUSHN, /*  One operand: push N nulls to the stack top  */
 	C_EXCHANGE, /*  Exchange the top two values on the stack  */
-
+#endif
+	
 	/*  Frame pointer operations  */
 	/*  Prepare a new frame: push the frame pointer and copy the current
 	    stack pointer to the frame pointer  */
@@ -222,7 +226,7 @@ enum {
 	C_READ_STR,
 	C_RESTORE,      /*  One operand (progpos)  */
 	
-	/*  DATA/CDATA statements  */
+	/*  DATA/CDATA statements (only appears in the DATA section)  */
 	C_DATA,         /*  Begin data  */
 	C_CDATA,        /*  Begin byte data  */
 	

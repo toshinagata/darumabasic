@@ -94,14 +94,9 @@ static const struct {
 	{ "SMOVE_FLT", 1 },
 	{ "SMOVE_STR", 1 },
 	{ "RELSTR_SP", 1 },
-	{ "RELSTR", 1 },
 	{ "DUP_REF", 0 },
 	{ "INC_SP", 1 },
-	{ "POP", 0 },
-	{ "POPN", 1 },
-	{ "PUSH", 0 },
-	{ "PUSHN", 1 },
-	{ "EXCHANGE", 0 },
+	{ "EXCHANGE", 1 },
 	{ "LINK", 1 },
 	{ "RETURN", 0 },
 	{ "RET_INT", 0 },
@@ -711,9 +706,9 @@ bs_generate_op2(int vtype1, int vtype2, int op)
 		vtype2 = BS_TYPE_FLOAT;
 	} else if (vtype1 == BS_TYPE_INTEGER && vtype2 == BS_TYPE_FLOAT) {
 		/*  Promote int to float (first operand)  */ 
-		bs_code0(C_EXCHANGE);
+		bs_code1(C_EXCHANGE, (BS_TYPE_INTEGER << 3) + BS_TYPE_FLOAT);
 		bs_code0(C_INT_TO_FLT);
-		bs_code0(C_EXCHANGE);
+		bs_code1(C_EXCHANGE, (BS_TYPE_FLOAT << 3) + BS_TYPE_FLOAT);
 		vtype1 = BS_TYPE_FLOAT;
 	}
 	if (vtype1 != vtype2) {

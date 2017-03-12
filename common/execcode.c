@@ -686,9 +686,9 @@ loop:
 			*((Off_t *)(sVMStackPtr + i2)) = sval;
 			break;
 
-		case C_RELSTR:
+		case C_RELSTR_SP:
 			sVMCodePos = bs_load_operand(sVMCodePos, &ival);
-			bs_release_string(*((Off_t *)(sVMFramePtr + ival)));
+			bs_release_string(*((Off_t *)(sVMStackPtr + ival)));
 			break;
 			
 #pragma mark ------ Stack operations ------
@@ -702,6 +702,16 @@ loop:
 			sVMCodePos = bs_load_operand(sVMCodePos, &ival);
 			sVMStackPtr += ival;
 			break;
+
+		case C_EXCHANGE:
+			sVMCodePos = bs_load_operand(sVMCodePos, &ival);
+			i2 = gTypeSize[ival & 7];
+			i3 = gTypeSize[(ival >> 3) & 7];
+			memmove(buf, sVMStackPtr - (i2 + i3), i2 + i3);
+			memmove(sVMStackPtr - (i2 + i3), buf + i3, i2);
+			memmove(sVMStackPtr - i3, buf, i3);
+			break;
+			
 #if 0
 		case C_POP:
 			gStackPtr--;
@@ -719,13 +729,6 @@ loop:
 				*gStackPtr++ = gZeroTokenValue;
 			}
 			break;
-		case C_EXCHANGE:
-		{
-			TokenValue tval = gStackPtr[-1];
-			gStackPtr[-1] = gStackPtr[-2];
-			gStackPtr[-2] = tval;
-			break;
-		}
 #endif /* 0 */
 			
 #pragma mark ------ Frame pointer operations ------
