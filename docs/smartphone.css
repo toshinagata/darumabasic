@@ -10,3 +10,8 @@ body {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
+
+.daruma_logo {
+  max-width: 87px;
+  height: auto;
+}
