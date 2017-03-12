@@ -26,8 +26,8 @@ pre code {
 	display: block;
 	overflow-x: auto;
 	margin: 1ex 1em 1ex 1em;
-	background-color: #004;
-	color: #ffc;
+	background-color: white;
+	color: black;
 	font-family: Osaka-mono, "Osaka-等幅", Consolas, Monaco, monospace;
 	padding: 0.5ex 0.5em;
 	line-height: 1.2;
@@ -86,22 +86,22 @@ span.note {
 
 span.modified {
 	color: #990000;
-	background-color: #ddeedd;
 }
 
 span.typein {
-	color: #0000ff;
-	background-color: #ddeedd;
+	color: #0000cc;
 }
 
 span.typeout {
 	color: #cc0000;
-	background-color: #ddeedd;
+}
+
+span.errorout {
+	color: #ee0000;
 }
 
 span.comment {
 	color: #990066;
-	background-color: #ddeedd;
 }
 
 hr {

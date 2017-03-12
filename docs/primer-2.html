@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml' lang='ja' xml:lang='ja'>
+<head>
+<meta lang='ja' xml:lang='ja' content='text/html;charset=utf-8' http-equiv='Content-Type' />
+<title>Daruma BASIC 入門 (2) - 変数を使う</title>
+<script type="text/javascript" src="./branchcss.js"></script>
+<link href='index.html' rel='Start' />
+</head>
+<body>
+<a href="index.html"><img class="float_right" src="images/darumalogo172x72.png" /></a>
+<h1>Daruma BASIC 入門 (2) - 変数を使う</h1>
+<div class="end_header"></div>
+<p>
+算数や数学で、ある数を文字で表すことがあります。「１個100円のドーナツを N 個買ったら、代金は 100×N 円になります」という具合です。この考え方は、プログラミングでも基本になります。やってみましょう。ここでも、整数のみを使うことにします。
+</p>
+<p>
+数を表すための文字のことを「変数」と呼びます。変数に数を入れるには、次のように「等しい」記号を使います。
+</p>
+<pre><code>&gt;&gt; <span class="typein">A=1</span>
+</code></pre>
+<p>
+<code>A</code> が変数の名前です。上のように書くと、BASIC に対して「<code>A</code> という変数に <code>1</code> という値を入れなさい」と指示していることになります。
+</p>
+<p>
+次に、<code>PRINT A</code> とタイプして ENTER を押すと、<code>A</code> の値 <code>1</code> が表示されます。
+</p>
+<pre><code>&gt;&gt; <span class="typein">PRINT A</span>
+<span class="typeout">1</span>
+</code></pre>
+<p>
+続けて、<code>A</code> に別の値を入れて試してみます。
+</p>
+<pre><code>&gt;&gt; <span class="typein">A=3</span>
+&gt;&gt; <span class="typein">PRINT A</span>
+<span class="typeout">3</span>
+</code></pre>
+<p>
+変数を式の中で使うこともできます。
+</p>
+<pre><code>&gt;&gt; <span class="typein">A=4</span>
+&gt;&gt; <span class="typein">B=A+8</span>
+&gt;&gt; <span class="typein">PRINT B</span>
+<span class="typeout">12</span>
+</code></pre>
+<p>
+算数や数学のときと違って、文字の前後の「かけ算記号」を省略することはできません。「3かけるA」を表すには、<code>3A</code> ではなく、<code>3*A</code> と書かなくてはなりません。
+</p>
+<pre><code>&gt;&gt; <span class="typein">A=4</span>
+&gt;&gt; <span class="typein">PRINT 3*A</span>
+<span class="typeout">12</span>
+&gt;&gt; <span class="typein">PRINT 3A</span>
+<span class="errorout">文法エラー: VARNAMEは誤り,これが来るはず:'\n',':'</span>
+<span class="typeout">1行: PRINT 3A</span><span class="errorout">(???)</span>
+</code></pre>
+<p class="note">
+エラーメッセージが意味不明ですが、これは「3の後ろに変数名 (VARNAME) が来るのはおかしい、改行 ('\n') かコロン ':' が来ないといけない」という意味です。
+</p>
+<p>
+同じように、「AかけるB」は、<code>AB</code> ではなく、<code>A*B</code> です。
+</p>
+<pre><code>&gt;&gt; <span class="typein">A=4</span>
+&gt;&gt; <span class="typein">B=5</span>
+&gt;&gt; <span class="typein">PRINT A*B</span>
+<span class="typeout">20</span>
+&gt;&gt; <span class="typein">PRINT AB</span>
+<span class="errorout">ABは未定義です</span>
+<span class="typeout">1行: PRINT AB</span><span class="errorout">(???)</span>
+</code></pre>
+<p class="note">
+このエラーメッセージは先ほどのよりも少しはマシです。<code>AB</code> が「AかけるB」の意味ではなくて、「ABという変数」と解釈されてしまい、それはまだ値が決められていない、というエラーになっているわけです。
+</p>
+<p>
+カンのいい人は、上のエラーの例から、「変数の名前は２文字以上でもいいんだな」ということに気がつくでしょう。その通りです。変数名は 32 文字まで OK です。ただし、先頭の文字はアルファベットでなくてはならず、２文字目以降はアルファベットか数字でないといけません。なお、<code>PRINT</code> などの命令語と同様に、大文字と小文字は区別されません。
+</p>
+<pre><code>&gt;&gt; <span class="typein">A=4</span>
+&gt;&gt; <span class="typein">A2=5</span>
+&gt;&gt; <span class="typein">PRINT A</span>
+<span class="typeout">4</span>
+&gt;&gt; <span class="typein">PRINT A*A2</span>
+<span class="typeout">20</span>
+&gt;&gt; <span class="typein">print a+a2</span>
+<span class="typeout">9</span>
+</code></pre>
+
+<p>[ <a href="index.html">← トップページへ</a> ]</p>
+<p>[ <a href="https://github.com/toshinagata/darumabasic/releases/">ダウンロードページへ →</a> ]</p>
+</body>
+</html>

@@ -17,7 +17,7 @@
 <p>
 次のようにタイプしてみてください。行の終わりには ENTER キーを押します。
 </p>
-<pre><code>PRINT 5+2
+<pre><code>&gt;&gt; <span class="typein">PRINT 5+2</span>
 </code></pre>
 <p>
 「7」と答えが表示されます。画面では下のようになります。
@@ -27,22 +27,40 @@
 <code>PRINT</code> は、「後に置かれた式の値を表示する」ための命令です。<code>print</code> と小文字で書いても構いません。（<code>PriNt</code> のように大文字と小文字を混ぜて書いても動きますが、こういう書き方はみっともないのでやめましょう。）
 </p>
 <p>
-たし算だけでなく、ひき算・かけ算・わり算がすべて使えます。普通の算数と違って、かけ算は <code>*</code>、わり算は <code>/</code> という記号を使います。
+たし算だけでなく、ひき算・かけ算・わり算がすべて使えます。普通の算数と違って、かけ算は <code>*</code>、わり算は <code>/</code> という記号を使います。整数のわり算では、余りは切り捨てになります。
 </p>
-<p><img src="images/primer1-2.png" /></p>
+<pre><code>&gt;&gt; <span class="typein">PRINT 5+2</span>
+<span class="typeout">7</span>
+&gt;&gt; <span class="typein">PRINT 5-2</span>
+<span class="typeout">3</span>
+&gt;&gt; <span class="typein">PRINT 5*2</span>
+<span class="typeout">10</span>
+&gt;&gt; <span class="typein">PRINT 5/2</span>
+<span class="typeout">2</span>
+</code></pre>
 <p>
-<code>%</code> で、「わり算の余り」を求めることができます。プログラミングではよく出てきます。
+「わり算の余り」は、<code>%</code> で求めることができます。プログラミングではよく出てきます。
 </p>
-<p><img src="images/primer1-3.png" /></p>
+<pre><code>&gt;&gt; <span class="typein">PRINT 5%2</span>
+<span class="typeout">1</span>
+</code></pre>
 <p>
 カッコを使って複雑な式を書くこともできます。カッコは二重、三重、…になっても構いません。
 </p>
-<p><img src="images/primer1-4.png" /></p>
+<pre><code>&gt;&gt; <span class="typein">PRINT (2+3)*4</span>
+<span class="typeout">20</span>
+&gt;&gt; <span class="typein">PRINT ((2+3)*4+5)*4</span>
+<span class="typeout">100</span>
+</code></pre>
 <p>
 わり算や余りの計算で、わる数が０になると、エラーが発生します。<sup>[1]</sup>
 </p>
 <p class="note">[1] バージョン pre 2 以降。最初のバージョンでは Daruma BASIC が異常終了していました。</p>
-<p><img src="images/primer1-5.png" /></p>
+<pre><code>&gt;&gt; <span class="typein">PRINT 5/0</span>
+<span class="errorout">ゼロで割ることはできません</span>
+&gt;&gt; <span class="typein">PRINT 3%(5-3-2)</span>
+<span class="errorout">ゼロで割ることはできません</span>
+</code></pre>
 
 <p>[ <a href="index.html">← トップページへ</a> ]</p>
 <p>[ <a href="https://github.com/toshinagata/darumabasic/releases/">ダウンロードページへ →</a> ]</p>
