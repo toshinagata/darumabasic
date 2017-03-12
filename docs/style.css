@@ -104,6 +104,13 @@ span.comment {
 	color: #990066;
 }
 
+div.copyright {
+	border-top: solid thin #aaa;
+	padding-top: 10px;
+	font-size: small;
+	text-align: center;
+}
+
 hr {
 }
 
