@@ -1,5 +1,5 @@
 body {
-  max-width: none;
+  max-width: 95%;
   margin-top: 0;
   margin-bottom: 0;
   padding: 6px 20px;
@@ -9,6 +9,11 @@ body {
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
 }
 
 .daruma_logo {
