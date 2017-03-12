@@ -414,13 +414,13 @@ print_keyword: BS_PRINT
 
 print_statement: print_keyword print_arguments { bs_code0(C_NEWLINE); }
 | print_keyword print_arguments ';'
-| print_keyword print_arguments ',' { bs_code1(C_PUTC, ' '); }
+| print_keyword print_arguments ',' { bs_code1(C_PUTC, '\t'); }
 ;
 
 print_arguments:
 | print_one_argument
 | print_arguments ';' print_one_argument
-| print_arguments ',' { bs_code1(C_PUTC, ' '); } print_one_argument
+| print_arguments ',' { bs_code1(C_PUTC, '\t'); } print_one_argument
 ;
 
 print_one_argument: expr {
