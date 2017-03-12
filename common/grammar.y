@@ -29,7 +29,7 @@
 %token BS_RETURN BS_EXIT
 %token BS_ENDPROC BS_ENDFUNC
 %token BS_DIM
-%token BS_PRINT BS_LET BS_LOCAL BS_CALL
+%token BS_PRINT BS_INPUT BS_LET BS_LOCAL BS_CALL
 %token BS_BREAK BS_CONTINUE
 %token BS_DATA BS_CDATA BS_READ BS_RESTORE
 %token BS_END
@@ -324,6 +324,7 @@ inline_statement: assign_statement
 | let_statement
 | dim_statement
 | print_statement
+| input_statement
 | call_statement
 | read_statement
 | local_statement
@@ -429,6 +430,22 @@ print_one_argument: expr {
 		case BS_TYPE_STRING:  bs_code0(C_PRINT_STR); break;
 	}
 }
+;
+
+/*  INPUT statement  */
+input_statement: BS_INPUT {
+	Off_t sval = bs_new_literal_string("? ", -1);
+	if (sval == kInvalidOff) {
+		bs_error(MSG_(BS_M_OUT_OF_MEMORY_INPUT));
+		YYERROR;
+	}
+	bs_code1(C_PUSH_STRL, (sval & ~kMSBOff));
+	bs_code0(C_PRINT_STR);
+} new_lvalue { if (bs_generate_input($3.type) < 0) YYERROR; }
+| BS_INPUT BS_STRING {
+	if (($$.type = bs_generate_const_expr(&($2))) < 0) YYERROR;
+	bs_code0(C_PRINT_STR);
+} ',' new_lvalue { if (bs_generate_input($5.type) < 0) YYERROR; }
 ;
 
 /*  CALL statement  */

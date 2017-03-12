@@ -70,6 +70,8 @@ static const struct {
 	{ "NOT_INT", 0 },
 	{ "FLT_TO_INT", 0 },
 	{ "INT_TO_FLT", 0 },
+	{ "STR_TO_INT", 0 },
+	{ "STR_TO_FLT", 0 },
 	{ "LOAD_INT", 0 },
 	{ "LOAD_BYTE", 0 },
 	{ "LOAD_FLT", 0 },
@@ -119,6 +121,7 @@ static const struct {
 	{ "PRINT_INT", 0 },
 	{ "PRINT_FLT", 0 },
 	{ "PRINT_STR", 0 },
+	{ "INPUT", 0 },
 	{ "DEF_DIM_INT", 1 },
 	{ "DEF_DIM_FLT", 1 },
 	{ "DEF_DIM_STR", 1 },
@@ -1946,6 +1949,29 @@ bs_generate_read_and_store(int store_type)
 		case BS_TYPE_STRING + BS_TYPE_LOCAL:  bs_code0(C_READ_STR); bs_code0(C_FSTORE_STR); break;
 		default:
 			bs_error(MSG_(BS_M_UNKNOWN_TYPE_READ));
+			return -1;
+	}
+	return store_type % BS_TYPE_LOCAL;
+}
+
+#if 0
+#pragma mark ====== INPUT ======
+#endif
+
+/*  Generate INPUT  */
+int
+bs_generate_input(int store_type)
+{
+	bs_code0(C_INPUT);
+	switch (store_type) {
+		case BS_TYPE_INTEGER: bs_code0(C_STR_TO_INT); bs_code0(C_STORE_INT); break;
+		case BS_TYPE_FLOAT:   bs_code0(C_STR_TO_FLT); bs_code0(C_STORE_FLT); break;
+		case BS_TYPE_STRING:  bs_code0(C_STORE_STR); break;
+		case BS_TYPE_INTEGER + BS_TYPE_LOCAL: bs_code0(C_STR_TO_INT); bs_code0(C_FSTORE_INT); break;
+		case BS_TYPE_FLOAT + BS_TYPE_LOCAL:   bs_code0(C_STR_TO_FLT); bs_code0(C_FSTORE_FLT); break;
+		case BS_TYPE_STRING + BS_TYPE_LOCAL:  bs_code0(C_FSTORE_STR); break;
+		default:
+			bs_error(MSG_(BS_M_UNKNOWN_TYPE_INPUT));
 			return -1;
 	}
 	return store_type % BS_TYPE_LOCAL;

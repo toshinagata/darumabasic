@@ -330,6 +330,18 @@ const char *err_msg[] = {
 	
 	/* BS_M_UNRECOGNIZED_CHAR */
 	"Unrecognized character %c(0x%02x)",
+	
+	/* BS_M_OUT_OF_MEMORY_INPUT */
+	"Out of memory during INPUT",
+	
+	/* BS_M_STRING_EXPECTED_INPUT */
+	"String expected as INPUT message",
+	
+	/* BS_M_UNKNOWN_TYPE_INPUT */
+	"Unknown type in INPUT",
+
+	/* BS_M_BAD_CHARACTER_AS_NUMBER */
+	"Invalid character as number:%c (%02X)",
 
 };
 
@@ -652,6 +664,17 @@ const char *translated_err_msg[] = {
 	/* BS_M_UNRECOGNIZED_CHAR */
 	"不正な文字です %c(0x%02x)",
 
+	/* BS_M_OUT_OF_MEMORY_INPUT */
+	"INPUTの実行時にメモリ不足になりました",
+	
+	/* BS_M_STRING_EXPECTED_INPUT */
+	"INPUTのメッセージは文字列が必要です",
+	
+	/* BS_M_UNKNOWN_TYPE_INPUT */
+	"INPUT文の変数の型が違います",
+	
+	/* BS_M_BAD_CHARACTER_AS_NUMBER */
+	"数値にできない文字があります:%c (%02X)",
 };
 
 

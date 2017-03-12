@@ -12,6 +12,7 @@
 #include <stdarg.h>
 #include <string.h>
 #include <math.h>
+#include <ctype.h>
 
 #include <signal.h>    /*  sigaction()  */
 #include <sys/time.h>  /*  setitimer()  */
@@ -557,7 +558,27 @@ loop:
 			sVMStackPtr += sizeof(Float) - sizeof(Int);
 			sVMStackFloatPtr[-1] = dval;
 			break;
-
+		case C_STR_TO_INT:
+			sval = sVMStackOffPtr[-1];
+			up = (u_int8_t *)bs_get_string_ptr(sval);
+			sVMStackPtr += sizeof(Off_t) - sizeof(Int);
+			sVMStackIntPtr[-1] = strtol((char *)up, ((char **)&up), 0);
+			if (*up != 0 && !isspace(*up))
+				goto bad_character_as_number;
+			break;
+		case C_STR_TO_FLT:
+			sval = sVMStackOffPtr[-1];
+			up = (u_int8_t *)bs_get_string_ptr(sval);
+			sVMStackPtr += sizeof(Off_t) - sizeof(Float);
+			sVMStackFloatPtr[-1] = strtod((char *)up, ((char **)&up));
+			if (*up != 0 && !isspace(*up)) {
+			bad_character_as_number:
+				bs_runtime_error(MSG_(BS_M_BAD_CHARACTER_AS_NUMBER), (*up < ' ' ? ' ' : *up), *up);
+				retval = 1;
+				goto exit;
+			}
+			break;
+			
 #pragma mark ------ Indirect addressing ------
 	/*  Indirect addressing: pop an address from the stack and push the content of the address */
 		case C_LOAD_INT:
@@ -892,6 +913,29 @@ loop:
 			sVMStackPtr -= sizeof(Off_t);
 			bs_puts(bs_get_string_ptr(sval));
 			bs_release_string(sval);
+			break;
+		case C_INPUT:
+			if (gVarEnd - gVarTop < 1024) {
+				if (bs_realloc_block(MEM_VAR, gVarEnd - gVarBase + 1024) < 0) {
+					bs_runtime_error(MSG_(BS_M_OUT_OF_MEMORY_INPUT));
+					retval = 1;
+					goto exit;
+				}
+			}
+			bs_update_screen();
+			if (bs_getline((char *)gVarBasePtr + gVarTop, 1024) < 0) {
+				bs_runtime_error(MSG_(BS_M_USER_INTERRUPT));
+				retval = 2;
+				goto exit;
+			}
+			sval = bs_new_runtime_string((char *)gVarBasePtr + gVarTop, -1);
+			if (sval == kInvalidOff) {
+				bs_runtime_error(MSG_(BS_M_OUT_OF_MEMORY_INPUT));
+				retval = 1;
+				goto exit;
+			}
+			sVMStackOffPtr[0] = sval;
+			sVMStackPtr += sizeof(Off_t);
 			break;
 
 #pragma mark ------ DIM-related instructions ------

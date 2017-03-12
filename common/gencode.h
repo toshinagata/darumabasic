@@ -75,6 +75,8 @@ enum {
 	C_NOT_INT,
 	C_FLT_TO_INT,
 	C_INT_TO_FLT,
+	C_STR_TO_INT,
+	C_STR_TO_FLT,
 	
 	/*  Indirect addressing: pop an address from the stack and push the content of the address */
 	C_LOAD_INT,
@@ -182,6 +184,7 @@ enum {
 	C_PRINT_INT,   /*  Print stack top as an integer  */
 	C_PRINT_FLT,   /*  Print stack top as a float  */
 	C_PRINT_STR,   /*  Print stack top as a string  */
+	C_INPUT,       /*  Input a single line and push it as a string  */
 	
 	/*  DIM-related instructions  */
 	/*  DEF_DIM_XXX: pop the dimension size information from the stack, set to the
@@ -331,6 +334,8 @@ extern int bs_generate_cdata(TokenValue *tp);
 extern int bs_close_data_statement(void);
 extern int bs_generate_restore(int labelidx);
 extern int bs_generate_read_and_store(int store_type);
+
+extern int bs_generate_input(int store_type);
 
 #if 0
 #pragma mark ====== Execution ======

@@ -77,11 +77,16 @@ bs_run(const u_int8_t *ptr, int new_run, int direct_mode)
 	
 	bs_start_parser_on_memory(ptr, new_run);
 
+	{
+		extern int yydebug;
+		yydebug = 0;
+	}
+	
 	gRunMode = BS_RUNMODE_PARSE;
 	n = yyparse();
 	gRunMode = BS_RUNMODE_NONE;
 	
-#if 1
+#if 0
 	/*  For debug  */
 	bs_dump_vmcode(save_vmcode, 1000);
 #endif
