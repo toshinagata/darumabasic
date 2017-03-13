@@ -423,7 +423,7 @@ bs_puts_utf8or16(const char *s, int is_utf16)
 			/*  relocate cursor  */
 			bs_locate(cx, cy);
 			if (my_console == BS_CONSOLE_TTY)
-				usleep(1000);
+				bs_usleep(1000);
 		}
 	}
 	my_cursor_x = cx;
@@ -800,7 +800,7 @@ bs_init_screen(void)
 				ch = bs_getch(0);
 				if (ch != 0)
 					break;
-				usleep(10000);
+				bs_usleep(10000);
 			}
 			if (j < 0) {
 				buf[i] = 0;

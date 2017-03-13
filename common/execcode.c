@@ -13,10 +13,11 @@
 #include <string.h>
 #include <math.h>
 #include <ctype.h>
+#include <errno.h>
 
 #include <signal.h>    /*  sigaction()  */
 #include <sys/time.h>  /*  setitimer()  */
-#include <unistd.h>    /*  usleep()     */
+/*#include <unistd.h>    *//*  usleep()     */
 
 #include "daruma.h"
 #include "gencode.h"
@@ -137,6 +138,20 @@ bs_uptime(int init)
 	if (init)
 		s_start_timeval = tval;
 	return ((u_int64_t)(tval.tv_sec - s_start_timeval.tv_sec)) * 1000000 + tval.tv_usec - s_start_timeval.tv_usec;
+}
+
+void
+bs_usleep(u_int32_t usec)
+{
+#if defined(__BAREMETAL__)
+	usleep(usec);
+#else
+	struct timespec req, rem;
+	req.tv_sec = usec / 1000000;
+	req.tv_nsec = (usec % 1000000) * 1000;
+	while (nanosleep(&req, &rem) == -1 && errno == EINTR)
+		req = rem;
+#endif
 }
 
 #if 0
@@ -1270,7 +1285,7 @@ loop:
 				/*  Wait for some time  */
 				if (ival > 1000)
 					ival = 1000;
-				usleep(ival);
+				bs_usleep(ival);
 				sVMCodePos--;  /*  Execute this code again  */
 			} else {
 				sVMStackPtr -= sizeof(Int);

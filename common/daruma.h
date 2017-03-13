@@ -539,5 +539,6 @@ extern void bs_error(const char *fmt, ...);
 extern int bs_runloop(void);
 
 extern u_int64_t bs_uptime(int init);
+extern void bs_usleep(u_int32_t usec);
 
 #endif /* __pibasic_h__ */

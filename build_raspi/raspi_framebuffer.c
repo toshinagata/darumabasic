@@ -258,7 +258,7 @@ bs_getch_with_timeout(int32_t usec)
 		if (timer >= usec)
 			break;
 		wait = (usec < 10000 ? usec : 10000);
-		usleep(wait);
+		bs_usleep(wait);
 		timer += wait;
 	}
 	return n;

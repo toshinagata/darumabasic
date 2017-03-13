@@ -174,7 +174,7 @@ bs_runloop(void)
 
 	ut = bs_uptime(0);
 	if (ut < 1000000) {
-		usleep(1000000 - ut);
+		bs_usleep(1000000 - ut);
 	}
 	
 	bs_select_active_buffer(GRAPHIC_ACTIVE);
@@ -186,7 +186,7 @@ bs_runloop(void)
 	if (C_STOP >= 255) {
 		bs_puts("Internal Error: too many VM opecodes are defined");
 		bs_update_screen();
-		usleep(2000000);
+		bs_usleep(2000000);
 		return -1;
 	}
 	
@@ -248,13 +248,13 @@ bs_runloop(void)
 					}
 					bs_puts(MSG_(BS_M_FINISHED));
 					bs_update_screen();
-					usleep(1000000);
+					bs_usleep(1000000);
 					us1 = bs_uptime(0);
 					for (n = 20; n >= 0; n--) {
 						bs_fadeout(n);
 						us2 = bs_uptime(0);
 						if (us1 + 50000 > us2 + 20)
-							usleep(us1 + 50000 - us2);
+							bs_usleep(us1 + 50000 - us2);
 						us1 = us2;
 					}
 					break;
