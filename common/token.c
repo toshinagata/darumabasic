@@ -74,7 +74,7 @@ bs_error(const char *fmt, ...)
 			bs_puts((char *)s_buf);
 			s_buf[n] = c;
 			bs_tcolor(RGBFLOAT(1, 0.2, 0.2));
-			bs_puts("(???)");
+			bs_puts("(??\?)");  /*  Avoid trigraph  */
 			bs_tcolor(RGBFLOAT(1, 1, 1));
 			bs_puts((char *)s_buf + n);
 			break;
@@ -150,7 +150,7 @@ bs_lookup_reserved_words(char *name, int *len)
 	const char *p = gReservedWordsString;
 	for (i = 0; *p != 0; p += k + 1, i++) {
 		for (k = 1; p[k] != 0; k++);
-		if (strncasecmp(name, p, k) == 0 && !isalnum(name[k])) {
+		if (strncasecmp(name, p, k) == 0 && !isalnum((unsigned char )name[k])) {
 			if (len != NULL)
 				*len = k;
 			return T(gReservedWords[i]);

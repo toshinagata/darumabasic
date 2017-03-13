@@ -147,7 +147,7 @@ static const struct {
 	{ "PREP_WAIT", 0 },
 	{ "WAIT", 0 },
 	{ "STOP", 0 },
-	NULL  /*  Sentinel  */
+	{ NULL }  /*  Sentinel  */
 };
 
 int gIfLink, gDoLink, gForLink, gReturnLink;
@@ -260,7 +260,7 @@ bs_dump_vmdata(Off_t pos, int n)
 			i = 0;
 			while (pos < n && i < ofs) {
 				if (i % 8 == 0)
-					printf("%06X: BYTE ", pos);
+					printf("%06X: BYTE ", (unsigned int)pos);
 				debug_printf("%d%c", gVMDataBasePtr[pos],
 					   (i == ofs - 1 || pos == n - 1 || i % 8 == 7 ? '\n' : ','));
 				i++;
@@ -1230,7 +1230,7 @@ bs_define_label(int labelidx)
 	link = lbp->caddr;
 	curpos = gVMCodeTop;
 	while (link != kInvalidProgPos) {
-		int link_next;
+		Off_t link_next;
 		if (bs_check_goto_with_for_nesting_level(link, 0)) {
 			bs_error(MSG_(BS_M_JUMP_INTO_LOOP_OR_FUNC));
 			return -1;
@@ -1245,7 +1245,7 @@ bs_define_label(int labelidx)
 	link = lbp->daddr;
 	curpos = gVMDataTop;
 	while (link != kInvalidProgPos) {
-		int link_next;
+		Off_t link_next;
 		bs_load_progpos(link, &link_next);
 		bs_store_progpos(link, curpos);
 		link = link_next;

@@ -26,12 +26,14 @@
 #include "daruma.h"
 #include "screen.h"
 
-#pragma mark ====== Limonene Interface ======
-
-static int s_original_bpp;
+extern int tty_getch(void);
 
 static char *s_framebuffer;
+
+#if !__BAREMETAL__
+static int s_original_bpp;
 static int s_fbfd = 0;
+#endif
 
 static pixel_t *s_text_pixels, *s_graphic_pixels, *s_active_pixels;
 

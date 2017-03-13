@@ -263,7 +263,7 @@ const char *err_msg[] = {
 	"Out of memory during DIM allocation",
 
 	/* BS_M_DIM_NO_MATCH_RUNTIME */
-	"Dimension does not match (dimension memory area is corrupted??)",
+	"Dimension does not match (dimension memory area is corrupted?\?)", /* Avoid trigraph */
 	
 	/* BS_M_TOO_MANY_DIM_INIT */
 	"Too many DIM initializers",

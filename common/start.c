@@ -213,7 +213,7 @@ bs_runloop(void)
 			for (n = 0; s[n] > 0 && s[n] <= ' '; n++);
 			if (s[n] == 0)
 				continue;
-			for (n1 = n; isalpha(s[n1]); n1++);
+			for (n1 = n; isalpha((unsigned char)s[n1]); n1++);
 			n1 -= n;
 			if (n1 > 0) {
 				/*  Check for the 'direct' commands  */

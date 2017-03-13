@@ -870,7 +870,7 @@ s_bs_edit_insert_newline(void)
 int
 bs_list(int sline, int eline)
 {
-	int nn, color, lineno, count, pn;
+	int nn, color, lineno, count;
 	u_int8_t c;
 	int32_t ofs;
 	s_edit_gap_bottom = s_edit_gap_top = 0;
@@ -880,7 +880,6 @@ bs_list(int sline, int eline)
 	ofs = 0;
 	color = 0;
 	count = 0;
-	pn = 0;
 	while (lineno <= eline && gSourceBasePtr[ofs] != 0) {
 		if (lineno >= sline) {
 			nn = s_bs_process_row(&ofs, &color, &lineno, my_cursor_y);

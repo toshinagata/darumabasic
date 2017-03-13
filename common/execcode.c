@@ -298,7 +298,7 @@ bs_execcode(void)
 {
 	u_int8_t code;
 	int retval = 0;
-	int32_t counter = 0;
+/*	int32_t counter = 0; */
 	
 	sRunning = 1;
 	s_start_interval_timer();
@@ -316,7 +316,7 @@ loop:
 	/*	printf("%06x\n", sVMCodePos); */
 		static u_int64_t tm0 = 0, tm;
 		gTimerInvoked = 0;
-		counter = 0;
+	/*	counter = 0; */
 		if (tm0 == 0)
 			tm0 = bs_uptime(0);
 		tm = bs_uptime(0);
@@ -345,7 +345,9 @@ loop:
 
 		case C_NOP:	break;
 
-#pragma mark ------ Number operations ------			
+#if 0
+#pragma mark ------ Number operations ------
+#endif
 		case C_PUSH_INT:
 			sVMCodePos = bs_load_operand(sVMCodePos, sVMStackIntPtr);
 			sVMStackPtr += sizeof(Int);
@@ -367,8 +369,10 @@ loop:
 			sVMStackOffPtr[0] = ival;
 			sVMStackPtr += sizeof(Off_t);
 			break;
-			
+
+#if 0
 #pragma mark ------ Binary operations ------
+#endif
 		case C_ADD_INT:
 			sVMStackPtr -= sizeof(Int);
 			sVMStackIntPtr[-1] += sVMStackIntPtr[0];
@@ -537,8 +541,10 @@ loop:
 			sVMStackPtr -= sizeof(Int);
 			sVMStackIntPtr[-1] = (sVMStackIntPtr[-1] >> sVMStackIntPtr[0]);
 			break;
-			
+
+#if 0
 #pragma mark ------ Unary operations ------
+#endif
 		case C_NEG_INT:
 			sVMStackIntPtr[-1] = -sVMStackIntPtr[-1];
 			break;			
@@ -578,8 +584,10 @@ loop:
 				goto exit;
 			}
 			break;
-			
+
+#if 0
 #pragma mark ------ Indirect addressing ------
+#endif
 	/*  Indirect addressing: pop an address from the stack and push the content of the address */
 		case C_LOAD_INT:
 			up = gVarBasePtr + sVMStackOffPtr[-1];
@@ -712,7 +720,9 @@ loop:
 			bs_release_string(*((Off_t *)(sVMStackPtr + ival)));
 			break;
 			
+#if 0
 #pragma mark ------ Stack operations ------
+#endif
 	/*  Stack operations  */
 		case C_DUP_REF:
 			sVMStackOffPtr[0] = sVMStackOffPtr[-1];
@@ -752,7 +762,9 @@ loop:
 			break;
 #endif /* 0 */
 			
+#if 0
 #pragma mark ------ Frame pointer operations ------
+#endif
 		case C_LINK:
 			sVMStackOffPtr[0] = sVMFramePtr - gVMStackBasePtr;
 			sVMFramePtr = sVMStackPtr + sizeof(Off_t);
@@ -797,7 +809,9 @@ loop:
 			RECORD_PC(0);
 			break;
 			
+#if 0
 #pragma mark ------ Branch instructions ------
+#endif
 		case C_BRA:
 			RECORD_PC(-1);
 			sVMCodePos = bs_load_progpos(sVMCodePos, &ival);
@@ -841,7 +855,9 @@ loop:
 			retval = 1;
 			goto exit;
 
+#if 0
 #pragma mark ------ Special compare instructions ------
+#endif
 			
 		case C_NEXT_INT:
 		case C_NEXT_INTL:
@@ -886,7 +902,9 @@ loop:
 			break;
 		}
 			
+#if 0
 #pragma mark ------ I/O instructions ------
+#endif
 		case C_NEWLINE:
 			bs_puts("\n");
 			break;
@@ -899,7 +917,7 @@ loop:
 		case C_PRINT_INT:
 			ival = sVMStackIntPtr[-1];
 			sVMStackPtr -= sizeof(Int);
-			snprintf(buf, sizeof buf, "%d", ival);
+			snprintf(buf, sizeof buf, "%d", (int)ival);
 			bs_puts(buf);
 			break;
 		case C_PRINT_FLT:
@@ -938,7 +956,9 @@ loop:
 			sVMStackPtr += sizeof(Off_t);
 			break;
 
+#if 0
 #pragma mark ------ DIM-related instructions ------
+#endif
 
 			/*  DIM-related instructions  */
 			/*  DEF_DIM_XXX: pop the dimension size and the number of elements in 
@@ -1089,7 +1109,10 @@ loop:
 			bs_runtime_error(MSG_(BS_M_TOO_MANY_DIM_INIT));
 			retval = 1;
 			goto exit;
+			
+#if 0
 #pragma mark ------ Built-in functions ------
+#endif
 			
 		case C_BUILTIN_FUNC:
 		case C_BUILTIN_SUB:
@@ -1126,7 +1149,9 @@ loop:
 			}
 			break;
 			
+#if 0
 #pragma mark ------ READ/RESTORE ------
+#endif
 		
 		case C_READ_INT:
 		case C_READ_FLT:
@@ -1226,7 +1251,9 @@ loop:
 		case C_TEST_POS_INT:
 			break;
 
+#if 0
 #pragma mark ------ WAIT ------
+#endif
 		case C_PREP_WAIT:
 			ival = bs_uptime(0);
 			if (gVMCodeBasePtr[sVMCodePos] != C_WAIT) {

@@ -836,7 +836,7 @@ bs_init_screen(void)
 int
 bs_builtin_locate(void)
 {
-	int x, y;
+	Int x, y;
 	bs_get_next_int_arg(&x);
 	bs_get_next_int_arg(&y);
 	bs_locate(x, y);

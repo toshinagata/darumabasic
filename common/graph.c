@@ -158,6 +158,7 @@ s_line(int x1, int y1, int x2, int y2)
 
 #define PI 3.141592653589793
 
+#if 0
 static void
 s_arc(int ox, int oy, int rad, double start, double end)
 {
@@ -234,6 +235,7 @@ s_arc(int ox, int oy, int rad, double start, double end)
 		f += 4 * y + 2;
 	}
 }
+#endif /* 0 */
 
 static void
 s_obarc(int ox, int oy, int rx, int ry, double start, double end, int drawflag)
@@ -731,7 +733,7 @@ bs_builtin_fan(void)
 			d = start + 180.0;
 			d -= floor(d / 360.0) * 360.0;
 		} else d = start;
-	}
+	} else d = start;
 	p[0] = ox;
 	p[1] = oy;
 	p[2] = ox + floor(rad1 * cos(d * (PI / 180.0)) + 0.5);

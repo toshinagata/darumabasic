@@ -346,7 +346,8 @@ typedef struct SymbolCode {
 	Off_t str:24;  /*  Offset from gConstStringBase  */
 } SymbolCode;
 
-#define EqualSymbolCode(sc1, sc2) (*((int32_t *)&sc1) == *((int32_t *)&sc2))
+#define EqualSymbolCode(sc1, sc2) ((sc1).type == (sc2).type && (sc1).str == (sc2).str)
+/* (*((int32_t *)&sc1) == *((int32_t *)&sc2)) */
 
 extern const u_int8_t gTypeSize[8];
 extern const char *gTypeNames[4];
