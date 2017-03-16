@@ -40,6 +40,24 @@ div.end_header {
 	border-top: solid thin #aaa;
 }
 
+div.blocknote {
+	margin: 1ex 1em 1ex 1em;
+	padding: 10px;
+	border-radius: 10px;
+	color: #000080;
+	background-color: #ccffcc;
+	border: 1px dashed #008000;
+}
+
+div.syntax {
+	margin: 10px;
+	padding: 5px 10px;
+	border-radius: 5px;
+	line-height: 1.4;
+	font-family: monospace;
+	background-color: #ffeeee;
+}
+
 span.italic {
     font-style: italic;
 }
@@ -71,7 +89,7 @@ span.bold {
 
 code {
 	font-family: monospace;
-	font-size: 1em;
+	font-size: 100%;
 	background-color: #ffeeee;
 }
 
@@ -105,6 +123,10 @@ span.errorout {
 
 span.comment {
 	color: #990066;
+}
+
+span.lineno {
+	background-color: #d0d0d0;
 }
 
 div.copyright {

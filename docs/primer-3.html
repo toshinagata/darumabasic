@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml' lang='ja' xml:lang='ja'>
+<head>
+<meta lang='ja' xml:lang='ja' content='text/html;charset=utf-8' http-equiv='Content-Type' />
+<title>Daruma BASIC 入門 (3) - くり返し動作</title>
+<script type="text/javascript" src="./branchcss.js"></script>
+<link href='index.html' rel='Start' />
+</head>
+<body>
+<a href="index.html"><img class="float_right daruma_logo" src="images/darumalogo172x72.png" /></a>
+<h1>Daruma BASIC 入門 (3) - くり返し動作</h1>
+<div class="end_header"></div>
+<p>
+計算式を１つずつ実行しているのでは、電卓を叩いているのと大して変わりません。コンピュータを使う面白さの一つは、くり返し動作が自動的にできることです。やってみましょう。まず、いつもの入力待ちの状態で、<code>edit</code> と打って ENTER を押します。大文字でもかまいません。次のような画面になります。
+</p>
+<p><img src="images/primer3-1.png" /></p>
+<p>
+これは編集画面です。ごく簡単な編集しかできませんが、ともかくプログラムを書くことができます。次のように入力してください。一番左の数字は行番号で、入力する必要はありません。また、行を変えるときは ENTER を押します。普通の入力待ちの時とは違って、編集中は ENTER を押しても命令文として実行されることはなく、単に行が変わります。
+</p>
+<pre><code><span class="lineno">   1</span> FOR I=0 TO 10
+<span class="lineno">   2</span> PRINT I,I*5
+<span class="lineno">   3</span> NEXT
+<span class="lineno">    </span>
+</code></pre>
+<p>
+入力できたら、ESC キーを押してください。いつもの入力待ちの状態 (<code>&gt;&gt;</code> が表示されている状態）に戻ります。ここで <code>run</code> と打って ENTER を押すと、プログラムが実行されます。
+</p>
+<pre><code>>> RUN
+0   0
+1   5
+2   10
+3   15
+4   20
+5   25
+</code></pre>
+<p>
+プログラムを説明しましょう。<code>FOR</code> 文は、ある決まった回数のくり返しを行います。
+</p>
+<div class="blocknote">
+【構文】</br >
+<div class="syntax">
+FOR 変数 = 式1 TO 式2 [STEP 式3]<br />
+（くり返す内容）<br />
+NEXT</div>
+【意味】<br />
+1. <code>変数</code> に<code>式1</code>の値を入れる。<br />
+2. <code>変数</code> の値が <code>式2</code> よりも大きくなければ、「くり返す内容」を実行する。<br />
+3. <code>変数</code> の値を <code>式3</code> だけ変化させて、2 に戻る。<code>STEP 式3</code> が省略された場合は、<code>1</code> だけ変化させる。<br />
+（※ <code>式3</code> が負の値の場合は、2. の「大きくなければ」が「小さくなければ」になる。）
+</div>
+<p>
+上の例では、<code>式1</code> が 0, <code>式2</code> が 5 で、<code>STEP 式3</code> は省略されています。そこで、変数 <code>I</code> に最初に 0 が入って、1 ずつ増やして 5 より大きくなるまで、<code>PRINT I,I*5</code> がくり返し実行されるわけです。
+</p>
+<p>
+<code>STEP 0</code> を指定すると、無限ループになってしまいます。この場合は、control(ctrl)キーと C キーを同時に押す（ctrl-C）と実行を止めることができます。
+</p>
+<pre><code><span class="lineno">   1</span> FOR I=0 TO 0 STEP 0
+<span class="lineno">   2</span> NEXT
+<span class="lineno">    </span>
+>> <span class="typein">RUN</span>
+<span class="note">（ctrl-C を押す）</span>
+<span class="typeout">ユーザー割り込みが起きました</span>
+>>
+</code></pre>
+
+<p>[ <a href="index.html">← トップページへ</a> ]</p>
+<p>[ <a href="https://github.com/toshinagata/darumabasic/releases/">ダウンロードページへ →</a> ]</p>
+
+<div class="copyright">
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja"><img alt="クリエイティブ・コモンズ・ライセンス" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />
+このページは <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示-非営利-継承 4.0 国際ライセンス</a>の下に提供されています。<br />
+&copy; 2017 Toshi Nagata.
+Facebook:&nbsp;<a href="http://facebook.com/toshi.nagata.319">toshi.nagata.319</a>
+WebSite:&nbsp;<a href="http://blog.d-alchemy.xyz/">http://blog.d-alchemy.xyz/</a>
+</div>
+
+</body>
+</html>
