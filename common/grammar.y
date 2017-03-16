@@ -558,6 +558,7 @@ non_lvalue_expr: BS_INTEGER { if (($$.type = bs_generate_const_expr(&($1))) < 0)
 | '(' expr ')'  { $$ = $2; } /*  '(lvalue)' is not an lvalue in this grammar  */
 | '-' expr %prec BS_UNARY_MINUS { if (($$.type = bs_generate_op1($2.type, '-')) < 0) YYERROR; }
 | '+' expr %prec BS_UNARY_PLUS  { if (($$.type = bs_generate_op1($2.type, '+')) < 0) YYERROR; }
+| BS_NOT expr { if (($$.type = bs_generate_op1($2.type, BS_NOT)) < 0) YYERROR; }
 | BS_SYMBOL { bs_error(MSG_(BS_M_UNDEF_SYMBOL), gConstStringBasePtr + $1.u.symcode.str); YYERROR; }
 | funcall
 | builtin_funcall
