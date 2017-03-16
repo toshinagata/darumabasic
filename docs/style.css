@@ -54,7 +54,7 @@ div.syntax {
 	padding: 5px 10px;
 	border-radius: 5px;
 	line-height: 1.4;
-	font-family: monospace;
+	font-family: Osaka-mono, "Osaka-等幅", Consolas, Monaco, monospace;
 	background-color: #ffeeee;
 }
 
@@ -88,7 +88,7 @@ span.bold {
 }
 
 code {
-	font-family: monospace;
+	font-family: Osaka-mono, "Osaka-等幅", Consolas, Monaco, monospace;
 	font-size: 100%;
 	background-color: #ffeeee;
 }

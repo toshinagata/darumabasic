@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml' lang='ja' xml:lang='ja'>
+<head>
+<meta lang='ja' xml:lang='ja' content='text/html;charset=utf-8' http-equiv='Content-Type' />
+<title>Daruma BASIC 入門 (4) - 条件分岐</title>
+<script type="text/javascript" src="./branchcss.js"></script>
+<link href='index.html' rel='Start' />
+</head>
+<body>
+<a href="index.html"><img class="float_right daruma_logo" src="images/darumalogo172x72.png" /></a>
+<h1>Daruma BASIC 入門 (4) - 条件分岐</h1>
+<div class="end_header"></div>
+<p>
+コンピュータは、くり返し実行のほかに、「ある条件を満たすときだけこの命令を実行する」という判断をすることができます。例えば、数を１から順に表示して、３の倍数の時に「!!」をつける、というプログラムを作ってみましょう。（古いお笑いネタ？）
+</p>
+<pre><code><span class="lineno">   1</span> FOR I=1 TO 10
+<span class="lineno">   2</span> PRINT I;
+<span class="lineno">   3</span> IF I%3=0 THEN PRINT "!!";
+<span class="lineno">   4</span> PRINT " ";
+<span class="lineno">   5</span> NEXT
+<span class="lineno">    </span>
+</code></pre>
+<p>
+実行結果は、下のようになります。
+</p>
+<pre><code>>> RUN
+1 2 3!! 4 5 6!! 7 8 9!! 10 >>
+</code></pre>
+<p>
+プログラムを説明しましょう。１行目の <code>FOR</code> 文は<a href="primer-3.html">前回取り上げた</a>のでいいですね。２行目の <code>PRINT I;</code> は、変数 <code>I</code> の値を表示するものですが、最後に <code>;</code>（セミコロン）がついています。このように、<code>PRINT</code> 文の最後をセミコロンで終えると、<code>PRINT</code> 文の最後に行を変えるのをやめさせることができます。つまり、<code>I</code> の値を表示したのと同じ行の続きに、次の <code>PRINT</code> 文の内容が表示されるわけです。
+</p>
+<p>
+３行目が今回のポイントになる「条件分岐」です。<code>IF</code> 文は、ある条件が満たされるかどうかを判断して、満たされる場合のみ <code>THEN</code> 以下の命令を実行します。この場合は、<code>I%3=0</code> というのが「条件」です。これは、「<code>I</code> を３で割った余りが０である」、つまり「<code>I</code> が３の倍数である」ことを意味しています<sup>[1]</sup>。この場合のみ、<code>THEN</code> 以下の命令、つまり <code>PRINT "!!";</code> が実行されます。
+</p>
+<p class="note">[1] 条件式の中の「等しい」記号は、「変数に値を入れる」意味ではなく、「等しいかどうか」という本来の意味を表します。</p>
+<p>
+<code>IF</code> 文の構文は、下の通りです。<code>THEN</code> 以下を <code>IF</code> と同じ行に置く書き方と、<code>THEN</code> で一度行を変える書き方があります。行を変えた場合は、最後に <code>ENDIF</code> を書かないといけません。
+</p>
+<div class="blocknote">
+【構文】<br />
+（１行 <code>IF</code> 文）<br />
+<div class="syntax">
+IF 条件式1 THEN 文1 [ELSEIF 条件式2 THEN 文2] [ELSE 文3]<br />
+</div>
+（複数行 <code>IF</code> 文）<br />
+<div class="syntax">
+IF 条件式1 THEN<br />
+文1<br />
+[ELSEIF 条件式2 THEN<br />
+ 文2]<br />
+[ELSE<br />
+ 文3]<br />
+ENDIF
+</div>
+【意味】<br />
+・<code>条件式1</code> を判定し、満たされるなら <code>文1</code> を実行する。<br />
+・満たされない場合、<code>ELSEIF</code> 以下があるなら、<code>条件式2</code> を判定し、満たされるなら <code>文2</code> を実行する。 <code>ELSEIF</code>〜<code>文</code> の部分は、いくつでも書ける。<br />
+・どの条件も満たされなかった場合、<code>ELSE</code> 以下があるなら <code>文3</code> を実行する。
+</div>
+<p>
+複数行 <code>IF</code> 文では、「<code>文1</code>」「<code>文2</code>」「<code>文3</code>」もそれぞれ複数行で書くことができます。
+</p>
+<p>
+「<code>条件式</code>」の中では、次のような式を使うことができます。
+</p>
+<pre><code>A=B     A と B が等しい
+A&lt;&gt;B    A と B が等しくない
+A&lt;B     A が B より小さい
+A&lt;=B    A が B 以下である
+A&gt;B     A が B より大きい
+A&gt;=B    A が B 以上である
+</code></pre>
+<p>
+また、１つまたは２つの条件式を使って、次のような新しい条件式を作ることもできます。
+</p>
+<pre><code>NOT 条件式1          条件式1を満たさない
+条件式1 AND 条件式2  条件式1と条件式2がともに満たされる
+条件式1 OR 条件式2   条件式1と条件式2のどちらかが満たされる
+条件式1 XOR 条件式2  条件式1と条件式2のどちらか一方だけが満たされる
+</code></pre>
+<p>
+いろいろな条件式を組み合わせた判定については、<a href="primer-5.html">次回に</a>とりあげましょう。
+</p>
+
+<p>[ <a href="index.html">← トップページへ</a> ]</p>
+<p>[ <a href="https://github.com/toshinagata/darumabasic/releases/">ダウンロードページへ →</a> ]</p>
+
+<div class="copyright">
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja"><img alt="クリエイティブ・コモンズ・ライセンス" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />
+このページは <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示-非営利-継承 4.0 国際ライセンス</a>の下に提供されています。<br />
+&copy; 2017 Toshi Nagata.
+Facebook:&nbsp;<a href="http://facebook.com/toshi.nagata.319">toshi.nagata.319</a>
+WebSite:&nbsp;<a href="http://blog.d-alchemy.xyz/">http://blog.d-alchemy.xyz/</a>
+</div>
+
+</body>
+</html>
