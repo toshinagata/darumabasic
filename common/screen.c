@@ -828,7 +828,9 @@ bs_init_screen(void)
 	return 0;
 }
 
+#if 0
 #pragma mark ====== BASIC Interface ======
+#endif
 
 /*  LOCATE x, y
  Set the text screen position to (x, y). 

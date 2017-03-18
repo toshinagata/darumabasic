@@ -17,7 +17,7 @@
 
 #include <signal.h>    /*  sigaction()  */
 #include <sys/time.h>  /*  setitimer()  */
-/*#include <unistd.h>    *//*  usleep()     */
+#include <unistd.h>    /*  usleep()     */
 
 #include "daruma.h"
 #include "gencode.h"
