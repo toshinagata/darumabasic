@@ -137,7 +137,7 @@ bs_welcome(void)
 	/*  Welcome message  */
 	bs_tcolor(RGBFLOAT(1, 1, 1));
 	bs_puts("---------------------------------------\n");
-	bs_puts(" Daruma (だるま) BASIC, Ver. 1.0pre4\n");
+	bs_puts(" Daruma (だるま) BASIC, Ver. 1.0pre5\n");
 	bs_puts(" Copyright (C) 2016-2017 Toshi Nagata\n");
 	bs_puts("---------------------------------------\n");
 	bs_puts(MSG_(BS_M_START_PROGRAM));
