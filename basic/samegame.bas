@@ -1,8 +1,9 @@
 '  SameGame for Daruma Basic
 '  2016.2.13. Toshi Nagata
 '  UTF-8 encoding
-xx = 18   '  盤面の幅
-yy = 12   '  盤面の高さ
+
+xx = screensize(0) / 16      '  盤面の幅
+yy = screensize(1) / 16 - 2  '  盤面の高さ
 n = 5     '  駒の種類
 num = 0   '  残り駒の数
 point = 0 '  ポイント
@@ -15,17 +16,17 @@ proc disppiece(x, y)
   local c, col, bcol, s$
   c = board(x, y)
   if c = 1 then
-    col = 1 : s$ = "♦♦"
+    col = 1 : s$ = "♦"
   elseif c = 2 then
-    col = 2 : s$ = "♥♥"
+    col = 2 : s$ = "♥"
   elseif c = 3 then
-    col = 3 : s$ = "♣♣"
+    col = 3 : s$ = "♣"
   elseif c = 4 then
-    col = 4 : s$ = "♠♠"
+    col = 4 : s$ = "♠"
   elseif c = 5 then
-    col = 5 : s$ = "＊＊"
+    col = 5 : s$ = "＊"
   else
-    col = 7 : s$ = "　　"
+    col = 7 : s$ = "　"
   endif
   if x = cx and y = cy then
     bcol = 8
@@ -33,17 +34,15 @@ proc disppiece(x, y)
     bcol = 0
   endif
   color col, bcol
-  locate x * 4, y * 2 + 1
-  print s$;
-  locate x * 4, y * 2 + 2
+  locate x * 2, y + 1
   print s$;
 endproc
 
 proc dispinfo()
   color 7, 0
-  locate 0, 0 : print "【さめがめ for Daruma Basic】   ";
-  print "残り "; num; "    ";
-  print "得点 "; point; "    ";
+  locate 0, 0 : print "【さめがめ】 ";
+  print "残 "; num; " ";
+  print "点 "; point; " ";
   clearline
 endproc
 
@@ -79,6 +78,7 @@ cls
 call display()
 do
 @redo
+  locate cx * 2, cy + 1
   ch = inkey()
   if ch = 27 or ch = 113 or ch = 81 then break
   wx = cx
@@ -141,5 +141,5 @@ do
     call disppiece(cx, cy)
   endif
 loop
-locate 0, yy * 2 + 3
+locate 0, yy + 1
 color 7, 0
