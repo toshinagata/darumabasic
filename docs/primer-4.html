@@ -31,7 +31,10 @@
 プログラムを説明しましょう。１行目の <code>FOR</code> 文は<a href="primer-3.html">前回取り上げた</a>のでいいですね。２行目の <code>PRINT I;</code> は、変数 <code>I</code> の値を表示するものですが、最後に <code>;</code>（セミコロン）がついています。このように、<code>PRINT</code> 文の最後をセミコロンで終えると、<code>PRINT</code> 文の最後に行を変えるのをやめさせることができます。つまり、<code>I</code> の値を表示したのと同じ行の続きに、次の <code>PRINT</code> 文の内容が表示されるわけです。
 </p>
 <p>
-３行目が今回のポイントになる「条件分岐」です。<code>IF</code> 文は、ある条件が満たされるかどうかを判断して、満たされる場合のみ <code>THEN</code> 以下の命令を実行します。この場合は、<code>I%3=0</code> というのが「条件」です。これは、「<code>I</code> を３で割った余りが０である」、つまり「<code>I</code> が３の倍数である」ことを意味しています<sup>[1]</sup>。この場合のみ、<code>THEN</code> 以下の命令、つまり <code>PRINT "!!";</code> が実行されます。
+３行目が今回のポイントになる「条件分岐」です。<code>IF</code> 文は、ある条件が満たされるかどうかを判断して、満たされる場合のみ <code>THEN</code> 以下の命令を実行します。日本語に直すと、<code>IF</code> は「もし」、<code>THEN</code> は「ならば」という意味です。<code>IF xxxx THEN yyyy</code> は「<code>もし xxxx ならば yyyy</code>」となります。
+</p>
+<p>
+３行目をもう一度見てみます。<code>I%3=0</code> というのが「条件」です。これは、「<code>I</code> を３で割った余りが０である」、つまり「<code>I</code> が３の倍数である」ことを意味しています<sup>[1]</sup>。この場合のみ、<code>THEN</code> 以下の命令、つまり <code>PRINT "!!";</code> が実行されます。
 </p>
 <p class="note">[1] 条件式の中の「等しい」記号は、「変数に値を入れる」意味ではなく、「等しいかどうか」という本来の意味を表します。</p>
 <p>

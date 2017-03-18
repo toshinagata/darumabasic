@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml' lang='ja' xml:lang='ja'>
+<head>
+<meta lang='ja' xml:lang='ja' content='text/html;charset=utf-8' http-equiv='Content-Type' />
+<title>Daruma BASIC 入門 (5) - 複雑な条件分岐</title>
+<script type="text/javascript" src="./branchcss.js"></script>
+<link href='index.html' rel='Start' />
+</head>
+<body>
+<a href="index.html"><img class="float_right daruma_logo" src="images/darumalogo172x72.png" /></a>
+<h1>Daruma BASIC 入門 (5) - 複雑な条件分岐</h1>
+<div class="end_header"></div>
+<p>
+もう少し複雑な条件分岐を考えてみます。前回のお笑いネタは、もともと「３の倍数と３のつく数のときにアホになる」というものでした。これをプログラミングしてみましょう。
+</p>
+<p>
+複雑なプログラムを作りたい時は、「問題を小さい部分に分ける」ことが役に立ちます。この場合は、「３の倍数である」という条件判定と、「３のつく数である」という条件判定をまず考えます。「３の倍数である」方はもうわかっていますね。「３で割った余りが０である」と書けばよいわけです。もう一つの条件、「３のつく数である」の方を考えましょう。
+</p>
+<p>
+これは実は少し面倒です。まず、どんな数が「３のつく数」なのか、書き出して考えてみましょう。
+</p>
+<pre><code>3, 13, 23, ← ここまでは「○十三」という形の数
+30, 31, ..., 39, ← 「三十○」という形の数
+43, 53, 63, ... ← ふたたび「○十三」という形の数
+</code></pre>
+<p>
+２ケタまでの数に限定すれば、「○十三」という形か、「三十○」という形であることがわかります。そこで、「３のつく数である」という条件を「○十三という形である」または「三十○という形である」とさらに分けることにします。
+</p>
+<p>
+「○十三という形である」かどうかは、「10 で割った余りが３である」ことで判定できます。「10 で割った余り」は１の位の数になるからです。この判定は、BASIC では、<code>I%10=3</code> と表すことができます。
+</p>
+<pre><code>3, 13, 23, 33, 43, ... ← 10 で割った余り＝３
+</code></pre>
+<p>
+「三十○という形である」という条件は、判定の仕方がいくつかあります。一つ目は、「30 以上で 39 以下である」というものです。BASIC では、<code>I&gt;=30 AND I&lt;=39</code> と書けます。もう一つは、「10 で割って余りを切り捨てたものが３である」というものです。これは、BASIC では <code>I/10=3</code> と表すことができます（整数のわり算は余りが切り捨てられることを思い出しましょう）。
+</p>
+<pre><code>30, 31, ..., 39 ← 10 で割って余りを切り捨てる＝３
+</code></pre>
+<p>
+それでは、「I が三十○という形である」という条件を BASIC で書いてみます。とりあえず、２ケタまでの数限定ということにします。まず、一つ目。
+</p>
+<pre><code>I%10=3 OR (I&gt;=30 AND I&lt;=39)
+</code></pre>
+<p>
+実は Daruma BASIC では <code>AND</code> と <code>OR</code> では <code>AND</code> の方が優先順位が高いので、上の式でカッコがなくても同じ意味になります。ただ、<code>AND</code> と <code>OR</code> の優先順位はプログラム言語によって違うこともあるし、「あれ、どっちだっけ？」と迷うこともありますので、カッコをつける習慣をつけておいた方が安全です。
+</p>
+<p>
+次は、二つ目。
+</p>
+<pre><code>I%10=3 OR I/10=3
+</code></pre>
+<p>
+どちらでもいいのですが、二つ目の方が簡単なので、二つ目を採用することにしましょう。それでは、「３の倍数と３のつく数のときにアホになる」プログラムです。数は 100 まで奮発（？）しました。
+</p>
+<pre><code><span class="lineno">   1</span> FOR I=1 TO 100
+<span class="lineno">   2</span> PRINT I;
+<span class="lineno">   3</span> IF I%3=0 OR (I%10=3 OR I/10=3) THEN PRINT "!!";
+<span class="lineno">   4</span> PRINT " ";
+<span class="lineno">   5</span> NEXT
+<span class="lineno">    </span>
+</code></pre>
+<p>
+実行結果です。
+</p>
+<pre><code>&gt;&gt; <span class="typein">RUN</span>
+<span class="typeout">1 2 3!! 4 5 6!! 7 8 9!! 10 11 12!! 13!! 
+14 15!! 16 17 18!! 19 20 21!! 22 23!! 24
+!! 25 26 27!! 28 29 30!! 31!! 32!! 33!! 
+34!! 35!! 36!! 37!! 38!! 39!! 40 41 42!!
+43!! 44 45!! 46 47 48!! 49 50 51!! 52 53
+!! 54!! 55 56 57!! 58 59 60!! 61 62 63!!
+ 64 65 66!! 67 68 69!! 70 71 72!! 73!! 7
+4 75!! 76 77 78!! 79 80 81!! 82 83!! 84!
+! 85 86 87!! 88 89 90!! 91 92 93!! 94 95
+ 96!! 97 98 99!! 100 </span>&gt;&gt;
+</code></pre>
+<p class="noindent">
+【やってみよう】このプログラムでは、数が３ケタになると対応できません。３ケタの数でも正しく判定できるように、プログラムを改造してみましょう。
+</p>
+
+<p>[ <a href="index.html">← トップページへ</a> ]</p>
+<p>[ <a href="https://github.com/toshinagata/darumabasic/releases/">ダウンロードページへ →</a> ]</p>
+
+<div class="copyright">
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja"><img alt="クリエイティブ・コモンズ・ライセンス" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />
+このページは <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示-非営利-継承 4.0 国際ライセンス</a>の下に提供されています。<br />
+&copy; 2017 Toshi Nagata.
+Facebook:&nbsp;<a href="http://facebook.com/toshi.nagata.319">toshi.nagata.319</a>
+WebSite:&nbsp;<a href="http://blog.d-alchemy.xyz/">http://blog.d-alchemy.xyz/</a>
+</div>
+
+</body>
+</html>

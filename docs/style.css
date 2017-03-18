@@ -172,6 +172,10 @@ p {
 	line-height: 150%;
 }
 
+p.noindent {
+	text-indent: 0;
+}
+
 table {
     margin-left: 5%;
     margin-right: 5%;
