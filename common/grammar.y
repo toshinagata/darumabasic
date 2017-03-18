@@ -51,9 +51,9 @@
 %token BS_FUNCNAME
 %token BS_PROCNAME
 
+%left BS_XOR
 %left BS_OR
 %left BS_AND
-%left BS_XOR
 %right BS_NOT
 %nonassoc '=' BS_NEQ
 %nonassoc '<' BS_LTEQ '>' BS_GTEQ
