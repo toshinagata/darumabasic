@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml' lang='ja' xml:lang='ja'>
+<head>
+<meta lang='ja' xml:lang='ja' content='text/html;charset=utf-8' http-equiv='Content-Type' />
+<title>Daruma BASIC 入門 (6) - 回数を指定しないくり返し</title>
+<script type="text/javascript" src="./branchcss.js"></script>
+<link href='index.html' rel='Start' />
+</head>
+<body>
+<a href="index.html"><img class="float_right daruma_logo" src="images/darumalogo172x72.png" /></a>
+<h1>Daruma BASIC 入門 (6) <br />回数を指定しないくり返し</h1>
+<div class="end_header"></div>
+<p>
+<code>FOR...NEXT</code> 文によるくり返しは、回数が決まっているくり返しでした。回数が決まっていないくり返しが出てくる場合は、どのように書けばいいでしょうか。
+</p>
+<p>
+プログラムでよくある例は、ユーザーからの入力を待って、ある値が入力されたら処理を終了する、というものです。<code>INKEY</code> という命令を使うと、１文字の入力を受け取ることができます。帰ってくる値は、文字を数値で表した「文字コード」です。数字の０は 48、１は 49 というコードです。半角の英数字と記号については、ASCIIコード（アスキーコード）と呼ばれるコード表に従った数値になっています（32〜126の範囲）。
+</p>
+<p>
+簡単のため、「１を押したら "ONE" と表示」「２を押したら "TWO" と表示」「０を押したら終了」「それ以外なら最初からくり返す」というプログラムを作ってみましょう。まず、<code>変数名=INKEY()</code> で、キー入力を受け取ります。
+</p>
+<pre><code>C=INKEY()
+</code></pre>
+<p>
+「１を押したら "ONE"」「２を押したら "TWO"」の部分はわかりますね。<code>IF</code>文を使います。
+</p>
+<pre><code>IF C=49 THEN
+PRINT "ONE"
+ELSEIF C=50 THEN
+PRINT "TWO"
+ENDIF
+</code></pre>
+<p>
+「０を押したら終了」「それ以外ならくり返す」というところはどうしましょうか。ここは、少し考え方を整理する必要があります。「くり返し」を実現するためには、「どういう時に、どの部分をくり返すのか？」ということをはっきりさせないといけません。この場合は、次のように考えます。
+</p>
+<pre><code>［くり返し部分の始まり］
+キー入力を受け取る
+１なら "ONE" と表示
+２なら "TWO" と表示
+０ならくり返し終了、それ以外ならくり返す
+</code></pre>
+<p>
+いかがでしょうか。この処理で、最初に予定したのと同じ動作をすることがわかるでしょうか。プログラムにすると、次のようになります。
+</p>
+<pre><code><span class="lineno">   1</span> DO
+<span class="lineno">   2</span> C=INKEY()
+<span class="lineno">   3</span> IF C=49 THEN
+<span class="lineno">   4</span> PRINT "ONE"
+<span class="lineno">   5</span> ELSEIF C=50 THEN
+<span class="lineno">   6</span> PRINT "TWO"
+<span class="lineno">   7</span> ENDIF
+<span class="lineno">   8</span> LOOP UNTIL C=48
+<span class="lineno">    </span>
+</code></pre>
+<p>
+<code>DO...LOOP UNTIL 条件式</code> は、<code>DO</code> と <code>LOOP</code> の間の文を、条件式が満たされるまでくり返す、という意味です。<code>DO...LOOP</code> には、次の５種類の形式があります。
+</p>
+<div class="blocknote">
+【構文】<br />
+<div class="syntax">
+DO<br />
+文1<br />
+LOOP
+</div>
+【意味】<br />
+文１をくり返す。終了するためには、文１の中で <code>BREAK</code> 文を使う。
+</div>
+<div class="blocknote">
+【構文】<br />
+<div class="syntax">
+DO<br />
+文1<br />
+LOOP UNTIL 条件式
+</div>
+【意味】<br />
+条件式が満たされるまで、文１をくり返す。<br />
+</div>
+<div class="blocknote">
+【構文】<br />
+<div class="syntax">
+DO<br />
+文1<br />
+LOOP WHILE 条件式
+</div>
+【意味】<br />
+条件式が満たされなくなるまで、文１をくり返す。<br />
+</div>
+<div class="blocknote">
+【構文】<br />
+<div class="syntax">
+DO UNTIL 条件式<br />
+文1<br />
+LOOP
+</div>
+【意味】<br />
+条件式が満たされていない間、文１をくり返す。（最初から条件式が満たされている場合は、文１は一度も実行されない。）<br />
+</div>
+<div class="blocknote">
+【構文】<br />
+<div class="syntax">
+DO WHILE 条件式<br />
+文1<br />
+LOOP
+</div>
+【意味】<br />
+条件式が満たされている間、文１をくり返す。（最初から条件式が満たされていない場合は、文１は一度も実行されない。）<br />
+</div>
+<p>
+先ほども書きましたが、くり返しのあるプログラムを作る時は、「どういう時に」「どの部分を」くり返すのか、を明らかにすることが大切です。よく考えて、やりたいことを整理するようにしましょう。
+</p>
+
+<p>[ <a href="index.html">← トップページへ</a> ]</p>
+<p>[ <a href="https://github.com/toshinagata/darumabasic/releases/">ダウンロードページへ →</a> ]</p>
+
+<div class="copyright">
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja"><img alt="クリエイティブ・コモンズ・ライセンス" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />
+このページは <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示-非営利-継承 4.0 国際ライセンス</a>の下に提供されています。<br />
+&copy; 2017 Toshi Nagata.
+Facebook:&nbsp;<a href="http://facebook.com/toshi.nagata.319">toshi.nagata.319</a>
+WebSite:&nbsp;<a href="http://blog.d-alchemy.xyz/">http://blog.d-alchemy.xyz/</a>
+</div>
+
+</body>
+</html>
