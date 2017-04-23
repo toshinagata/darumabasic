@@ -74,6 +74,7 @@ unset_raw_mode(void)
 
 #endif
 
+#ifndef __circle__
 int
 main(int argc, const char **argv)
 {
@@ -83,11 +84,11 @@ main(int argc, const char **argv)
 	p = strrchr(argv[0], '/');
 	if (p != NULL) {
 		int n = p - argv[0];
-		char *pp = (char *)malloc(n + 1);
+		char *pp = (char *)bs_malloc(n + 1);
 		strncpy(pp, argv[0], n);
 		pp[n] = 0;
 		chdir(pp);
-		free(pp);
+		bs_free(pp);
 	}
 	
 	my_graphic_mode = 1;
@@ -121,3 +122,4 @@ main(int argc, const char **argv)
 	bs_runloop();
 	return 0;
 }
+#endif

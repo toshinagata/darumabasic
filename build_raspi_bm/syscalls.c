@@ -17,7 +17,7 @@
 
 #include <stdlib.h>
 #include <unistd.h>
-#include <stdint.h>
+#include <sys/types.h>
 #include <string.h>
 #include <strings.h>
 #include <errno.h>
@@ -25,12 +25,11 @@
 #include <sys/stat.h>
 #include <sys/time.h>
 
-#include "emmc.h"
 #include "fatfs/ff.h"
+#include "daruma.h"
+#include "circle_bind.h"
 
-#ifdef HAVE_USPI
-#include "uspi.h"
-#endif
+#include "platform.h"
 
 /* Definitions of physical drive number for each drive */
 #define MMC     0   /* Map MMC/SD card to drive number 0 */
@@ -44,26 +43,9 @@ static FIL *file_descriptors[MAX_DESCRIPTORS];
 
 void * __dso_handle;
 
-static char * heap_end = 0;
 
 caddr_t _sbrk(int incr) {
-    extern char __heap_start; /* Defined by the linker */
-    extern char __heap_end; /* Defined by the linker */
-    char *prev_heap_end;
-
-    if (heap_end == 0) {
-        heap_end = &__heap_start;
-    }
-    prev_heap_end = heap_end;
-
-    if (heap_end + incr > &__heap_end) {
-        /* Heap and stack collision */
-        return (caddr_t) 0;
-    }
-
-    heap_end += incr;
-
-    return (caddr_t) prev_heap_end;
+	return 0;
 }
 
 static int FRESULT_to_errno(FRESULT rc) {
@@ -140,7 +122,7 @@ int _fstat(int file, struct stat *st) {
     st->st_uid = 0;
     st->st_gid = 0;
     st->st_rdev = 0;
-    st->st_size = file_descriptors[file]->fsize;
+    st->st_size = file_descriptors[file]->obj.objsize;
     st->st_atime = st->st_mtime = st->st_ctime = 0;
     st->st_blksize = 0;
     st->st_blocks = 0;
@@ -197,16 +179,14 @@ int _open(const char *name, int flags, int mode) {
     if (rc == FR_OK) {
         file_descriptors[file] = fp;
         if ((flags & O_APPEND) != 0) {
-            f_lseek(fp, fp->fsize);
+            f_lseek(fp, fp->obj.objsize);
         }
     }
     else {
         free(fp);
         file = -1;
     }
-
     errno = FRESULT_to_errno(rc);
-
     return file;
 }
 
@@ -336,7 +316,8 @@ static const char * _VOLUME_NAME[_VOLUMES] = {
 };
 
 int mount(const char *source) {
-    for (int i = 0; i < _VOLUMES; i++) {
+	int i;
+    for (i = 0; i < _VOLUMES; i++) {
         if (!strncasecmp(source, _VOLUME_NAME[i], strlen(_VOLUME_NAME[i]))) {
             FRESULT rc = f_mount(&fat_fs[i], source, 1);
             errno = FRESULT_to_errno(rc);
@@ -349,7 +330,8 @@ int mount(const char *source) {
 }
 
 int umount(const char *target) {
-    for (int i = 0; i < _VOLUMES; i++) {
+	int i;
+    for (i = 0; i < _VOLUMES; i++) {
         if (!strncasecmp(target, _VOLUME_NAME[i], strlen(_VOLUME_NAME[i]))) {
             FRESULT rc = f_mount(NULL, target, 1);
             errno = FRESULT_to_errno(rc);
@@ -366,29 +348,100 @@ void _fini() {
         ;
 }
 
+#if 0
+
+#define TIMER_CLO       (PERIPHERAL_BASE+0x00003004)
+#define TIMER_CHI       (PERIPHERAL_BASE+0x00003008)
+
+uint64_t arm_systimer(void) {  //  get uptime in microseconds
+	uint32_t hi1, lo1, hi2, lo2;
+	hi1 = *(volatile uint32_t *)(TIMER_CHI);
+	lo1 = *(volatile uint32_t *)(TIMER_CLO);
+	hi2 = *(volatile uint32_t *)(TIMER_CHI);
+	lo2 = *(volatile uint32_t *)(TIMER_CLO);
+	if (hi1 == hi2 && lo1 > lo2) {
+		//  Rollover happened between hi2 and lo2
+		hi2++;
+	}
+	
+	return (((uint64_t)hi2) << 32) | lo2;
+}
+#endif
+
 int _gettimeofday(struct timeval *tv, struct timezone *tz) {
-    uint64_t t = *((uint64_t *)0x20003004);  // get uptime in microseconds
+    uint64_t t = arm_systimer();
     tv->tv_sec = t / 1000000;  // convert to seconds
     tv->tv_usec = ( t % 1000000 );  // get remaining microseconds
     return 0;  // return non-zero for error
 }
 
-void LogWrite (const char *pSource, unsigned Severity, const char *pMessage, ...)
+int
+tty_puts(void)
 {
-    // Do nothing
+	return 0;
 }
 
-void uspi_assertion_failed (const char *pExpr, const char *pFile, unsigned nLine)
+int
+tty_getch(void)
 {
-    // Do nothing
+	return bs_getkey();
 }
 
-void DebugHexdump (const void *pBuffer, unsigned nBufLen, const char *pSource /* = 0 */)
+#if 0
+#pragma mark ====== malloc() overrides ======
+#endif
+
+struct _reent;
+
+/*  malloc() and free() are provided in circle, but calloc() and realloc() are not.
+    In addition, we need to override _malloc_r, _free_r, _calloc_r, and _realloc_r */
+
+void *
+calloc(size_t count, size_t size)
 {
-    // Do nothing
+	void *p = malloc(count * size);
+	if (p != NULL)
+		memset(p, 0, count * size);
+	return p;
 }
 
-void log_printf (const char *ptr, ...)
+void *
+realloc(void *ptr, size_t size)
 {
-    // Do nothing
+	void *p = malloc(size);
+	if (p != NULL) {
+		memmove(p, ptr, size);
+		free(ptr);
+	}
+	return p;
+}
+
+void *
+_malloc_r(struct _reent *r, size_t size)
+{
+	return malloc(size);
+}
+
+void 
+_free_r(struct _reent *r, void *ptr)
+{
+	free(ptr);
+}
+
+void *
+_calloc_r(struct _reent *r, size_t count, size_t size)
+{
+	return calloc(count, size);
+}
+
+void *
+_realloc_r(struct _reent *r, void *ptr, size_t size)
+{
+	return realloc(ptr, size);
+}
+
+unsigned long
+_strtoul_r(struct _reent *r, const char *s, char **ptr, int base)
+{
+	return strtoul(s, ptr, base);
 }

@@ -73,7 +73,6 @@ int
 bs_init_parser_memory(void)
 {
 	int i;
-
 	gVMTableEnd = gVMTableBase + VMTABLE_SIZE;
 	gVMCodeEnd = gVMCodeBase + VMCODE_SIZE;
 	gVMDataEnd = gVMDataBase + VMDATA_SIZE;
@@ -97,6 +96,11 @@ bs_init_parser_memory(void)
 		gMemoryPtrs[i] = gMemoryPtrs[0] + gMemoryOffsets[i];
 	memset(gMemoryPtrs[MEM_VMTABLE], 0, gMemoryOffsets[MEM_END] - gMemoryOffsets[MEM_VMTABLE]);
 
+#if 0 && __circle__
+	log_printf("%s:%d:gMemoryPtrs[0] = %08x\n", __FILE__, __LINE__, (uint32_t)gMemoryPtrs[0]);
+#endif
+	
+	
 	gVMCodeTop = 0;
 	gVMDataTop = 0;
 	gVMAddressTop = 0;
@@ -131,7 +135,7 @@ bs_init_memory(void)
 {
 	gMemorySize = 1024 * 1024;
 
-	gMemoryPtr = (u_int8_t *)malloc(gMemorySize);
+	gMemoryPtr = (u_int8_t *)bs_malloc(gMemorySize);
 	gSourceBase = 0;
 	gVMTableBase = gSourceBase + SOURCE_SIZE;
 	gSourceBasePtr = gMemoryPtr + gSourceBase;
@@ -170,7 +174,7 @@ bs_realloc_block(int index, int size)
 	if (gMemoryOffsets[MEM_END] + dsize > gMemorySize) {
 		/*  Expand the memory block  */
 		size_t new_size = gMemorySize + 1024 * 1024;
-		u_int8_t *p = (u_int8_t *)realloc(gMemoryPtr, new_size);
+		u_int8_t *p = (u_int8_t *)bs_realloc(gMemoryPtr, new_size);
 		if (p == NULL)
 			return -1;  /*  Out of memory  */
 		gMemorySize = new_size;

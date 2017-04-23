@@ -25,6 +25,10 @@
 #include "transmessage.h"
 #include "y.tab.h"
 
+#if __circle__
+#include "circle_bind.h"
+#endif
+
 /*  Runtime VM registers  */
 static Off_t sVMCodePos;          /*  Program counter (offset from gVMCodeBasePtr)  */
 static u_int8_t *sVMStackPtr;     /*  Stack pointer  */
@@ -61,6 +65,38 @@ volatile int32_t gTimerCount;
 
 #if defined(__BAREMETAL__)
 
+#if __circle__
+
+volatile unsigned int s_timer_id = 0;
+
+static void
+s_timer_action(unsigned int hTimer, void *pParam, void *pContext)
+{
+	gTimerCount++;
+	gTimerInvoked = 1;
+	s_timer_id = bs_start_kernel_timer(1, s_timer_action, NULL, NULL);
+}
+
+
+static void
+s_stop_interval_timer(void)
+{
+	if (s_timer_id != 0) {
+		bs_cancel_kernel_timer(s_timer_id);
+		s_timer_id = 0;
+	}
+}
+
+static void
+s_start_interval_timer(void)
+{
+	if (s_timer_id == 0) {
+		s_timer_id = bs_start_kernel_timer(1, s_timer_action, NULL, NULL);
+	}
+}
+
+#else
+
 #include <uspios.h>
 
 volatile unsigned s_timer_id = 0;
@@ -90,6 +126,7 @@ s_start_interval_timer(void)
 		s_timer_id = StartKernelTimer(-1, s_timer_action, NULL, NULL);
 	}
 }
+#endif /* __circle__ */
 
 #else
 
@@ -128,16 +165,24 @@ s_start_interval_timer(void)
 
 #endif /* __BAREMETAL__ */
 
-static struct timeval s_start_timeval;
-
 u_int64_t
 bs_uptime(int init)
 {
+#if __circle__
+	static uint64_t s_start_armtime;
+	uint64_t ut;
+	ut = arm_systimer();
+	if (init)
+		s_start_armtime = ut;
+	return ut - s_start_armtime;
+#else
+	static struct timeval s_start_timeval;	
 	struct timeval tval;
 	gettimeofday(&tval, NULL);
 	if (init)
 		s_start_timeval = tval;
 	return ((u_int64_t)(tval.tv_sec - s_start_timeval.tv_sec)) * 1000000 + tval.tv_usec - s_start_timeval.tv_usec;
+#endif
 }
 
 void

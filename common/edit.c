@@ -1029,8 +1029,8 @@ bs_edit(void)
 	s_edit_last_column = -1;
 	
 	if (s_edit_color_for_column != NULL)
-		free(s_edit_color_for_column);
-	s_edit_color_for_column = (int8_t *)calloc(sizeof(int8_t), s_width);
+		bs_free(s_edit_color_for_column);
+	s_edit_color_for_column = (int8_t *)bs_calloc(sizeof(int8_t), s_width);
 	
 	bs_cls();
 	

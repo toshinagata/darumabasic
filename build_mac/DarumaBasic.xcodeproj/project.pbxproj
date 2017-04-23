@@ -75,6 +75,17 @@
 		E41B28611E64681A00AA596E /* transmessage.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = transmessage.c; sourceTree = "<group>"; };
 		E41B28621E64681A00AA596E /* transmessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = transmessage.h; sourceTree = "<group>"; };
 		E41B28631E64681A00AA596E /* uim_interface.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = uim_interface.c; sourceTree = "<group>"; };
+		E43F81761E8E2668007E9057 /* circle_bind.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = circle_bind.h; path = ../build_raspi_bm/circle_bind.h; sourceTree = SOURCE_ROOT; };
+		E43F81771E8E2668007E9057 /* kernel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = kernel.cpp; path = ../build_raspi_bm/kernel.cpp; sourceTree = SOURCE_ROOT; };
+		E43F81781E8E2668007E9057 /* kernel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = kernel.h; path = ../build_raspi_bm/kernel.h; sourceTree = SOURCE_ROOT; };
+		E43F81791E8E2668007E9057 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../build_raspi_bm/main.cpp; sourceTree = SOURCE_ROOT; };
+		E43F817A1E8E2668007E9057 /* syscalls.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = syscalls.c; path = ../build_raspi_bm/syscalls.c; sourceTree = SOURCE_ROOT; };
+		E43F81BD1E8E6299007E9057 /* diskio.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = diskio.c; path = ../build_raspi_bm/fatfs/diskio.c; sourceTree = SOURCE_ROOT; };
+		E43F81D51E8E8892007E9057 /* emmc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = emmc.c; path = ../build_raspi_bm/emmc.c; sourceTree = SOURCE_ROOT; };
+		E43F81D61E8E8892007E9057 /* emmc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = emmc.h; path = ../build_raspi_bm/emmc.h; sourceTree = SOURCE_ROOT; };
+		E43F81D71E8E8892007E9057 /* platform.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = platform.c; path = ../build_raspi_bm/platform.c; sourceTree = SOURCE_ROOT; };
+		E43F81D81E8E8892007E9057 /* platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = platform.h; path = ../build_raspi_bm/platform.h; sourceTree = SOURCE_ROOT; };
+		E43F82E01E900A01007E9057 /* koptions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = koptions.cpp; path = ../build_raspi_bm/koptions.cpp; sourceTree = SOURCE_ROOT; };
 		E45FD8911E5D8C82006D35D9 /* UIM.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIM.framework; path = /Library/Frameworks/UIM.framework; sourceTree = "<absolute>"; };
 		E460F7161CAA25D7009AC6A6 /* DarumaBasic-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "DarumaBasic-Info.plist"; sourceTree = "<group>"; };
 		E460F72A1CAA2677009AC6A6 /* GraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphView.h; sourceTree = "<group>"; };
@@ -152,6 +163,7 @@
 				E4EAE19C1C5C5921003F0D40 /* common */,
 				080E96DDFE201D6D7F000001 /* build_mac */,
 				E4C0041B1E59265100F19D94 /* build_raspi */,
+				E43F816A1E8E264C007E9057 /* build_raspi_bm */,
 				E408190F1E4CB63A0091B0BE /* basic */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				E460F7161CAA25D7009AC6A6 /* DarumaBasic-Info.plist */,
@@ -178,6 +190,32 @@
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E43F816A1E8E264C007E9057 /* build_raspi_bm */ = {
+			isa = PBXGroup;
+			children = (
+				E43F81761E8E2668007E9057 /* circle_bind.h */,
+				E43F81771E8E2668007E9057 /* kernel.cpp */,
+				E43F81781E8E2668007E9057 /* kernel.h */,
+				E43F82E01E900A01007E9057 /* koptions.cpp */,
+				E43F81791E8E2668007E9057 /* main.cpp */,
+				E43F817A1E8E2668007E9057 /* syscalls.c */,
+				E43F81D51E8E8892007E9057 /* emmc.c */,
+				E43F81D61E8E8892007E9057 /* emmc.h */,
+				E43F81D71E8E8892007E9057 /* platform.c */,
+				E43F81D81E8E8892007E9057 /* platform.h */,
+				E43F81B81E8E6288007E9057 /* fatfs */,
+			);
+			name = build_raspi_bm;
+			sourceTree = "<group>";
+		};
+		E43F81B81E8E6288007E9057 /* fatfs */ = {
+			isa = PBXGroup;
+			children = (
+				E43F81BD1E8E6299007E9057 /* diskio.c */,
+			);
+			name = fatfs;
 			sourceTree = "<group>";
 		};
 		E4C0041B1E59265100F19D94 /* build_raspi */ = {
