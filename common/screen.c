@@ -15,6 +15,7 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <unistd.h>
+#include <errno.h>
 
 /*  Text output destination  */
 u_int8_t my_console;
@@ -74,10 +75,41 @@ static pixel_t s_initial_palette[16] = {
 };
 
 #if !__CONSOLE__
+#if EMBED_FONTDATA
+#define FONTDATA_BIN _binary____common_fontdata_bin_start
+extern char FONTDATA_BIN[];
+u_int16_t *gConvTable;
+u_int8_t *gFontData;
+u_int8_t *gKanjiData;
+#else
 u_int16_t gConvTable[65536];
 u_int8_t gFontData[16*188];
 u_int8_t gKanjiData[32*11844];
 #endif
+#endif
+
+int
+bs_fread(u_int8_t *pos, size_t size, size_t nitems, FILE *fp)
+{
+	int rsize = 0, n;
+	size *= nitems;
+	while (rsize < size) {
+#if 0 && __circle__
+		log_printf("bs_fread: %d %d", rsize, size);
+#endif
+		n = size - rsize;
+		if (n > 4096)
+			n = 4096;
+		if (fread(pos + rsize, 1, n, fp) < n) {
+#if 0 && __circle__
+			log_printf("fread failed (%s)\n", strerror(errno));
+#endif
+			return -1;
+		}
+		rsize += n;
+	}
+	return size;
+}
 
 /*  Read character data  */
 int
@@ -89,14 +121,26 @@ bs_read_fontdata(const char *path)
 	u_int8_t buf[4];
 	int uc;
 	int convsize, fontsize, kanjisize;
-	
+
 	if (s_done)
 		return 0;
 
 	fp = fopen(path, "r");
+
 	if (fp == NULL) {
-		debug_printf("Cannot read font data %s\n", path);
+#if EMBED_FONTDATA
+		/*  Data is already at FONTDATA_BIN  */
+		convsize = *((u_int32_t *)FONTDATA_BIN);
+		fontsize = *((u_int32_t *)(FONTDATA_BIN + 4));
+		kanjisize = *((u_int32_t *)(FONTDATA_BIN + 8));
+		gConvTable = (u_int16_t *)(FONTDATA_BIN + 12);
+		gFontData = (u_int8_t *)(FONTDATA_BIN + 12 + convsize*2);
+		gKanjiData = (u_int8_t *)(FONTDATA_BIN + 12 + convsize*2 + fontsize);
+		return 0;
+#else
+		log_printf("Cannot read font data %s\n", path);
 		return 1;
+#endif
 	}
 	
 	fread(buf, 1, 4, fp);
@@ -106,6 +150,16 @@ bs_read_fontdata(const char *path)
 	fread(buf, 1, 4, fp);
 	kanjisize = (u_int32_t)buf[0] + 256 * ((u_int32_t)buf[1] + 256 * ((u_int32_t)buf[2] + 256 * (u_int32_t)buf[3]));	
 	
+#if EMBED_FONTDATA
+	gConvTable = (u_int16_t *)malloc(convsize*2 + fontsize + kanjisize);
+	if (gConvTable == NULL) {
+		log_printf("Cannot allocate memory for font data\n");
+		return 1;
+	}
+	gFontData = (u_int8_t *)(gConvTable + convsize);
+	gKanjiData = gFontData + fontsize;
+#endif
+	
 	fread(gConvTable, 2, convsize, fp);
 	for (uc = 0; uc < 65536; uc++) {
 		/*  Convert from little endian  */
@@ -113,13 +167,17 @@ bs_read_fontdata(const char *path)
 		si = ((u_int8_t *)&gConvTable[uc])[0];
 		si += 256 * (u_int16_t)((u_int8_t *)&gConvTable[uc])[1];
 	}
-	fread(gFontData, 1, fontsize, fp);
-	fread(gKanjiData, 1, kanjisize, fp);
+	bs_fread(gFontData, 1, fontsize, fp);
+	bs_fread(gKanjiData, 1, kanjisize, fp);
 	
 	fclose(fp);
 
 	s_done = 1;
 	
+#if 0 && __circle__
+	log_printf("read_fontdata() completed.\n");
+#endif
+
 #endif  /*  __CONSOLE__  */
 	return 0;
 }
@@ -469,7 +527,7 @@ bs_show_cursor(int flag)
 int
 bs_getline(char *buf, int size)
 {
-	u_int16_t *ubuf = (u_int16_t *)malloc(sizeof(u_int16_t) * size);
+	u_int16_t *ubuf = (u_int16_t *)bs_malloc(sizeof(u_int16_t) * size);
 	int usize = size;
 	u_int16_t uc;
 	char *s;
@@ -481,7 +539,7 @@ bs_getline(char *buf, int size)
 	pt = len = 0;
 	while ((uc = bs_getch(1)) != 13) {
 		if (uc == 3) {
-			free(ubuf);
+			bs_free(ubuf);
 			return -1;  /*  Interrupt  */
 		}
 		if (uc == 30 || uc == 1) {
@@ -554,7 +612,7 @@ bs_getline(char *buf, int size)
 		}
 	}
 	*s = 0;
-	free(ubuf);
+	bs_free(ubuf);
 	bs_puts("\n");
 	return s - buf;
 }
@@ -774,8 +832,8 @@ bs_init_screen(void)
 /*	my_patbuffer_size = 32*32*NUMBER_OF_PATTERNS;
 	my_patbuffer_count = 0;
 	if (my_patbuffer != NULL)
-		free(my_patbuffer);
-	my_patbuffer = (pixel_t *)calloc(sizeof(pixel_t), my_patbuffer_size);
+		bs_free(my_patbuffer);
+	my_patbuffer = (pixel_t *)bs_calloc(sizeof(pixel_t), my_patbuffer_size);
 	memset(my_patterns, 0, sizeof(my_patterns)); */
 
 	bs_redraw(0, 0, my_width, my_height);

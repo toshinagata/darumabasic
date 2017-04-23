@@ -71,7 +71,7 @@ s_show_uptime(int n)
 	static u_int8_t sFontData[16*188];
 	static u_int8_t sKanjiData[32*11844];
 	
-	sBitmapBuffer = (u_int32_t *)calloc(sizeof(u_int32_t), 1024);
+	sBitmapBuffer = (u_int32_t *)bs_calloc(sizeof(u_int32_t), 1024);
 	rep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:(u_int8_t **)&sBitmapBuffer pixelsWide:32 pixelsHigh:32 bitsPerSample:8 samplesPerPixel:4 hasAlpha:YES isPlanar:NO colorSpaceName:NSCalibratedRGBColorSpace bytesPerRow:0 bitsPerPixel:0];
 	sTextContext = [NSGraphicsContext graphicsContextWithBitmapImageRep:rep];
 	[sTextContext setShouldAntialias:NO];
@@ -383,9 +383,9 @@ bs_init_screen_platform(void)
 {
 	//  my_fb_width and my_fb_height should be set before calling this
 	CGColorSpaceRef space = CGColorSpaceCreateDeviceRGB();
-	s_text_pixels = (pixel_t *)calloc(sizeof(pixel_t), my_fb_width * my_fb_height);
-	s_graphic_pixels = (pixel_t *)calloc(sizeof(pixel_t), my_fb_width * my_fb_height);
-	s_composed_pixels = (pixel_t *)calloc(sizeof(pixel_t), my_fb_width * my_fb_height);
+	s_text_pixels = (pixel_t *)bs_calloc(sizeof(pixel_t), my_fb_width * my_fb_height);
+	s_graphic_pixels = (pixel_t *)bs_calloc(sizeof(pixel_t), my_fb_width * my_fb_height);
+	s_composed_pixels = (pixel_t *)bs_calloc(sizeof(pixel_t), my_fb_width * my_fb_height);
 	s_text_context = CGBitmapContextCreate(s_text_pixels,
 										   my_fb_width, my_fb_height,
 										   8, 4 * my_fb_width, space,

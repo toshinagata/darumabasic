@@ -14,12 +14,21 @@
 
 #if __RASPBERRY_PI__
 #if __BAREMETAL__
+#if __circle__
+#include "circle_bind.h"
+#if CIRCLE_DEPTH == 16
+#define BYTES_PER_PIXEL 2
+#else
+#define BYTES_PER_PIXEL 4
+#endif
+#else
 #include <fb.h>     /*  BYTES_PER_PIXEL is defined in fb.h  */
 #define PIXEL_T_DEFINED 1
+#endif  /*  __circle__  */
 #else
 #define BYTES_PER_PIXEL 2
-#endif
-#endif
+#endif  /*  __BAREMETAL__  */
+#endif  /*  __RASPBERRY_PI__  */
 
 #ifndef BYTES_PER_PIXEL
 #define BYTES_PER_PIXEL 4
@@ -97,20 +106,28 @@ typedef u_int32_t   pixel_t;
 extern "C" {
 #endif
 	
-/*  UTF16 to Font Index conversion table  */
-/*  Font Index <-> EUC-JIS-2004  */
-/*  0-93 <-> 21-7E (94) */
-/*  94-187 <-> 8E/A1-FE (94, hankaku kana)  */
-/*  188-9023 <-> A1-FE/A1-FE (94*94)  */
-/*  9024-10433 <-> 8F/A1-AF/A1-FE (15*94)  */
-/*  10434-12031 <-> 8F/EE-FE/A1-FE (17*94)  */
-extern u_int16_t gConvTable[65536];
-
-/*  Font data for hankaku characters (index 0-187)  */
-extern u_int8_t gFontData[16*188];
-/*  Font data for zenkaku characters (index 188-12031)  */
-extern u_int8_t gKanjiData[32*11844];
-
+#if !defined(EMBED_FONTDATA)
+	/*  UTF16 to Font Index conversion table  */
+	/*  Font Index <-> EUC-JIS-2004  */
+	/*  0-93 <-> 21-7E (94) */
+	/*  94-187 <-> 8E/A1-FE (94, hankaku kana)  */
+	/*  188-9023 <-> A1-FE/A1-FE (94*94)  */
+	/*  9024-10433 <-> 8F/A1-AF/A1-FE (15*94)  */
+	/*  10434-12031 <-> 8F/EE-FE/A1-FE (17*94)  */
+	extern u_int16_t gConvTable[65536];
+	
+	/*  Font data for hankaku characters (index 0-187)  */
+	extern u_int8_t gFontData[16*188];
+	/*  Font data for zenkaku characters (index 188-12031)  */
+	extern u_int8_t gKanjiData[32*11844];
+	
+	extern char _binary_fontdata_bin_start[];
+#else
+	extern u_int16_t *gConvTable;
+	extern u_int8_t *gFontData;
+	extern u_int8_t *gKanjiData;
+#endif
+	
 /*  Lock/unlock shared memory
  (should be unnecessary if we are running in a single-thread mode)  */
 extern void bs_lock(void);

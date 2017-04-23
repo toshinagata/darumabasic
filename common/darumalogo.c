@@ -527,8 +527,8 @@ bs_show_darumalogo(void)
 	int height = daruma103_header[1];
 	int ncolors = daruma103_header[2];
 	pixel_t *p, *col;
-	p = (pixel_t *)malloc(width * height * sizeof(pixel_t));
-	col = (pixel_t *)malloc(ncolors * sizeof(pixel_t));
+	p = (pixel_t *)bs_malloc(width * height * sizeof(pixel_t));
+	col = (pixel_t *)bs_malloc(ncolors * sizeof(pixel_t));
 	for (i = 0; i < ncolors; i++) {
 		float r = daruma103_colors[i * 3] / 255.0;
 		float g = daruma103_colors[i * 3 + 1] / 255.0;
@@ -543,6 +543,6 @@ bs_show_darumalogo(void)
 	bs_select_active_buffer(GRAPHIC_ACTIVE);
 	bs_put_pattern(p, x, y, width, height);
 	bs_update_screen();
-	free(col);
-	free(p);
+	bs_free(col);
+	bs_free(p);
 }

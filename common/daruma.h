@@ -11,11 +11,17 @@
 #define __daruma_h__
 
 #include <stdint.h>
+
 #include <sys/types.h>
 #include <sys/param.h>  /*  For MAXPATHLEN  */
 
+
 #ifndef MAXPATHLEN
 #define MAXPATHLEN 4096
+#endif
+
+#ifdef __cplusplus
+extern "C" {
 #endif
 
 /*  To enable debug_printf, define ENABLE_DPRINTF  */
@@ -231,6 +237,19 @@ extern int bs_init_runtime_memory(void);
 extern int bs_realloc_block(int index, int size);
 extern void bs_relocate_runtime_stack(Off_t dsize);
 extern int bs_exec_set_trace_flag(int flag);
+
+/*  malloc()  */
+#if __circle__
+extern void *bs_malloc(size_t size);
+extern void bs_free(void *ptr);
+extern void *bs_calloc(size_t count, size_t size);
+extern void *bs_realloc(void *ptr, size_t size);
+#else
+#define bs_malloc malloc
+#define bs_free   free
+#define bs_calloc calloc
+#define bs_realloc realloc
+#endif
 
 /*  True if the on-memory program is modified  */
 extern u_int8_t gSourceTouched;
@@ -541,4 +560,8 @@ extern int bs_runloop(void);
 extern u_int64_t bs_uptime(int init);
 extern void bs_usleep(u_int32_t usec);
 
-#endif /* __pibasic_h__ */
+#ifdef __cplusplus
+}
+#endif
+				
+#endif /* __daruma_h__ */

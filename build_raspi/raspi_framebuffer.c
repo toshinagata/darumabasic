@@ -16,7 +16,11 @@
 
 #ifndef __CONSOLE__
 #if __BAREMETAL__
+#if __circle__
+#include "circle_bind.h"
+#else
 #include <fb.h>
+#endif /* __circle__ */
 #else
 #include <linux/fb.h>
 #include <sys/mman.h>
@@ -48,10 +52,16 @@ s_bs_raspi_framebuffer(void)
 {
 #ifndef __CONSOLE__
 #if __BAREMETAL__
+#if __circle__
+	int i;
+	bs_raspibm_init_framebuffer();
+	s_framebuffer = bs_raspibm_get_framebuffer();
+#else
 	fb_init(0, 0);
 	my_width = my_fb_width = fb_width;
 	my_height = my_fb_height = fb_height;
 	s_framebuffer = (char *)fb_addr;
+#endif /* __circle__ */
 #else
 	struct fb_var_screeninfo vinfo;
 	struct fb_fix_screeninfo finfo;
@@ -111,8 +121,8 @@ bs_init_screen_platform(void)
 {
 #ifndef __CONSOLE__
 	s_bs_raspi_framebuffer();
-	s_text_pixels = (pixel_t *)calloc(sizeof(pixel_t), my_fb_width * my_fb_height);
-	s_graphic_pixels = (pixel_t *)calloc(sizeof(pixel_t), my_fb_width * my_fb_height);
+	s_text_pixels = (pixel_t *)bs_calloc(sizeof(pixel_t), my_fb_width * my_fb_height);
+	s_graphic_pixels = (pixel_t *)bs_calloc(sizeof(pixel_t), my_fb_width * my_fb_height);
 	s_active_pixels = s_text_pixels;
 	CLEAR_REDRAW;
 	bs_redraw(0, 0, my_width, my_height);
@@ -192,7 +202,11 @@ bs_draw_platform(void *ref)
 	} else cx1 = cx2 = cy1 = cy2 = -1;
 	
 #if __BAREMETAL__
+#if __circle__
+	s_framebuffer = (char *)bs_raspibm_get_framebuffer();
+#else
 	s_framebuffer = (char *)fb_addr;  /*  May change because of double buffering  */
+#endif
 #endif
 
 	if (s_expand) {

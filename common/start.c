@@ -15,6 +15,8 @@
 #include <unistd.h>  /*  chdir()  */
 #include <ctype.h>
 
+#include <sys/time.h>  /*  setitimer()  */
+
 #include "daruma.h"
 #include "screen.h"
 #include "gencode.h"
@@ -41,16 +43,22 @@ debug_printf(const char *fmt,...)
 }
 #endif
 
+#if __circle__
+extern void log_printf(const char *,...);
+#else
+static inline void log_printf(const char *fmt, ...) {}
+#endif
+
 /*  Clear all program/compile/runtime storage  */
 /*  (i.e. Everything except for the source program)  */
 int
 bs_new(void)
 {
-	/*  Clear source program  */
-	gSourceTop = 0;
-	
 	/*  Clear parser information and runtime memory  */
 	bs_init_parser_memory();
+	
+	/*  Clear source program  */
+	gSourceTop = 0;
 	
 	return 0;
 }
@@ -105,6 +113,11 @@ bs_run(const u_int8_t *ptr, int new_run, int direct_mode)
 		return -1; /*  Compile error  */
 	}
 	
+#if 0 && __circle__
+	log_printf("%s:%d:uptime = %d\n", __FILE__, __LINE__, (int)bs_uptime(0));
+	while (1);
+#endif
+
 	n = bs_execinit(save_vmcode, new_run);
 	if (n == 0) {
 		gRunMode = (direct_mode ? BS_RUNMODE_DIRECT : BS_RUNMODE_BATCH);
@@ -112,6 +125,13 @@ bs_run(const u_int8_t *ptr, int new_run, int direct_mode)
 		gRunMode = BS_RUNMODE_NONE;
 		my_suppress_update = 0;
 	}
+	
+#if 0 && __circle__
+	log_printf("%s:%d:uptime = %d\n", __FILE__, __LINE__, (int)bs_uptime(0));
+	bs_update_screen();
+	bs_blink(5);
+	while (1);
+#endif
 	
 	if (n != 0) {
 		debug_printf("Runtime error occurred.\n");
@@ -153,34 +173,54 @@ bs_runloop(void)
 	int n;
 	int cont_flag = 0;
 	char *p;
-	u_int64_t ut;
-	
+	u_int32_t ut;
+
 	bs_init_screen();
 	bs_show_darumalogo();
+
 	bs_uptime(1);  /*  Set the 'startup' time  */
+
+	{
+		extern int mount(const char *);
+		extern int errno;
+		log_printf("Mounting SD card...");
+		if (mount("sd:") != 0) {
+			log_printf("SD card not mounted (%s)", strerror(errno));
+		}
+	}
 	
 	bs_init_memory();
 	bs_read_fontdata("fontdata.bin");
 	
+#if __BAREMETAL__
+	n = -1;
+#else
 	if ((p = getenv("DARUMA_BASIC_DIR")) != NULL && *p != 0) {
 		n = chdir(p);
 	} else n = -1;
+#endif
 	if (n < 0) 
 		chdir("basic");
 
 	getcwd(bs_basedir, sizeof(bs_basedir));
+	//log_printf("The current directory is %s\n", bs_basedir);
 
 	bs_new();
 
 	ut = bs_uptime(0);
+	//log_printf("uptime = %ld\n", ut);
+	
 	if (ut < 1000000) {
 		bs_usleep(1000000 - ut);
+		ut = bs_uptime(0);
+		// log_printf("uptime = %ld\n", ut);
 	}
-	
+
 	bs_select_active_buffer(GRAPHIC_ACTIVE);
 	bs_clear_box(0, 0, my_width, my_height);
 
 	bs_welcome();
+	bs_update_screen();
 
 	/*  Internal error check  */
 	if (C_STOP >= 255) {
@@ -208,8 +248,12 @@ bs_runloop(void)
 	while (1) {
 	
 		bs_puts(">> ");
+		
 		if (bs_getline(s, sizeof s - 1) > 0) {
 			int n1;
+#if 0 && __circle__
+			bs_puts_format("Input: \"%s\"\n", s);
+#endif
 			for (n = 0; s[n] > 0 && s[n] <= ' '; n++);
 			if (s[n] == 0)
 				continue;
@@ -220,6 +264,10 @@ bs_runloop(void)
 				if (strncasecmp(s + n, "RUN", n1) == 0) {
 					cont_flag = 0;
 					n = bs_run(gSourceBasePtr, 1, 0);
+#if 0 && __circle__
+					log_printf("%s:%d:\n", __FILE__, __LINE__);
+					while (1);
+#endif
 					if (n < 0)
 						cont_flag = 0;  /*  Compile error  */
 					else
