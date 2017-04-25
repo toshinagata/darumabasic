@@ -97,17 +97,12 @@ DRESULT disk_read (
 	switch (pdrv) {
 	case DEV_MMC :
         {
-#if 0 && __circle__
-			log_printf("%s:%d disk_read %d %d\n", __FILE__, __LINE__, (int)sector, (int)count);
-#endif
             size_t buf_size = count * emmc_dev->bd.block_size;
             if (sd_read(buff, buf_size, sector) < buf_size)
             {
-			//	log_printf("%s:%d sd_read failed\n", __FILE__, __LINE__);
                 return RES_ERROR;
             }
 			
-		//	log_printf("%s:%d sd_read success\n", __FILE__, __LINE__);
             return RES_OK;
         }
 

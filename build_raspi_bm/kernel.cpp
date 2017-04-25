@@ -157,14 +157,6 @@ TShutdownMode CKernel::Run (void)
 int CKernel::GetKey(void)
 {
 	int n;
-#if 0 && __circle__
-	static int visited = 0;
-	if (visited == 0) {
-		::bs_blink(5);
-		visited = 1;
-	}
-//	while(1);
-#endif
 //	m_Lock.Acquire();
 	if (m_KeyBufferCount > 0) {
 		n = m_KeyBuffer[m_KeyBufferBase++];

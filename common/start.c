@@ -113,11 +113,6 @@ bs_run(const u_int8_t *ptr, int new_run, int direct_mode)
 		return -1; /*  Compile error  */
 	}
 	
-#if 0 && __circle__
-	log_printf("%s:%d:uptime = %d\n", __FILE__, __LINE__, (int)bs_uptime(0));
-	while (1);
-#endif
-
 	n = bs_execinit(save_vmcode, new_run);
 	if (n == 0) {
 		gRunMode = (direct_mode ? BS_RUNMODE_DIRECT : BS_RUNMODE_BATCH);
@@ -125,13 +120,6 @@ bs_run(const u_int8_t *ptr, int new_run, int direct_mode)
 		gRunMode = BS_RUNMODE_NONE;
 		my_suppress_update = 0;
 	}
-	
-#if 0 && __circle__
-	log_printf("%s:%d:uptime = %d\n", __FILE__, __LINE__, (int)bs_uptime(0));
-	bs_update_screen();
-	bs_blink(5);
-	while (1);
-#endif
 	
 	if (n != 0) {
 		debug_printf("Runtime error occurred.\n");
@@ -157,7 +145,7 @@ bs_welcome(void)
 	/*  Welcome message  */
 	bs_tcolor(RGBFLOAT(1, 1, 1));
 	bs_puts("---------------------------------------\n");
-	bs_puts(" Daruma (だるま) BASIC, Ver. 1.0pre5\n");
+	bs_puts(" Daruma (だるま) BASIC, Ver. 1.0pre6\n");
 	bs_puts(" Copyright (C) 2016-2017 Toshi Nagata\n");
 	bs_puts("---------------------------------------\n");
 	bs_puts(MSG_(BS_M_START_PROGRAM));
@@ -180,6 +168,7 @@ bs_runloop(void)
 
 	bs_uptime(1);  /*  Set the 'startup' time  */
 
+#if __BAREMETAL__
 	{
 		extern int mount(const char *);
 		extern int errno;
@@ -188,6 +177,7 @@ bs_runloop(void)
 			log_printf("SD card not mounted (%s)", strerror(errno));
 		}
 	}
+#endif
 	
 	bs_init_memory();
 	bs_read_fontdata("fontdata.bin");
@@ -251,9 +241,6 @@ bs_runloop(void)
 		
 		if (bs_getline(s, sizeof s - 1) > 0) {
 			int n1;
-#if 0 && __circle__
-			bs_puts_format("Input: \"%s\"\n", s);
-#endif
 			for (n = 0; s[n] > 0 && s[n] <= ' '; n++);
 			if (s[n] == 0)
 				continue;
@@ -264,10 +251,6 @@ bs_runloop(void)
 				if (strncasecmp(s + n, "RUN", n1) == 0) {
 					cont_flag = 0;
 					n = bs_run(gSourceBasePtr, 1, 0);
-#if 0 && __circle__
-					log_printf("%s:%d:\n", __FILE__, __LINE__);
-					while (1);
-#endif
 					if (n < 0)
 						cont_flag = 0;  /*  Compile error  */
 					else

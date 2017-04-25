@@ -96,11 +96,6 @@ bs_init_parser_memory(void)
 		gMemoryPtrs[i] = gMemoryPtrs[0] + gMemoryOffsets[i];
 	memset(gMemoryPtrs[MEM_VMTABLE], 0, gMemoryOffsets[MEM_END] - gMemoryOffsets[MEM_VMTABLE]);
 
-#if 0 && __circle__
-	log_printf("%s:%d:gMemoryPtrs[0] = %08x\n", __FILE__, __LINE__, (uint32_t)gMemoryPtrs[0]);
-#endif
-	
-	
 	gVMCodeTop = 0;
 	gVMDataTop = 0;
 	gVMAddressTop = 0;

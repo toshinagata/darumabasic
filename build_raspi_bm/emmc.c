@@ -1122,14 +1122,6 @@ static void sd_handle_interrupts(struct emmc_block_dev *dev)
     uint32_t irpts = mmio_read(EMMC_BASE + EMMC_INTERRUPT);
     uint32_t reset_mask = 0;
 
-#if 0 && __circle__
-	{
-		static int count = 0;
-		if (++count == 20)
-			while (1);
-	}
-#endif
-	
     if(irpts & SD_COMMAND_COMPLETE)
     {
 #ifdef EMMC_DEBUG
@@ -1234,7 +1226,7 @@ static void sd_issue_command(struct emmc_block_dev *dev, uint32_t command, uint3
     if(command & IS_APP_CMD)
     {
         command &= 0xff;
-#if 0 && __circle__ || defined(EMMC_DEBUG)
+#if defined(EMMC_DEBUG)
         log_printf("SD: issuing command ACMD%d\n", command);
 #endif
 
@@ -1258,7 +1250,7 @@ static void sd_issue_command(struct emmc_block_dev *dev, uint32_t command, uint3
     }
     else
     {
-#if 0 && __circle__ || defined(EMMC_DEBUG)
+#if defined(EMMC_DEBUG)
         log_printf("SD: issuing command CMD%d\n", command);
 #endif
 
@@ -1921,7 +1913,7 @@ int sd_card_init(struct block_device **dev)
 
 static int sd_ensure_data_mode(struct emmc_block_dev *edev)
 {
-#if 0 && __circle__ || defined(EMMC_DEBUG)
+#if defined(EMMC_DEBUG)
 	log_printf("SD: ensuring data mode for card %08x\n", (uint32_t)edev);
 #endif
 	if(edev->card_rca == 0)
@@ -2081,7 +2073,7 @@ static int sd_do_data_command(struct emmc_block_dev *edev, int is_write, uint8_t
         edev->use_sdma = 0;
 #endif
 
-#if 0 && __circle__ || defined(EMMC_DEBUG)
+#if defined(EMMC_DEBUG)
 //		log_printf("Issuing command %d %u", command, block_no);
 #endif
         sd_issue_command(edev, command, block_no, 5000000);
@@ -2116,18 +2108,18 @@ size_t sd_read(uint8_t *buf, size_t buf_size, uint32_t block_no)
         return -1;
 	}
 
-#if 0 && __circle__ || defined(EMMC_DEBUG)
+#if defined(EMMC_DEBUG)
 	log_printf("SD: read() card ready, reading from block %u\n", block_no);
 #endif
 
     if(sd_do_data_command(edev, 0, buf, buf_size, block_no) < 0) {
-#if 0 && __circle__ || defined(EMMC_DEBUG)
+#if defined(EMMC_DEBUG)
 		log_printf("SD: data read failed\n");
 #endif
         return -1;
 	}
 
-#if 0 && __circle__ || defined(EMMC_DEBUG)
+#if defined(EMMC_DEBUG)
 	log_printf("SD: data read successful\n");
 #endif
 

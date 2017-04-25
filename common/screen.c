@@ -94,16 +94,10 @@ bs_fread(u_int8_t *pos, size_t size, size_t nitems, FILE *fp)
 	int rsize = 0, n;
 	size *= nitems;
 	while (rsize < size) {
-#if 0 && __circle__
-		log_printf("bs_fread: %d %d", rsize, size);
-#endif
 		n = size - rsize;
 		if (n > 4096)
 			n = 4096;
 		if (fread(pos + rsize, 1, n, fp) < n) {
-#if 0 && __circle__
-			log_printf("fread failed (%s)\n", strerror(errno));
-#endif
 			return -1;
 		}
 		rsize += n;
@@ -138,7 +132,7 @@ bs_read_fontdata(const char *path)
 		gKanjiData = (u_int8_t *)(FONTDATA_BIN + 12 + convsize*2 + fontsize);
 		return 0;
 #else
-		log_printf("Cannot read font data %s\n", path);
+	//	log_printf("Cannot read font data %s\n", path);
 		return 1;
 #endif
 	}
@@ -174,10 +168,6 @@ bs_read_fontdata(const char *path)
 
 	s_done = 1;
 	
-#if 0 && __circle__
-	log_printf("read_fontdata() completed.\n");
-#endif
-
 #endif  /*  __CONSOLE__  */
 	return 0;
 }
