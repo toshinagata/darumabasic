@@ -21,5 +21,5 @@ do
   next
  next
  p=(p+1)%40
- redraw 1
+ redraw -1
 loop
