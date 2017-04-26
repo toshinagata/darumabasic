@@ -1065,7 +1065,8 @@ bs_builtin_rgb(void)
 }
 
 /*  REDRAW(n)
- Control the screen redraw. n=0, Stop automatic redraw; n>0, Restart automatic redraw;
+ Control the screen redraw. n=0, Stop automatic redraw;
+ n>0, Redraw immediately and restart automatic redraw;
  n<0, Redraw immediately and stop further automatic redraw  */
 int
 bs_builtin_redraw(void)
@@ -1074,9 +1075,10 @@ bs_builtin_redraw(void)
 	bs_get_next_int_arg(&n);
 	if (n == 0)
 		my_suppress_update = 1;
-	else if (n > 0)
+	else if (n > 0) {
 		my_suppress_update = 0;
-	else {
+		bs_update_screen();
+	} else {
 		my_suppress_update = 0;
 		bs_update_screen();
 		my_suppress_update = 1;
