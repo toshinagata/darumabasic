@@ -974,10 +974,9 @@ bs_start_loop(int type)
 		/*  Allocation will be done later (when the type of the control variables are determined) */
 		gParserInfo.lp->coff = gParserInfo.fp->ltop;
 	} else if (type == BS_LOOPTYPE_DO) {
-		/*  Start and continue address is the top of the statement  */
+		/*  Start address is the top of the statement  */
 		gParserInfo.lp->saddr = gVMCodeTop;
-		gParserInfo.lp->caddr = gVMCodeTop;
-		gParserInfo.lp->flags &= ~(BS_LOOPFLAG_SMASK | BS_LOOPFLAG_CMASK);
+		gParserInfo.lp->flags &= ~BS_LOOPFLAG_SMASK;
 	}
 
 	return old_loopidx;
@@ -1076,6 +1075,18 @@ bs_generate_continue_statement(void)
 	link = bs_code2(C_BRA, gParserInfo.lp->caddr);
 	if ((gParserInfo.lp->flags & BS_LOOPFLAG_CMASK) != 0)
 		gParserInfo.lp->caddr = link;
+	return 0;
+}
+
+/*  Handle 'LOOP' statement; resolve CONTINUE links in the DO..LOOP construct  */
+int
+bs_handle_loop_statement(void)
+{
+	/*  Resolve CONTINUE links  */
+	if (gParserInfo.lp->flags & BS_LOOPFLAG_CMASK) {
+		bs_resolve_links(&gParserInfo.lp->caddr, gVMCodeTop);
+		gParserInfo.lp->flags &= ~BS_LOOPFLAG_CMASK;
+	}
 	return 0;
 }
 

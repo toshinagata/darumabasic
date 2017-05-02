@@ -171,23 +171,24 @@ optional_step: { bs_code1(C_PUSH_INT, 1); $$.type = BS_TYPE_INTEGER; }
 ;
 
 /*  DO statements  */
-/* DO @s body LOOP <BRA @s> @e */
-/* DO @s WHILE expr <BZ @e> body LOOP <BRA @s> @e */
-/* DO @s UNTIL expr <BNZ @e> body LOOP <BRA @s> @e */
-/* DO @s body LOOP WHILE expr <BNZ @s> @e */
-/* DO @s body LOOP UNTIL expr <BZ @s> @e  */
-/* body: ... BREAK <BRA @e> ... CONTINUE <BRA @s> ...  */
-/* (start addr = continue addr)  */
+/* DO @s body LOOP @c <BRA @s> @e */
+/* DO @s WHILE expr <BZ @e> body LOOP @c <BRA @s> @e */
+/* DO @s UNTIL expr <BNZ @e> body LOOP @c <BRA @s> @e */
+/* DO @s body LOOP @c WHILE expr <BNZ @s> @e */
+/* DO @s body LOOP @c UNTIL expr <BZ @s> @e  */
+/* body: ... BREAK <BRA @e> ... CONTINUE <BRA @c> ...  */
 
 do_statement: do_header do_cond {
 	if (bs_generate_do_cond($2.type) < 0) YYERROR;
-} DELIM statement_loop_delim BS_LOOP do_cond {
-	if ($7.type != BS_TYPE_NONE) {
+} DELIM statement_loop_delim BS_LOOP {
+	if (bs_handle_loop_statement() < 0) YYERROR;
+} do_cond {
+	if ($8.type != BS_TYPE_NONE) {
 		if ($2.type != BS_TYPE_NONE) {
 			bs_error(MSG_(BS_M_ONLY_ONE_DO_COND));
 			YYERROR;
 		}
-		if (bs_generate_do_cond($7.type | 0x20) < 0) YYERROR;
+		if (bs_generate_do_cond($8.type | 0x20) < 0) YYERROR;
 	} else {
 		bs_code2(C_BRA, gParserInfo.lp->saddr);
 	}

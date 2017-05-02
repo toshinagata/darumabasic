@@ -303,6 +303,7 @@ extern int bs_complete_for_header(int var_type, int stype);
 extern void bs_resolve_links(Off_t *link, Off_t addr);
 extern int bs_generate_break_statement(void);
 extern int bs_generate_continue_statement(void);
+extern int bs_handle_loop_statement(void);
 extern int bs_finalize_loop(int save_loopidx);
 extern int bs_generate_do_cond(int stype);
 
