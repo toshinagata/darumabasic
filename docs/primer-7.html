@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml' lang='ja' xml:lang='ja'>
+<head>
+<meta lang='ja' xml:lang='ja' content='text/html;charset=utf-8' http-equiv='Content-Type' />
+<title>Daruma BASIC 入門 (7) - くり返しから抜け出す</title>
+<script type="text/javascript" src="./branchcss.js"></script>
+<link href='index.html' rel='Start' />
+</head>
+<body>
+<a href="index.html"><img class="float_right daruma_logo" src="images/darumalogo172x72.png" /></a>
+<h1>Daruma BASIC 入門 (7) <br />くり返しから抜け出す</h1>
+<div class="end_header"></div>
+<p>
+くり返し処理中に、強制的に抜け出したいことがあります。そんなときは、<code>BREAK</code> 文を使います。くり返し処理をその時点で終了して、くり返し部分の続きを実行します。
+</p>
+<p>
+前回書いた、「１を押したら "ONE" と表示」「２を押したら "TWO" と表示」「０を押したら終了」「それ以外なら最初からくり返す」という処理を、<code>BREAK</code> 文を使って書いてみます。
+</p>
+<pre><code><span class="lineno">   1</span> DO
+<span class="lineno">   2</span> C=INKEY()
+<span class="lineno">   3</span> IF C=49 THEN
+<span class="lineno">   4</span> PRINT "ONE"
+<span class="lineno">   5</span> ELSEIF C=50 THEN
+<span class="lineno">   6</span> PRINT "TWO"
+<span class="lineno">   7</span> ELSEIF C=48 THEN
+<span class="lineno">   8</span> BREAK
+<span class="lineno">   9</span> ENDIF
+<span class="lineno">  10</span> LOOP
+<span class="lineno">    </span>
+</code></pre>
+<p>
+７〜８行目の <code>ELSEIF C=48 THEN / BREAK</code> が今回のテーマです。「０を押したらループから抜け出す」という意味になります。上のプログラムでは、くり返しの <code>DO..LOOP</code> に終了条件がついていませんから、<code>BREAK</code> がなければ無限ループになってしまいます。
+</p>
+<p>
+くり返しが二重になっている時に <code>BREAK</code> 文を使うと、一番内側のくり返しを終了します。次のプログラムを走らせてみましょう。
+</p>
+<pre><code><span class="lineno">   1</span> FOR I=1 TO 5
+<span class="lineno">   2</span> FOR J=1 TO 5
+<span class="lineno">   3</span> IF I*J=12 THEN PRINT I,J:BREAK
+<span class="lineno">   4</span> NEXT
+<span class="lineno">   5</span> NEXT
+<span class="lineno">   6</span> PRINT "END"
+<span class="lineno">    </span>
+</code></pre>
+<p>
+３行目を見てください。<code>I*J</code> が <code>12</code> に等しければ、<code>I,J</code> を表示して、くり返しを終了します。最初にこの条件に合うのは、<code>I=3,J=4</code> のときです。しかし、このとき終了するくり返しは、内側の２〜４行のくり返しだけなので、外側の１〜５行のくり返しはまだ生きています。従って、実行はまだ続いて、<code>I=4,J=3</code> のときにもう一度 <code>I,J</code> が表示されます。実行結果は次のようになります。
+</p>
+<pre><code>3   4
+4   3
+END
+</code></pre>
+<p>
+二重のくり返しから一気に抜け出すには、<code>GOTO</code> 文を使います。<code>GOTO</code> は、指定したラベルの場所に飛ぶための命令です。ラベルは、<code>@</code> に英数字を続けたものです。
+</p>
+<pre><code><span class="lineno">   1</span> FOR I=1 TO 5
+<span class="lineno">   2</span> FOR J=1 TO 5
+<span class="lineno">   3</span> IF I*J=12 THEN PRINT I,J:GOTO @EXIT
+<span class="lineno">   4</span> NEXT
+<span class="lineno">   5</span> NEXT
+<span class="lineno">   6</span> @EXIT
+<span class="lineno">   7</span> PRINT "END"
+</code></pre>
+<p>
+この場合、<code>I=3,J=4</code> の時に <code>GOTO @EXIT</code> が実行されます。ラベル <code>@EXIT</code> は６行目にあり、これは２つの <code>FOR</code> ループの外なので、二重ループから一気に抜け出したことになります。実行結果は次の通りです。
+</p>
+<pre><code>3   4
+END
+</code></pre>
+<p>
+<code>GOTO</code> 文は、自由にプログラムの流れを変えられるので、一見便利に見えます。しかし、<code>GOTO</code> 文を使って実行位置があちこちに移動するプログラムは、処理内容が人間の目にはわかりにくいため、不具合が起きた時に修正するのが難しくなります。このため、<code>GOTO</code> 文を使うことはなるべく避けて、あらかじめ用意されている制御文（<code>IF</code> 文、<code>FOR</code> 文、<code>DO..LOOP</code> 文）を組み合わせてプログラムを書く習慣をつけておくことをお勧めします。
+</p>
+<p>
+なお、<code>GOTO</code> 文には、いくつか制約があります。まず、<code>FOR</code> ループの外から中へ飛び込むことはできません（<code>FOR</code> ループの先頭で、「ループを終了する値」と「ステップ量」を決めないと、終了条件が決まらないためです）。また、後で出てくる「関数・手続き」の中へ飛び込んだり、逆に中から外へ飛び出したりすることはできません（理由は少し複雑で、関数・手続きから戻る位置や、ローカル変数の情報について、つじつまが合わなくなってしまうためです）。
+</p>
+
+<p>[ <a href="index.html">← トップページへ</a> ]</p>
+<p>[ <a href="https://github.com/toshinagata/darumabasic/releases/">ダウンロードページへ →</a> ]</p>
+
+<div class="copyright">
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja"><img alt="クリエイティブ・コモンズ・ライセンス" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />
+このページは <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示-非営利-継承 4.0 国際ライセンス</a>の下に提供されています。<br />
+&copy; 2017 Toshi Nagata.
+Facebook:&nbsp;<a href="http://facebook.com/toshi.nagata.319">toshi.nagata.319</a>
+WebSite:&nbsp;<a href="http://blog.d-alchemy.xyz/">http://blog.d-alchemy.xyz/</a>
+</div>
+
+</body>
+</html>
