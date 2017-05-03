@@ -33,7 +33,17 @@
 ７〜８行目の <code>ELSEIF C=48 THEN / BREAK</code> が今回のテーマです。「０を押したらループから抜け出す」という意味になります。上のプログラムでは、くり返しの <code>DO..LOOP</code> に終了条件がついていませんから、<code>BREAK</code> がなければ無限ループになってしまいます。
 </p>
 <p>
-くり返しが二重になっている時に <code>BREAK</code> 文を使うと、一番内側のくり返しを終了します。次のプログラムを走らせてみましょう。
+<code>BREAK</code> 文と同様にくり返しの途中で処理の流れを変える文として、<code>CONTINUE</code> 文があります。<code>CONTINUE</code> 文は、くり返しの残りの部分を飛ばして、次のくり返しを始めます。「次のくり返しを始める」とは、<code>FOR</code> ループの場合は <code>NEXT</code> 文の位置にジャンプすること、<code>DO</code> ループの場合は <code>LOOP</code> の位置にジャンプすることと同等です。例えば、次のプログラムでは、<code>I=3</code> の時だけ３行が飛ばされて、<code>NEXT</code> の位置に直接移動します。
+</p>
+<pre><code><span class="lineno">   1</span> FOR I=1 TO 5
+<span class="lineno">   2</span> IF I=3 THEN CONTINUE
+<span class="lineno">   3</span> PRINT I
+<span class="lineno">   4</span> NEXT
+<span class="lineno">   5</span> PRINT "END"
+<span class="lineno">    </span>
+</code></pre>
+<p>
+くり返しが二重になっている時に <code>BREAK</code> 文や <code>CONTINUE</code> 文を使うと、一番内側のくり返しについて処理が行われます。次のプログラムを走らせてみましょう。
 </p>
 <pre><code><span class="lineno">   1</span> FOR I=1 TO 5
 <span class="lineno">   2</span> FOR J=1 TO 5
